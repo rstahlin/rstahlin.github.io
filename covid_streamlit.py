@@ -58,11 +58,11 @@ st.title('Charting Covid')
 
 @st.cache
 def load_data():
-    dccovid = pd.read_excel(r'C:\\Users\\611817\\Documents\\Datasets\\COVID-19/dc_coronavirus.xlsx', sheet_name='All Data')
+    dccovid = pd.read_csv(r'data.csv')
     dccovid.index = pd.to_datetime(dccovid['Date'])
     dccovid['Unknown Ward Tests'] = pd.to_numeric(dccovid['Unknown Ward Tests'])
-    hood_demos = pd.read_excel(r'C:\\Users\\611817\\Documents\\Datasets\\COVID-19/dc_coronavirus.xlsx', sheet_name='demographics',index_col='Neighborhood Name')
-    ward_demos = pd.read_excel(r'C:\\Users\\611817\\Documents\\Datasets\\COVID-19/dc_coronavirus.xlsx', sheet_name='ward_demographics',index_col='Ward')
+    hood_demos = pd.read_csv(r'nhood_demographics.csv',index_col='Neighborhood Name')
+    ward_demos = pd.read_csv(r'ward_demographics.csv', index_col='Ward')
     with urlopen('https://opendata.arcgis.com/datasets/de63a68eb7674548ae0ac01867123f7e_13.geojson') as response:
         hood_map = json.load(response)
     groups_dict = {
@@ -90,8 +90,6 @@ def load_data():
     }
     return dccovid, hood_demos, ward_demos, hood_map, groups_dict
 #
-# nhoods = shapefile.Reader('/Users/ryanstahlin/Documents/Datasets/COVID-19/DC_Health_Planning_Neighborhoods-shp/DC_Health_Planning_Neighborhoods.shp')
-# wards = shapefile.Reader('/Users/ryanstahlin/Documents/Datasets/COVID-19/Ward_from_2012-shp/Ward_from_2012.shp')
 
 # Load data into the dataframe.
 data, hood_demos, ward_demos, hood_map, groups_dict = load_data()
