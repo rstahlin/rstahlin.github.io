@@ -1,21 +1,74 @@
-DC Data
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
 
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="100%"></iframe>
+    h1 {
+      font-family: arial;
+      color: black;
+      text-align: left;
+    }
+    h2 {
+      font-family: arial;
+      color: black;
+      text-align: left;
+    }
+    p {
+      font-family: arial;
+      font-size: 20px;
+      text-align: center;
+    }
+    </style>
+      <meta charset="utf-8">
+      <title>DC Data</title>
+  </head>
+  <body>
+    <h1>District of Columbia Coronavirus Data</h1>
+    <p>
+      <em>This website uses data from the DC's <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.</em>
+    </p>
+    <h2>Basic Data</h2>
+    <p>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="90%"></iframe>
+    </p>
+    <h2>Neighborhood Maps</h2>
+    <p>
 
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_makeup.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="100%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="80%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="80%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="80%"></iframe>
+    </p>
 
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="100%"></iframe>
+    <h2>Age Data</h2>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_makeup.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="525" width="90%"></iframe>
 
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="100%"></iframe>
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="100%"></iframe>
+    <h2>Race and Ethnicity Data</h2>
+
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="90%"></iframe>
+
+    <h2>Ward Data</h2>
+
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="90%"></iframe>
+
+    </p>
+
+    <p>
+      <em>This website is under construction and is maintained by Ryan Stahlin</em>
+    </p>
+  </body>
+
+
+
+
+
+
+  </html>
