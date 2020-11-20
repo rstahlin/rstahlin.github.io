@@ -42,6 +42,7 @@ AGES_LIST = ['0-18','19-30','31-40','41-50','51-60','61-70','71-80','81+']
 WARD_LIST = ['Ward 1','Ward 2','Ward 3','Ward 4','Ward 5','Ward 6','Ward 7','Ward 8']
 NHOOD_START_IDX = 81
 NTEST_START_IDX = 134
+HOOD_LIST =['16th St Heights', 'Cathedral Heights', 'Chevy Chase', 'Chinatown', 'Columbia Heights', 'Congress Heights/Shipley', 'DC Medical Center', 'Douglass', 'Eastland Gardens', 'Edgewood', 'Forest Hills', 'Adams Morgan', 'Fort Dupont', 'Fort Lincoln/Gateway', 'Georgetown', 'Georgetown East', 'GWU', 'Hill East', 'Historic Anacostia', 'Kent/Palisades', 'Kingman Park', 'Lamond Riggs', 'Barnaby Woods', 'Lincoln Heights', 'Logan Circle/Shaw', 'Marshall Heights', 'Michigan Park', 'Mount Pleasant', 'National Mall', 'Naval Station & Air Force', 'Naylor/Hillcrest', 'Petworth', 'Saint Elizabeths', 'Bellevue', 'Shepherd Park', 'South Columbia Heights', 'Stadium Armory', 'SW/Waterfront', 'Tenleytown', 'Trinidad', 'Twining', 'U St/Pleasant Plains', 'Union Station', 'Washington Highlands', 'Bloomingdale', 'Woodley Park', 'Woodridge', 'Brentwood', 'Brightwood', 'Brightwood Park', 'Capitol Hill']
 
 def load_data():
     dccovid = pd.read_csv(r'data.csv')
@@ -307,3 +308,41 @@ fig.update_yaxes(rangemode = 'tozero',showticklabels = False,
 for i in fig['layout']['annotations']:
     i['font'] = dict(size=9)
 fig.write_html('chart_htmls/nhood_matrix_pc.html')
+
+# Neighborhood cases
+fig = go.Figure(layout=layout)
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+fig.update_yaxes(rangemode="nonnegative")
+fig.update_xaxes(range=['2020-05-13',data.index[-1]])
+fig.update_layout(title=dict(text='New Positives, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=.99,x=1))
+fig.write_html('chart_htmls/nhood_cases.html')
+
+
+# Neighborhoods Per capita
+fig = go.Figure(layout=layout)
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+fig.add_trace(go.Line(x=data['Date'], y=dc_avg_pc,name='District-Wide',line=dict(color='black',width=3.0)))
+
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+fig.update_yaxes(rangemode="nonnegative",range=[0,10])
+fig.update_xaxes(range=['2020-05-13',data.index[-1]])
+fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=1,x=1))
+fig.write_html('chart_htmls/nhood_pc.html')
+
+# Neighborhood Test positivity
+fig = go.Figure(layout=layout)
+hood_positive = np.divide(rolling_cases,rolling_tests)
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black')))
+fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".0%")
+fig.update_xaxes(range=['2020-05-13',data.index[-1]])
+fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(y=1,x=1))
+fig.write_html('chart_htmls/nhood_positivity.html')
