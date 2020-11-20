@@ -58,6 +58,7 @@ def load_data():
 data, hood_demos, ward_demos, hood_map = load_data()
 # Define positive tests in DC
 dc_pos = data['New Cases'].rolling(7).sum().divide(data['New Tested'].rolling(7).sum())
+data['Date'] = pd.to_datetime(data['Date'])
 
 # Cases
 fig = go.Figure(layout=layout)
@@ -239,7 +240,7 @@ pos_this_week['Neighborhood'] = pos_this_week.index
 map_list = ['Positives This Week Per 10k','Positives This Week','Positivity This Week']
 for plotdata in map_list:
     if(plotdata=='Positives This Week Per 10k'):
-        range_color = (0,25)
+        range_color = (0,50)
         filename = "./chart_htmls/nhood_map_pc.html"
     elif(plotdata=='Positives This Week'):
         range_color = (0,np.max(pos_this_week['Positives This Week']))
