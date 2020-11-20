@@ -36,7 +36,7 @@ G10 = px.colors.qualitative.G10
 ANTIQUE = px.colors.qualitative.Antique
 ANTIQUE_ALT = [ANTIQUE[2],ANTIQUE[1],ANTIQUE[6],ANTIQUE[0],ANTIQUE[5]]
 
-LIGHT24 = px.colors.qualitative.Light24
+LIGHT24 = px.colors.qualitative.Dark24
 
 AGES_LIST = ['0-18','19-30','31-40','41-50','51-60','61-70','71-80','81+']
 WARD_LIST = ['Ward 1','Ward 2','Ward 3','Ward 4','Ward 5','Ward 6','Ward 7','Ward 8']
