@@ -263,3 +263,47 @@ for plotdata in map_list:
                                            'Positives This Week Per 10k':':.1f'})
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     fig.write_html(filename)
+
+
+
+############## NEIGHBORHOODS ####################
+to_plot = hood_data_pc.drop(columns=['National Mall'])
+to_plot = to_plot.sort_values(by=to_plot.index[-1],axis=1,ascending=False)
+
+
+nrows = 6
+ncols = 9
+
+fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,subplot_titles=to_plot.columns)
+index = 0
+row = 1
+col = 1
+for nhood in to_plot.columns:
+    fig.add_trace(go.Scatter(x=to_plot.index,y=to_plot[nhood],line=dict(color='black'),name=nhood),row=row,col=col)
+
+    index += 1
+    if col == ncols:
+        row+=1
+        col = 0
+    col+=1
+
+fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
+    hovermode='x',
+    font=dict(family='Arial'),
+    title = dict(x=0.5,text='7-Day Average Cases per 10,000 Residents in the last 14 Days')
+)
+
+fig.update_layout(showlegend=False)
+fig.update_xaxes(range=[to_plot.index[-15],to_plot.index[-1]],
+        showspikes=True,
+        showticklabels = False,
+        spikedash = 'solid',
+        spikecolor = 'black',
+        spikemode  = 'across',
+        spikesnap = 'cursor')
+fig.update_yaxes(rangemode = 'tozero',showticklabels = False,
+        showgrid=False,
+        range=[0,6.5])
+for i in fig['layout']['annotations']:
+    i['font'] = dict(size=9)
+fig.write_html('chart_htmls/nhood_matrix_pc.html')
