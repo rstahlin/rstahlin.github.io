@@ -4,19 +4,20 @@
     <style>
 
     h1 {
-      font-family: arial;
+      font-family: sans-serif;
       color: black;
       text-align: left;
     }
     h2 {
-      font-family: arial;
+      font-family: sans-serif;
       color: black;
       text-align: left;
     }
     p {
-      font-family: arial;
+      font-family: sans-serif;
       font-size: 16px;
       text-align: center;
+      align: center;
     }
     </style>
     <meta charset="utf-8">
@@ -27,19 +28,23 @@
     <h1>District of Columbia Coronavirus Data</h1>
     <p>
       <em>This website uses data from the DC's <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
-      Neighborhood population data is from 2018 and comes from <a href="https://www.popville.com/2020/05/dc-neighborhood-covid-coronavirus-map-population/">combinations of 2018 census tract data.</a>
+      Neighborhood population data comes from <a href="https://www.popville.com/2020/05/dc-neighborhood-covid-coronavirus-map-population/">combinations of 2018 census tract data.</a>
       </em>
+      <p>Last updated <span id="demo"></span>.</p>
+      <script>
+        document.getElementById("demo").innerHTML = document.lastModified;
+      </script>
     </p>
     <h2>Basic Data</h2>
     <p>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="90%" ></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="90%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="90%"></iframe>
     </p>
     <h2>Neighborhood Data</h2>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_cases.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_pc.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_positivity.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_cases.html" height="700" width="95%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_pc.html" height="700" width="95%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_positivity.html" height="700" width="95%"></iframe>
 
     <h2>Neighborhood Maps</h2>
     <p>
@@ -47,20 +52,22 @@
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="80%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="80%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="80%"></iframe>
-    </p>
 
     <h2>Age Data</h2>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="90%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_makeup.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="525" width="90%"></iframe>
+
+      <p align='center'> <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="525" width="525"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="525" width="525"></iframe> </p>
 
     <h2>Ward Data</h2>
 
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="90%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="90%"></iframe>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="90%"></iframe>
+      <p> <em> Note: District-Wide positivity based on the "Total Overall Number of Tests" variable released by D.C.. </em> </p>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="90%"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_tests.html" height="525" width="90%"></iframe>
 
     <h2>Hospitalization Data</h2>
       <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients.html" height="525" width="90%"></iframe>
@@ -70,21 +77,23 @@
 
 
     <h2>Race and Ethnicity Data</h2>
-      <p> <em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.
-      </em>
-      </p>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="90%"></iframe>
+
+      <p align='center'><iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="525"></iframe>
+      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="525"></iframe> </p>
+      <p><em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.
+      </em></p>
     </p>
 
 
   </body>
 
     <footer>
-      <p>This website is still under construction. Questions? Comments? Suggestions? Send me an email!</p>
-      <p><a href="mailto:ryan.stahlin@gmail.com">ryan.stahlin@gmail.com</a></p>
+      <p>This website is still under construction. Questions? Comments? Suggestions?</p>
+      <p><a href="mailto:ryan.stahlin@gmail.com">Send me an email!</a></p>
+      <p>Full data and code will be released soon.</p>
+
     </footer>
 
 
 
-  </html>
+</html>

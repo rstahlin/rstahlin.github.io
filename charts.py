@@ -57,7 +57,9 @@ def load_data():
 # Load data into the dataframe.
 data, hood_demos, ward_demos, hood_map = load_data()
 # Define positive tests in DC
-dc_pos = data['New Cases'].rolling(7).sum().divide(data['New Tested'].rolling(7).sum())
+dc_pos = data['Positives'].diff().rolling(7).sum().divide(data['Tested'].diff().rolling(7).sum())
+# dc_pos = data.[:,'Ward 1':'Unknown Ward'].diff().rolling(7).sum().divide(data.loc[:,'Ward 1 Tests':'Unknown Ward Tests'].diff().rolling(7).sum())
+
 data['Date'] = pd.to_datetime(data['Date'])
 
 # Cases
@@ -167,7 +169,7 @@ positivity = np.divide(data.loc[:,'Ward 1':'Ward 8'].diff().rolling(7).sum(),dat
 for i in range(8):
     fig.add_trace(go.Line(x=data['Date'], y=positivity.iloc[:,i],name=WARD_LIST[i],line=dict(color=PASTELS[i])))
 fig.add_trace(go.Line(x=data['Date'], y=dc_pos,name='District-Wide',line=dict(color='black')))
-fig.update_layout(title=dict(text='Positivity by Ward, 7-Day Average'),yaxis=dict(tickformat=".1%"),legend=dict(x=0.99))
+fig.update_layout(title=dict(text='Positivity by Ward, 7-Day Average'),yaxis=dict(tickformat=".1%"),legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/wards_positivity.html")
 
 # Ward Deaths
@@ -192,6 +194,17 @@ fig = go.Figure(data=[go.Bar(
 fig.update_layout(title=dict(text='Deaths per 10,000 Residents'),yaxis=dict(tickformat=".1f"))
 st.plotly_chart(fig)
 
+# Ward Test Rates
+fig = go.Figure(layout=layout)
+ward_test_pc = np.divide(data.loc[:,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling(7).mean(),ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
+for i in range(8):
+    fig.add_trace(go.Line(x=data['Date'], y=ward_test_pc.iloc[:,i],name=WARD_LIST[i],line=dict(color=PASTELS[i])))
+dc_tests = np.divide(data['Tested'].diff().rolling(7).mean(), ward_demos.loc['All Wards','Population (2020)'])*10000
+fig.add_trace(go.Line(x=data['Date'], y=dc_tests,name='District-Wide',line=dict(color='black')))
+fig.update_layout(title=dict(text='Tests Per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=0.75,x=1))
+fig.write_html("./chart_htmls/wards_tests.html")
+
+
 ############## Hospital Statistics ####################
 st.header('Hospital Statistics')
 
@@ -200,7 +213,7 @@ fig = go.Figure(layout=layout)
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Patients'],name='Hospitalized',marker_color=DARK2[0]))
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID ICU Patients'],name='In ICU',marker_color=DARK2[1]))
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Ventilators'], name = 'On Ventilator',marker_color=DARK2[2]))
-fig.update_layout(title=dict(text='COVID Patients'),barmode='overlay',legend=dict(x=1))
+fig.update_layout(title=dict(text='COVID Patients'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients.html")
 
 # Hospitalized
@@ -208,21 +221,21 @@ fig = go.Figure(layout=layout)
 fig.add_trace(go.Bar(x=data['Date'],y=data['Total Patients'],name='Total Patients',marker_color=PASTEL2[0]))
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Patients'],name='COVID Patients',marker_color=DARK2[0]))
 fig.add_trace(go.Line(x=data['Date'],y=np.full((data['Date'].size), 2487, dtype=int),name='Total Hospital Beds',marker_color='black'))
-fig.update_layout(title=dict(text='All Hospitalized'),barmode='overlay',legend=dict(x=1))
+fig.update_layout(title=dict(text='All Hospitalized'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_hospitalized.html")
 # In ICU
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Bar(x=data['Date'],y=data['Total ICU Beds']-data['ICU Beds Available'],name='Total Patients in ICU',marker_color=PASTEL2[1]))
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID ICU Patients'],name='COVID Patients in ICU',marker_color=DARK2[1]))
 fig.add_trace(go.Line(x=data['Date'],y=data['Total ICU Beds'],name='Total ICU Beds',marker_color='black'))
-fig.update_layout(title=dict(text='All ICU Patients'),barmode='overlay',legend=dict(x=1))
+fig.update_layout(title=dict(text='All ICU Patients'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_icu.html")
 # Ventilated
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Bar(x=data['Date'],y=data['In-Use Ventilators'],name='Total Patients on Ventilators',marker_color=PASTEL2[2]))
 fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Ventilators'],name='COVID Patients on Ventilators',marker_color=DARK2[2]))
 fig.add_trace(go.Line(x=data['Date'],y=data['Total Ventilators'],name='Total Ventilators',marker_color='black'))
-fig.update_layout(title=dict(text='All Patients on Ventilators'),barmode='overlay',legend=dict(x=1))
+fig.update_layout(title=dict(text='All Patients on Ventilators'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_ventilator.html")
 
 ############# MAPS #################
@@ -318,7 +331,13 @@ for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
-fig.update_layout(title=dict(text='New Positives, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=.99,x=1))
+fig.update_layout(title=dict(text='New Positives, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
+    orientation="h",
+    yanchor="top",
+    y=-.1,
+    xanchor="center",
+    x=.5
+))
 fig.write_html('chart_htmls/nhood_cases.html')
 
 
@@ -327,12 +346,17 @@ fig = go.Figure(layout=layout)
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 fig.add_trace(go.Line(x=data['Date'], y=dc_avg_pc,name='District-Wide',line=dict(color='black',width=3.0)))
-
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative",range=[0,10])
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
-fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=1,x=1))
+fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
+    orientation="h",
+    yanchor="top",
+    y=-.1,
+    xanchor="center",
+    x=.5
+))
 fig.write_html('chart_htmls/nhood_pc.html')
 
 # Neighborhood Test positivity
@@ -345,5 +369,11 @@ for i in range(51):
 fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black')))
 fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".0%")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
-fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(y=1,x=1))
+fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(
+    orientation="h",
+    yanchor="top",
+    y=-.1,
+    xanchor="center",
+    x=.5
+))
 fig.write_html('chart_htmls/nhood_positivity.html')
