@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
+import matplotlib.cm
+import matplotlib.colors
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -250,6 +252,7 @@ pos_this_week = pd.concat([pos_this_week,rolling_cases.iloc[-1,:],rolling_tests.
 pos_this_week.columns = ['Positivity This Week','Positives This Week','Tests This Week','Population','OBJECTID']
 pos_this_week['Positives This Week Per 10k'] = pos_this_week['Positives This Week'].divide(pos_this_week['Population']) * 10000
 pos_this_week['Neighborhood'] = pos_this_week.index
+pos_this_week.to_html('nhoods_this_week.html')
 map_list = ['Positives This Week Per 10k','Positives This Week','Positivity This Week']
 for plotdata in map_list:
     if(plotdata=='Positives This Week Per 10k'):
@@ -377,3 +380,111 @@ fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(
     x=.5
 ))
 fig.write_html('chart_htmls/nhood_positivity.html')
+
+diamond_dict={
+'16th St Heights':(3,4),
+ 'Cathedral Heights':(5,2),
+ 'Chevy Chase':(3,3),
+ 'Chinatown':(7,5),
+ 'Columbia Heights':(4,5),
+ 'Congress Heights/Shipley':(9,6),
+ 'DC Medical Center':(4,6),
+ 'Douglass':(9,7),
+ 'Eastland Gardens':(5,9),
+ 'Edgewood':(5,6),
+ 'Forest Hills':(4,3),
+ 'Adams Morgan':(6,3),
+ 'Fort Dupont':(6,9),
+ 'Fort Lincoln/Gateway':(4,8),
+ 'Georgetown':(6,2),
+ 'Georgetown East':(7,3),
+ 'GWU':(7,4),
+ 'Hill East':(7,7),
+ 'Historic Anacostia':(8,7),
+ 'Kent/Palisades':(5,1),
+ 'Kingman Park':(6,7),
+ 'Lamond Riggs':(2,6),
+ 'Barnaby Woods':(2,4),
+ 'Lincoln Heights':(6,10),
+ 'Logan Circle/Shaw':(6,4),
+ 'Marshall Heights':(7,9),
+ 'Michigan Park':(4,7),
+ 'Mount Pleasant':(4,4),
+ 'National Mall':(8,5),
+ 'Naval Station & Air Force':(10,5),
+ 'Naylor/Hillcrest':(8,8),
+ 'Petworth':(3,6),
+ 'Saint Elizabeths':(8,6),
+ 'Bellevue':(11,5),
+ 'Shepherd Park':(1,5),
+ 'South Columbia Heights':(5,4),
+ 'Stadium Armory':(6,8),
+ 'SW/Waterfront':(9,5),
+ 'Tenleytown':(4,2),
+ 'Trinidad':(5,8),
+ 'Twining':(7,8),
+ 'U St/Pleasant Plains':(5,5),
+ 'Union Station':(6,6),
+ 'Washington Highlands':(10,6),
+ 'Bloomingdale':(6,5),
+ 'Woodley Park':(5,3),
+ 'Woodridge':(3,7),
+ 'Brentwood':(5,7),
+ 'Brightwood':(2,5),
+ 'Brightwood Park':(3,5),
+ 'Capitol Hill':(7,6)
+}
+to_plot = hood_data_pc.drop(columns=['National Mall'])
+to_plot = to_plot.sort_values(by=to_plot.index[-1],axis=1,ascending=False)
+
+
+nrows = 11
+ncols = 11
+
+vmin, vmax = to_plot.iloc[-1,:].min(), to_plot.iloc[-1,:].max()
+
+
+norm = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
+cmap = matplotlib.cm.get_cmap('YlOrRd') # yellow to orange to red
+
+fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,vertical_spacing=0.005,horizontal_spacing=0.005)
+ymax = np.max(np.max(to_plot.iloc[-15:-1,:]))*1.1
+
+
+for nhood in hood_data_pc.columns:
+    color = 'rgba' + str(cmap(norm(hood_data_pc[nhood][-1])))[:]
+    fig.add_trace(go.Scatter(x=[hood_data_pc.index[-15],hood_data_pc.index[-1]],y= [ymax*1.5,ymax*1.5],fill='tozeroy',fillcolor=color,hoverinfo='skip'),row=diamond_dict[nhood][0],col=diamond_dict[nhood][1])
+    if nhood != 'National Mall':
+        fig.add_trace(go.Scatter(x=hood_data_pc.index,
+                                 y=hood_data_pc[nhood],
+                                 line=dict(color='black'),
+                                 name=nhood,
+                                 hovertemplate="%{y:.1f}"),row=diamond_dict[nhood][0],col=diamond_dict[nhood][1])
+    else:
+        fig.add_trace(go.Scatter(x=hood_data_pc.index,
+                             y=hood_data_pc[nhood],
+                             line=dict(color='black'),
+                             name=nhood,
+                             hovertemplate="%{y:.1f} (May be anomalous)"),row=diamond_dict[nhood][0],col=diamond_dict[nhood][1])
+
+
+fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
+    hovermode='x',
+    font=dict(family='Arial'),
+    title = dict(x=0.5,text='7-Day Average Cases per 10,000 Residents (Last 2 Weeks)'),
+    showlegend=False,width=750, height=750)
+fig.update_xaxes(range=[to_plot.index[-15],to_plot.index[-1]],
+        showspikes=False,
+        showticklabels = False,
+        spikedash = 'solid',
+        spikecolor = 'black',
+        spikemode  = 'across',
+        spikesnap = 'cursor',
+        fixedrange = True)
+
+fig.update_yaxes(rangemode = 'tozero',showticklabels = False,
+        showgrid=False,
+        range=[0,ymax],tickformat="0.1f",
+        fixedrange = True)
+
+fig.write_html('chart_htmls/nhood_diamond_pc.html')
