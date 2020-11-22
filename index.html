@@ -1,99 +1,301 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-
-    h1 {
-      font-family: sans-serif;
-      color: black;
-      text-align: left;
-    }
-    h2 {
-      font-family: sans-serif;
-      color: black;
-      text-align: left;
-    }
-    p {
-      font-family: sans-serif;
-      font-size: 16px;
-      text-align: center;
-      align: center;
-    }
-    </style>
     <meta charset="utf-8">
-    <title>DC Coronavirus Data</title>
+    <title>Coronavirus in D.C.</title>
+
+    <!-- link to bootstrap css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- link to jquery & bootstrap js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
   </head>
   <body>
-    <h1>District of Columbia Coronavirus Data</h1>
-    <p>
-      <em>This website uses data from the DC's <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
-      Neighborhood population data comes from <a href="https://www.popville.com/2020/05/dc-neighborhood-covid-coronavirus-map-population/">combinations of 2018 census tract data.</a>
-      </em>
-      <p>Last updated <span id="demo"></span>.</p>
-      <script>
-        document.getElementById("demo").innerHTML = document.lastModified;
-      </script>
-    </p>
-    <h2>Basic Data</h2>
-    <p>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="90%" ></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="90%"></iframe>
-    </p>
-    <h2>Neighborhood Data</h2>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_cases.html" height="700" width="95%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_pc.html" height="700" width="95%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_positivity.html" height="700" width="95%"></iframe>
 
-    <h2>Neighborhood Maps</h2>
-    <p>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="750" width="750"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="80%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="80%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="80%"></iframe>
+    <!-- page wrapper -->
+    <div class="container-responsive">
 
-    <h2>Age Data</h2>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_makeup.html" height="525" width="90%"></iframe>
+      <!-- nav bar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 
-      <p align='center'> <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="525" width="525"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="525" width="525"></iframe> </p>
+        <!-- nav support -->
+        <a class="navbar-brand" href="#">Charting Coronavirus in D.C.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- end nav support -->
 
-    <h2>Ward Data</h2>
+        <!-- nav content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#basic-data"> Basic Data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#neighborhood-data"> Neighborhoods </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#neighborhood-maps"> Maps </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#age-data"> Ages </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#ward-data"> Wards </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#hospitalization-data"> Hospitalization </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#race-and-ethnicity-data"> Race and Ethnicity </a>
+            </li>
+          </ul>
+        </div>
+        <!-- end nav content -->
 
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="90%"></iframe>
-      <p> <em> Note: District-Wide positivity based on the "Total Overall Number of Tests" variable released by D.C.. </em> </p>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_tests.html" height="525" width="90%"></iframe>
+      </nav>
+      <!-- end nav -->
 
-    <h2>Hospitalization Data</h2>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_hospitalized.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_icu.html" height="525" width="90%"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_ventilator.html" height="525" width="90%"></iframe>
+      <!-- welcome -->
+      <div class="jumbotron">
+        <!-- <h1 class="display-4">District of Columbia Coronavirus Data</h1> -->
+        <p class="lead">Interact with the data D.C. collects on Covid-19. Pan, zoom, and create your own charts to better understand the trends behind the pandemic</p>
+        <hr class="my-4">
+        <p style="text-align:center">
+          Want to learn more about the city's response? Visit <a href="https://coronavirus.dc.gov/"> D.C.'s official website. </a><br>
+          <em>
+            This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
+            Neighborhood population data comes from <a href="https://www.popville.com/2020/05/dc-neighborhood-covid-coronavirus-map-population/">combinations of 2018 census tract data.</a>
+          </em>
+        </p>
+        <p style="text-align:center">Last updated <span id="demo"></span>.</p>
+          <script>
+            document.getElementById("demo").innerHTML = document.lastModified;
+          </script>
+        </p>
+      </div>
+      <!-- end welcome -->
+
+      <!-- basic data -->
+      <div class="container-responsive pt-5" id="basic-data">
+        <h1 class="text-center pt-3"> Basic Data </h1>
+
+        <!-- new cases graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="90%" ></iframe>
+        </div>
+        <!-- end new cases graph -->
+
+        <!-- new deaths graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end new deaths graph -->
+
+        <!-- new tests graph -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="90%"></iframe>
+          <p style="text-align:center"> <em> Note: District-Wide tests are based on the "Total Overall Number of Tests" variable released by D.C., and is different than the testing data referenced in D.C.'s ReOpening Metrics. </em> </p>
+        </div>
+        <!-- end new tests graph -->
+
+        <!-- neighborhood diamond graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="750" width="750"></iframe>
+        </div>
+        <!-- end neighborhood diamond graph -->
+
+      </div>
+      <!-- end basic data -->
+
+      <!-- neighborhood data -->
+      <div class="container-responsive pt-5" id="neighborhood-data">
+        <h1 class="text-center pt-3"> Neighborhood Data </h1>
+
+        <!-- new positives, 7 day average graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_cases.html" height="700" width="95%"></iframe>
+        </div>
+        <!-- end new positives, 7 day average graph -->
+
+        <!-- new positives per 10k graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_pc.html" height="700" width="95%"></iframe>
+        </div>
+        <!-- end new positives per 10k graph -->
+
+        <!-- test positivity graph -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_positivity.html" height="700" width="95%"></iframe>
+          <p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.'s ReOpening Metrics. </em> </p>
+        </div>
+        <!-- end test positivity graph -->
+
+      </div>
+      <!-- end neighborhood data -->
+
+      <!-- neighborhood maps -->
+      <div class="container-responsive pt-5" id="neighborhood-maps">
+        <h1 class="text-center pt-3"> Neighborhood Maps </h1>
+
+        <!-- positive this week -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="80%"></iframe>
+        </div>
+        <!-- end positive this week -->
+
+        <!-- positives this week per 10k  -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="80%"></iframe>
+        </div>
+        <!-- end positives this week per 10k -->
+
+        <!-- positivity this week -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="80%"></iframe>
+        </div>
+        <!-- end positivity this week -->
+
+      </div>
+      <!-- end neighborhood maps -->
+
+      <!-- age data -->
+      <div class="container-responsive pt-5" id="age-data">
+        <h1 class="text-center pt-3"> Age Data </h1>
+
+        <!-- new cases by age -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end new cases by age -->
+
+        <!-- case breakdown by age  -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="500" width="45%"></iframe>
+        <!-- </div> -->
+        <!-- end case breakdown by age -->
+
+        <!-- death breakdown by age -->
+        <!-- <div class="d-flex justify-content-center"> -->
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="500" width="45%"></iframe>
+        </div>
+          <!-- end death breakdown by age -->
+
+      </div>
+      <!-- end age data -->
+
+      <!-- ward data -->
+      <div class="container-responsive pt-5" id="ward-data">
+        <h1 class="text-center pt-3"> Ward Data </h1>
+
+        <!-- new cases by ward -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end new cases by ward -->
+
+        <!-- new cases per 10k residents  -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end new cases per 10k residents -->
+
+        <!-- positivity by ward -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="90%"></iframe>
+          <p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.'s ReOpening Metrics. </em> </p>
+        </div>
+        <!-- end positivity by ward  -->
+
+        <!-- breakdown of new cases by ward -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end breakdown of new cases by ward -->
+
+        <!-- tests per 10k residents -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_tests.html" height="525" width="90%"></iframe>
+          <p style="text-align:center"> <em> Note: District-Wide tests are based on the "Total Overall Number of Tests" variable released by D.C., and is different than the testing data referenced in D.C.'s ReOpening Metrics. </em> </p>
+        </div>
+        <!-- end tests per 10k residents -->
+
+      </div>
+      <!-- end ward data -->
+
+      <!-- hospitalization data -->
+      <div class="container-responsive pt-5" id="hospitalization-data">
+        <h1 class="text-center pt-3"> Hospitalization Data </h1>
+
+        <!-- covid patients -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end covid patients -->
+
+        <!-- all hospitalized  -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_hospitalized.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end all hospitalized -->
+
+        <!-- all icu patients -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_icu.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end all icu patients -->
+
+        <!-- all patients on ventilators -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_ventilator.html" height="525" width="90%"></iframe>
+        </div>
+        <!-- end all patients on ventilators -->
+
+      </div>
+      <!-- end ward data -->
 
 
-    <h2>Race and Ethnicity Data</h2>
+      <!-- race and ethnicity data -->
+      <div class="container-responsive pt-5" id="race-and-ethnicity-data">
+        <h1 class="text-center pt-3"> Race and Ethnicity Data </h1>
 
-      <p align='center'><iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="525"></iframe>
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="525"></iframe> </p>
-      <p><em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.
-      </em></p>
-    </p>
+        <!-- cases -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="525"></iframe>
+        </div>
+        <!-- end cases -->
 
+        <!-- deaths  -->
+        <div class="d-flex justify-content-center">
+          <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="525"></iframe>
+        </div>
+        <!-- end deaths -->
+
+        <!-- note -->
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <p>
+            <em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.</em>
+          </p>
+        </div>
+        <!-- end note -->
+
+
+
+      </div>
+      <!-- end ward data -->
+
+
+    </div>
+    <!-- end page wrapper -->
 
   </body>
 
-    <footer>
-      <p>This website is still under construction. Questions? Comments? Suggestions?</p>
-      <p><a href="mailto:ryan.stahlin@gmail.com">Send me an email!</a></p>
-      <p>Full data and code will be released soon.</p>
-
-    </footer>
-
-
-
+  <footer class="text-center">
+    <hr>
+    <p>This website is still under construction. Questions? Comments? Suggestions for data you'd like to see?</p>
+    <p><a href="mailto:ryan.stahlin@gmail.com">Send me an email!</a></p>
+    <p>Code and Data on <a href="https://github.com/rstahlin/rstahlin.github.io"> Github <a></p>
+  </footer>
 </html>
