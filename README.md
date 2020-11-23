@@ -19,3 +19,7 @@ Our website, [dccovid.com](dccovid.com) is developed with a Bootstrap framework,
 
 ## The Future
 We intend to roll out more data and features onto the website, such as data tables, download links, and reopening metrics. On the data pipeline side, we also intend to explore scraping as a natural alternative to manually copying and pasting everyday. Think you've got better ideas, punk? Let us know!
+
+## The Team
+- Ryan Stahlin (Data, Visualizations)
+- Noah Marcus (Web Development, Creative Design)
