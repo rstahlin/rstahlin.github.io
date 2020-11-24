@@ -256,7 +256,8 @@ pos_this_week.to_html('nhoods_this_week.html')
 map_list = ['Positives This Week Per 10k','Positives This Week','Positivity This Week']
 for plotdata in map_list:
     if(plotdata=='Positives This Week Per 10k'):
-        range_color = (0,50)
+        no_nat_mall = pos_this_week.drop(index=['National Mall'])
+        range_color = (0,np.max(no_nat_mall['Positives This Week Per 10k']))
         filename = "./chart_htmls/nhood_map_pc.html"
     elif(plotdata=='Positives This Week'):
         range_color = (0,np.max(pos_this_week['Positives This Week']))
