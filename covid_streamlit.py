@@ -420,9 +420,8 @@ fig = px.choropleth_mapbox(pos_this_week, geojson=hood_map, color=plotdata,
                                        'Positives This Week Per 10k':':.1f'})
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 st.plotly_chart(fig)
-download = st.button("Download Map as HTML")
-if download:
-    fig.write_html(r'C:\\Users\\611817\\Downloads/COVID_map.html')
+# download = st.button("Download Map as HTML")
+# if download:
 
 ##################### Vulnerable Members of our Community #####################
 # option = st.selectbox('Choose a category',['Incarcerated','People Who Were in Shelter'],0)
@@ -468,9 +467,8 @@ fig.update_yaxes(rangemode="nonnegative")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Positives, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=.99,x=1))
 st.plotly_chart(fig)
-download_neighborhood = st.button("Download Neighborhood Data as HTML")
-if download_neighborhood:
-    fig.write_html(r'C:\\Users\\611817\\Downloads/nhood_data.html')
+# download_neighborhood = st.button("Download Neighborhood Data as HTML")
+# if download_neighborhood:
 # # New Cases Per Capita
 fig = go.Figure(layout=layout)
 for i in range(51):
@@ -484,10 +482,9 @@ fig.update_yaxes(rangemode="nonnegative",range=[0,10])
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=1,x=1))
 st.plotly_chart(fig)
-download_pc_neighborhood = st.button("Download Per Capita Neighborhood Data as HTML")
-if download_pc_neighborhood:
-    fig.write_html(r'C:\\Users\\611817\\Downloads/nhood_data_per_capita.html')
-
+# download_pc_neighborhood = st.button("Download Per Capita Neighborhood Data as HTML")
+# if download_pc_neighborhood:
+#
 #positivity
 fig = go.Figure(layout=layout)
 hood_positive = np.divide(rolling_cases,rolling_tests)
@@ -514,4 +511,3 @@ if download2:
                                 animation_group='Neighborhood',
                                 animation_frame='Date')
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    fig.write_html(r'C:\\Users\\611817\\Downloads/animated_COVID_map.html')

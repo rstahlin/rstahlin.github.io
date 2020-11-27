@@ -445,7 +445,7 @@ ncols = 11
 vmin, vmax = to_plot.iloc[-1,:].min(), to_plot.iloc[-1,:].max()
 
 
-norm = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
+norm = matplotlib.colors.Normalize(vmin=0, vmax=vmax)
 cmap = matplotlib.cm.get_cmap('YlOrRd') # yellow to orange to red
 
 fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,vertical_spacing=0.005,horizontal_spacing=0.005)
@@ -453,7 +453,7 @@ ymax = np.max(np.max(to_plot.iloc[-15:-1,:]))*1.1
 
 
 for nhood in hood_data_pc.columns:
-    color = 'rgba' + str(cmap(norm(hood_data_pc[nhood][-1])))[:]
+    color = 'rgba' + str(cmap(norm(np.round(hood_data_pc[nhood][-1]),4)))[:]
     fig.add_trace(go.Scatter(x=[hood_data_pc.index[-15],hood_data_pc.index[-1]],y= [ymax*1.5,ymax*1.5],fill='tozeroy',fillcolor=color,hoverinfo='skip'),row=diamond_dict[nhood][0],col=diamond_dict[nhood][1])
     if nhood != 'National Mall':
         fig.add_trace(go.Scatter(x=hood_data_pc.index,
