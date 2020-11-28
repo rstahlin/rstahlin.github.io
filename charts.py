@@ -21,7 +21,7 @@ layout = go.Layout(
     yaxis = dict(rangemode = 'tozero',
         showgrid=True,
         gridcolor='lightgrey',
-        gridwidth=0.01),
+        gridwidth=1),
     legend=dict(yanchor="top",
         y=0.99,
         xanchor="left",
