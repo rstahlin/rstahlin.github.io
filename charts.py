@@ -363,6 +363,44 @@ fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Ave
 ))
 fig.write_html('chart_htmls/nhood_pc.html')
 
+# Neighborhoods Tests Per capita
+ntests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling(7).mean()
+ntests.columns = HOOD_LIST
+ntests_pc = ntests.divide(hood_demos['Population (2018 ACS)'])*10000
+fig = go.Figure(layout=layout)
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+fig.add_trace(go.Line(x=data['Date'], y=dc_tests,name='District-Wide',line=dict(color='black',width=3.0)))
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+fig.update_yaxes(rangemode="nonnegative",range=[0,350])
+fig.update_xaxes(range=['2020-05-13',data.index[-1]])
+fig.update_layout(title=dict(text='New Tests per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
+    orientation="h",
+    yanchor="top",
+    y=-.1,
+    xanchor="center",
+    x=.5
+))
+fig.write_html('chart_htmls/nhood_tests_pc.html')
+
+# Neighborhood tests
+fig = go.Figure(layout=layout)
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+for i in range(51):
+    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+fig.update_yaxes(rangemode="nonnegative")
+fig.update_xaxes(range=['2020-05-13',data.index[-1]])
+fig.update_layout(title=dict(text='New Tests, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
+    orientation="h",
+    yanchor="top",
+    y=-.1,
+    xanchor="center",
+    x=.5
+))
+fig.write_html('chart_htmls/nhood_tests.html')
+
 # Neighborhood Test positivity
 fig = go.Figure(layout=layout)
 hood_positive = np.divide(rolling_cases,rolling_tests)
