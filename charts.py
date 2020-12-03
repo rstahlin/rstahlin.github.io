@@ -88,7 +88,7 @@ fig.write_html("./chart_htmls/tests.html")
 ########### Demographic Statistics ################
 # Ages
 fig = go.Figure(layout=layout)
-ages_data = data.iloc[:,10:18].diff().rolling(7).mean()
+ages_data = data.loc[:,'age0-18':'age81'].diff().rolling(7).mean()
 for i in range(len(AGES_LIST)):
     fig.add_trace(go.Line(x=data['Date'], y=ages_data.iloc[:,i],name=AGES_LIST[i],line=dict(color=G10[i],)))
 fig.update_layout(title=dict(text='New Cases by Age, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(y=0.75,x=1))
