@@ -406,9 +406,9 @@ fig = go.Figure(layout=layout)
 hood_positive = np.divide(rolling_cases,rolling_tests)
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black',width=3.0)))
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
-fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black')))
 fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".0%")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(
@@ -483,7 +483,7 @@ ncols = 11
 vmin, vmax = to_plot.iloc[-1,:].min(), to_plot.iloc[-1,:].max()
 
 
-norm = matplotlib.colors.Normalize(vmin=0, vmax=vmax)
+norm = matplotlib.colors.Normalize(vmin=0, vmax=5)
 cmap = matplotlib.cm.get_cmap('YlOrRd') # yellow to orange to red
 
 fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,vertical_spacing=0.005,horizontal_spacing=0.005)
