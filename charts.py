@@ -286,53 +286,54 @@ for plotdata in map_list:
 
 
 ############## NEIGHBORHOODS ####################
-to_plot = hood_data_pc.drop(columns=['National Mall'])
-to_plot = to_plot.sort_values(by=to_plot.index[-1],axis=1,ascending=False)
-
-
-nrows = 6
-ncols = 9
-
-fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,subplot_titles=to_plot.columns)
-index = 0
-row = 1
-col = 1
-for nhood in to_plot.columns:
-    fig.add_trace(go.Scatter(x=to_plot.index,y=to_plot[nhood],line=dict(color='black'),name=nhood),row=row,col=col)
-
-    index += 1
-    if col == ncols:
-        row+=1
-        col = 0
-    col+=1
-
-fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
-    hovermode='x',
-    font=dict(family='Arial'),
-    title = dict(x=0.5,text='7-Day Average Cases per 10,000 Residents in the last 14 Days')
-)
-
-fig.update_layout(showlegend=False)
-fig.update_xaxes(range=[to_plot.index[-15],to_plot.index[-1]],
-        showspikes=True,
-        showticklabels = False,
-        spikedash = 'solid',
-        spikecolor = 'black',
-        spikemode  = 'across',
-        spikesnap = 'cursor')
-fig.update_yaxes(rangemode = 'tozero',showticklabels = False,
-        showgrid=False,
-        range=[0,6.5])
-for i in fig['layout']['annotations']:
-    i['font'] = dict(size=9)
-fig.write_html('chart_htmls/nhood_matrix_pc.html')
+# to_plot = hood_data_pc.drop(columns=['National Mall'])
+# to_plot = to_plot.sort_values(by=to_plot.index[-1],axis=1,ascending=False)
+#
+#
+# nrows = 6
+# ncols = 9
+#
+# fig = make_subplots(rows=nrows, cols=ncols, shared_xaxes=True, shared_yaxes=True,subplot_titles=to_plot.columns)
+# index = 0
+# row = 1
+# col = 1
+# for nhood in to_plot.columns:
+#     fig.add_trace(go.Scatter(x=to_plot.index,y=to_plot[nhood],line=dict(color='black'),name=nhood),row=row,col=col)
+#
+#     index += 1
+#     if col == ncols:
+#         row+=1
+#         col = 0
+#     col+=1
+#
+# fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
+#     hovermode='x',
+#     font=dict(family='Arial'),
+#     title = dict(x=0.5,text='7-Day Average Cases per 10,000 Residents in the last 14 Days')
+# )
+#
+# fig.update_layout(showlegend=False)
+# fig.update_xaxes(range=[to_plot.index[-15],to_plot.index[-1]],
+#         showspikes=True,
+#         showticklabels = False,
+#         spikedash = 'solid',
+#         spikecolor = 'black',
+#         spikemode  = 'across',
+#         spikesnap = 'cursor')
+# fig.update_yaxes(rangemode = 'tozero',showticklabels = False,
+#         showgrid=False,
+#         range=[0,6.5])
+# for i in fig['layout']['annotations']:
+#     i['font'] = dict(size=9)
+# fig.write_html('chart_htmls/nhood_matrix_pc.html')
 
 # Neighborhood cases
+HOOD_LIST_SORTED = sorted(HOOD_LIST)
 fig = go.Figure(layout=layout)
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Positives, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
@@ -348,10 +349,10 @@ fig.write_html('chart_htmls/nhood_cases.html')
 # Neighborhoods Per capita
 fig = go.Figure(layout=layout)
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 fig.add_trace(go.Line(x=data['Date'], y=dc_avg_pc,name='District-Wide',line=dict(color='black',width=3.0)))
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_data_pc[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative",range=[0,10])
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Positives per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
@@ -369,10 +370,10 @@ ntests.columns = HOOD_LIST
 ntests_pc = ntests.divide(hood_demos['Population (2018 ACS)'])*10000
 fig = go.Figure(layout=layout)
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 fig.add_trace(go.Line(x=data['Date'], y=dc_tests,name='District-Wide',line=dict(color='black',width=3.0)))
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+    fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative",range=[0,350])
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Tests per 10,000 Residents, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
@@ -387,9 +388,9 @@ fig.write_html('chart_htmls/nhood_tests_pc.html')
 # Neighborhood tests
 fig = go.Figure(layout=layout)
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+    fig.add_trace(go.Line(x=data['Date'],y=ntests[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='New Tests, 7-Day Average'),yaxis=dict(tickformat=".1f"),legend=dict(
@@ -405,10 +406,10 @@ fig.write_html('chart_htmls/nhood_tests.html')
 fig = go.Figure(layout=layout)
 hood_positive = np.divide(rolling_cases,rolling_tests)
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
 fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black',width=3.0)))
 for i in range(51):
-    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST[i]],name=HOOD_LIST[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
+    fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
 fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".0%")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(
