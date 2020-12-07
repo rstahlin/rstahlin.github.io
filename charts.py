@@ -475,7 +475,6 @@ diamond_dict={
  'Capitol Hill':(7,6)
 }
 to_plot = hood_data_pc.drop(columns=['National Mall'])
-to_plot = to_plot.sort_values(by=to_plot.index[-1],axis=1,ascending=False)
 
 
 nrows = 11
