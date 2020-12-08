@@ -220,22 +220,46 @@ fig.write_html("./chart_htmls/patients.html")
 
 # Hospitalized
 fig = go.Figure(layout=layout)
-fig.add_trace(go.Bar(x=data['Date'],y=data['Total Patients'],name='Total Patients',marker_color=PASTEL2[0]))
-fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Patients'],name='COVID Patients',marker_color=DARK2[0]))
+fig.add_trace(go.Bar(x=data['Date'],y=data['Total Patients'],name='Total Patients',marker_color=PASTEL2[0],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% Beds in Use (Pre-Surge): %{text:.1f}%',
+    text = data['Total Patients']/2487*100))
+fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Patients'],name='COVID Patients',marker_color=DARK2[0],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% of All Patients: %{text:.1f}%',
+    text = data['COVID Patients'].divide(data['Total Patients'])*100))
 fig.add_trace(go.Line(x=data['Date'],y=np.full((data['Date'].size), 2487, dtype=int),name='Total Hospital Beds',marker_color='black'))
 fig.update_layout(title=dict(text='All Hospitalized'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_hospitalized.html")
 # In ICU
 fig = go.Figure(layout=layout)
-fig.add_trace(go.Bar(x=data['Date'],y=data['Total ICU Beds']-data['ICU Beds Available'],name='Total Patients in ICU',marker_color=PASTEL2[1]))
-fig.add_trace(go.Bar(x=data['Date'],y=data['COVID ICU Patients'],name='COVID Patients in ICU',marker_color=DARK2[1]))
+fig.add_trace(go.Bar(x=data['Date'],y=data['Total ICU Beds']-data['ICU Beds Available'],name='Total Patients in ICU',marker_color=PASTEL2[1],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% ICU Beds in Use (Pre-Surge): %{text:.1f}%',
+    text = (data['Total ICU Beds']-data['ICU Beds Available']).divide(data['Total ICU Beds'])*100))
+fig.add_trace(go.Bar(x=data['Date'],y=data['COVID ICU Patients'],name='COVID Patients in ICU',marker_color=DARK2[1],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% of All ICU Patients: %{text:.1f}%',
+    text = data['COVID ICU Patients'].divide(data['Total ICU Beds']-data['ICU Beds Available'])*100))
 fig.add_trace(go.Line(x=data['Date'],y=data['Total ICU Beds'],name='Total ICU Beds',marker_color='black'))
 fig.update_layout(title=dict(text='All ICU Patients'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_icu.html")
 # Ventilated
 fig = go.Figure(layout=layout)
-fig.add_trace(go.Bar(x=data['Date'],y=data['In-Use Ventilators'],name='Total Patients on Ventilators',marker_color=PASTEL2[2]))
-fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Ventilators'],name='COVID Patients on Ventilators',marker_color=DARK2[2]))
+fig.add_trace(go.Bar(x=data['Date'],y=data['In-Use Ventilators'],name='Total Patients on Ventilators',marker_color=PASTEL2[2],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% Ventilators in Use (Pre-Surge): %{text:.1f}%',
+    text = data['In-Use Ventilators'].divide(data['Total Ventilators'])*100))
+fig.add_trace(go.Bar(x=data['Date'],y=data['COVID Ventilators'],name='COVID Patients on Ventilators',marker_color=DARK2[2],
+    hovertemplate =
+    'Total: %{y}'+'<br>'+
+    '% of All Ventilated : %{text:.1f}%',
+    text = data['COVID Ventilators'].divide(data['In-Use Ventilators'])*100))
 fig.add_trace(go.Line(x=data['Date'],y=data['Total Ventilators'],name='Total Ventilators',marker_color='black'))
 fig.update_layout(title=dict(text='All Patients on Ventilators'),barmode='overlay',legend=dict(y=0.75,x=1))
 fig.write_html("./chart_htmls/patients_ventilator.html")
