@@ -434,7 +434,7 @@ for i in range(51):
 fig.add_trace(go.Line(x=data['Date'],y=dc_pos,name="District-Wide",line=dict(color='black',width=3.0)))
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=hood_positive[HOOD_LIST_SORTED[i]],name=HOOD_LIST_SORTED[i],visible='legendonly',line=dict(color=LIGHT24[i%24])))
-fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".0%")
+fig.update_yaxes(rangemode="nonnegative",range=[0,.15],tickformat=".1%")
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(title=dict(text='Test Positivity, 7-Day Average'),legend=dict(
     orientation="h",
