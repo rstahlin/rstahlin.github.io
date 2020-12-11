@@ -268,13 +268,13 @@ fig.write_html("./chart_htmls/patients_ventilator.html")
 
 ############# MAPS #################
 hood_data = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling(7).mean()
-hood_data_pc = hood_data.divide(hood_demos['Population (2018 ACS)'])*10000
+hood_data_pc = hood_data.divide(hood_demos['Population (2019 ACS)'])*10000
 rolling_cases = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling(7).sum()
 rolling_tests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling(7).sum()
 rolling_tests.columns = rolling_cases.columns
 hood_positive = np.divide(rolling_cases,rolling_tests)
 pos_this_week = hood_positive.iloc[-1,:].sort_values()
-pos_this_week = pd.concat([pos_this_week,rolling_cases.iloc[-1,:],rolling_tests.iloc[-1,:],hood_demos['Population (2018 ACS)'],hood_demos['OBJECTID']],axis=1)
+pos_this_week = pd.concat([pos_this_week,rolling_cases.iloc[-1,:],rolling_tests.iloc[-1,:],hood_demos['Population (2019 ACS)'],hood_demos['OBJECTID']],axis=1)
 pos_this_week.columns = ['Positivity This Week','Positives This Week','Tests This Week','Population','OBJECTID']
 pos_this_week['Positives This Week Per 10k'] = pos_this_week['Positives This Week'].divide(pos_this_week['Population']) * 10000
 pos_this_week['Neighborhood'] = pos_this_week.index
@@ -393,7 +393,7 @@ fig.write_html('chart_htmls/nhood_pc.html')
 # Neighborhoods Tests Per capita
 ntests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling(7).mean()
 ntests.columns = HOOD_LIST
-ntests_pc = ntests.divide(hood_demos['Population (2018 ACS)'])*10000
+ntests_pc = ntests.divide(hood_demos['Population (2019 ACS)'])*10000
 fig = go.Figure(layout=layout)
 for i in range(51):
     fig.add_trace(go.Line(x=data['Date'],y=ntests_pc[HOOD_LIST_SORTED[i]],line=dict(color='lightgrey',width=0.5),hoverinfo='skip',showlegend=False))
