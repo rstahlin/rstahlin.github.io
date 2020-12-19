@@ -61,12 +61,16 @@ def load_data():
     dccovid['Unknown Ward Tests'] = pd.to_numeric(dccovid['Unknown Ward Tests'])
     hood_demos = pd.read_csv(r'nhood_demographics.csv',index_col='Neighborhood Name')
     ward_demos = pd.read_csv(r'ward_demographics.csv', index_col='Ward')
+    nursing_data = pd.read_csv(r'nursing_home_data.csv')
+    nursing_keys = pd.read_csv(r'nursing_home_keys.csv')
+    school_info = pd.read_csv(r'schools.csv')
+    school_cases = pd.read_csv(r'school_cases.csv')
     with urlopen('https://opendata.arcgis.com/datasets/de63a68eb7674548ae0ac01867123f7e_13.geojson') as response:
         hood_map = json.load(response)
-    return dccovid, hood_demos, ward_demos, hood_map
+    return dccovid, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys,school_info, school_cases
 
 # Load data into the dataframe.
-data, hood_demos, ward_demos, hood_map = load_data()
+data, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys, school_info, school_cases  = load_data()
 # Define positive tests in DC
 dc_pos = data['Positives'].diff().rolling(7).sum().divide(data['Tested'].diff().rolling(7).sum())
 # dc_pos = data.[:,'Ward 1':'Unknown Ward'].diff().rolling(7).sum().divide(data.loc[:,'Ward 1 Tests':'Unknown Ward Tests'].diff().rolling(7).sum())
@@ -691,12 +695,18 @@ for plotdata in map_list:
         no_nat_mall = pos_this_week.drop(index=['National Mall'])
         range_color = (0,np.max(no_nat_mall['Positives This Week Per 10k']))
         filename = "./chart_htmls/nhood_map_pc.html"
+        tickformat = ".0f"
+        titletext = 'Positives This<br>Week Per 10k'
     elif(plotdata=='Positives This Week'):
         range_color = (0,np.max(pos_this_week['Positives This Week']))
         filename = "./chart_htmls/nhood_map_cases.html"
+        tickformat = ".0f"
+        titletext = 'Positives This Week'
     elif(plotdata=='Positivity This Week'):
         range_color = (0,.10)
         filename = "./chart_htmls/nhood_map_positivity.html"
+        tickformat = "%.0f"
+        titletext = 'Postivity This Week'
     fig = px.choropleth_mapbox(
         pos_this_week,
         geojson=hood_map,
@@ -726,8 +736,17 @@ for plotdata in map_list:
         "t":0,
         "l":0,
         "b":0
-        }
+        },
+        coloraxis=dict(
+            colorbar = dict(
+                tickformat = tickformat,
+                title = dict(
+                text = titletext
+            )
+
+        )
     )
+)
     fig.write_html(filename)
 
 
@@ -1166,3 +1185,117 @@ fig.update_yaxes(
 )
 
 fig.write_html('chart_htmls/nhood_diamond_pc.html')
+
+
+########## SCHOOL CASES ###########
+school_info.index = school_info['NAME']
+
+cares_schools = school_info.loc[school_info['CARES Classroom']==True,:]
+noncares_schools = school_info.loc[school_info['CARES Classroom']==False,:]
+
+school_cases = school_cases.join(school_info,on='School',how='right')
+
+school_cases['Resume Date'] = pd.to_datetime(school_cases['Resume Date'])
+school_cases['Most Recent Day of Case'] = pd.to_datetime(school_cases['Most Recent Day of Case'])
+school_cases['Day Announced'] = pd.to_datetime(school_cases['Day Announced'])
+
+cases_closed = school_cases.loc[school_cases['Resume Date']>np.datetime64('today'),:]
+
+cases_not_closed_bool = ((school_cases['Most Recent Day of Case']-np.datetime64('today'))>np.timedelta64(-14, 'D'))&(school_cases['Resume Date'].isna())
+cases_not_closed = school_cases.loc[cases_not_closed_bool,:]
+
+open_schools_bool = cares_schools['NAME'].isin(cases_not_closed['School'])|cares_schools['NAME'].isin(cases_closed['School'])
+open_schools = cares_schools.loc[~open_schools_bool,:]
+
+fig = go.Figure()
+
+# Closed Schools
+fig.add_trace(go.Scattermapbox(
+    lat=noncares_schools['LATITUDE'],
+    lon=noncares_schools['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='grey',
+    ),
+    text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
+    hoverinfo='text',
+    name = 'Closed'
+))
+
+# Open Schools
+fig.add_trace(go.Scattermapbox(
+    lat=open_schools['LATITUDE'],
+    lon=open_schools['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='green',
+    ),
+    text='<b>'+open_schools['NAME']+'</b>',
+    hoverinfo='text',
+    name = 'CARES Classroom Open'
+
+))
+
+# Open Schools, Cases in the last 2 weeks
+fig.add_trace(go.Scattermapbox(
+    lat=cases_not_closed['LATITUDE'],
+    lon=cases_not_closed['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='orange',
+    ),
+    text='<b>'+cases_not_closed['NAME']+
+     '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+     '<br><i>Did not close</i>',
+    hoverinfo='text',
+    name = 'CARES Classroom Open, Case Reported in Last 2 Weeks'
+
+))
+
+# Closed Schools
+fig.add_trace(go.Scattermapbox(
+    lat=cases_closed['LATITUDE'],
+    lon=cases_closed['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='red',
+    ),
+    text='<b>'+cases_closed['NAME']+
+         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+         '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
+    hoverinfo='text',
+    name = 'CARES Classroom Closed Due to COVID-19'
+))
+
+fig.update_layout(
+    title='Test',
+    autosize=True,
+    hovermode='closest',
+#     showlegend=False,
+    mapbox=dict(
+        accesstoken=open(".mapboxtoken").read(),
+        center=dict(
+            lat=38.8977,
+            lon=-77.0365
+        ),
+        bearing=0,
+        pitch=0,
+        zoom=9.5,
+        style='light',
+    ),
+    legend=dict(
+            x=0,
+            y=0.05,
+            bgcolor='rgba(0,0,0,0)'
+        ),
+    margin={
+        "r":0,
+        "t":0,
+        "l":0,
+        "b":0}
+)
+fig.write_html("./chart_htmls/schools_map.html")
