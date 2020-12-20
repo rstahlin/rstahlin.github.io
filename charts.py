@@ -1299,3 +1299,30 @@ fig.update_layout(
         "b":0}
 )
 fig.write_html("./chart_htmls/schools_map.html")
+
+fig = go.Figure(layout=layout)
+dcps_cases_nogaps = data.loc[~data['DCPS Personnel'].isna(),'DCPS Personnel':'DCPS Students']
+fig.add_trace(go.Bar(
+    x=dcps_cases_nogaps.index,
+    y=dcps_cases_nogaps['DCPS Personnel'].diff(),
+    name='DCPS Personnel',
+    marker_color='rgb(113, 0, 130)'
+))
+fig.add_trace(go.Bar(
+    x=dcps_cases_nogaps.index,
+    y=dcps_cases_nogaps['DCPS Students'].diff(),
+    name='DCPS Students',
+    marker_color='rgb(0, 82, 130)'
+))
+
+fig.update_layout(
+    title=dict(
+        text='New DC Public School Cases'
+    ),
+    barmode='stack',
+    xaxis=dict(
+        showspikes = False,
+    )
+)
+
+fig.write_html("./chart_htmls/schools_cases.html")
