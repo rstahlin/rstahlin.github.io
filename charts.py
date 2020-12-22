@@ -1302,6 +1302,14 @@ fig.write_html("./chart_htmls/schools_map.html")
 
 fig = go.Figure(layout=layout)
 dcps_cases_nogaps = data.loc[~data['DCPS Personnel'].isna(),'DCPS Personnel':'DCPS Students']
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['DCPS Personnel in Quarrantine']+data['DCPS Students in Quarrantine'],
+    name = 'Currently Quarrantined<br>DCPS Students/Personnel',
+    mode='none',
+    marker_color = '#0092e8',
+    fill='tozeroy',
+))
 fig.add_trace(go.Bar(
     x=dcps_cases_nogaps.index,
     y=dcps_cases_nogaps['DCPS Personnel'].diff(),
@@ -1315,6 +1323,14 @@ fig.add_trace(go.Bar(
     marker_color='rgb(0, 82, 130)'
 ))
 
+# fig.add_trace(go.Scatter(
+#     x=data['Date'],
+#     y=data['DCPS Students in Quarrantine'],
+#     name = 'DCPS Students in Quarrantine',
+#     # mode='none',
+#     marker_color = '#0092e8',
+#     fill='tonexty'
+# ))
 fig.update_layout(
     title=dict(
         text='New DC Public School Cases'
@@ -1322,7 +1338,11 @@ fig.update_layout(
     barmode='stack',
     xaxis=dict(
         showspikes = False,
+    ),
+    legend=dict(
+        bgcolor = 'rgba(0,0,0,0)'
     )
 )
+fig.update_xaxes(range=['2020-11-18',data.index[-1]])
 
 fig.write_html("./chart_htmls/schools_cases.html")
