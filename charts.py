@@ -1307,7 +1307,7 @@ fig.add_trace(go.Scatter(
     y=data['DCPS Personnel in Quarrantine']+data['DCPS Students in Quarrantine'],
     name = 'Currently Quarrantined<br>DCPS Students/Personnel',
     mode='none',
-    marker_color = '#0092e8',
+    marker_color = 'rgb(185, 226, 250)',
     fill='tozeroy',
 ))
 fig.add_trace(go.Bar(
