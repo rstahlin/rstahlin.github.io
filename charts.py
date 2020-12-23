@@ -1220,7 +1220,7 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
     hoverinfo='text',
-    name = 'Closed'
+    name = 'Closed (No CARES Classroom)'
 ))
 
 # Open Schools
@@ -1234,7 +1234,7 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+open_schools['NAME']+'</b>',
     hoverinfo='text',
-    name = 'CARES Classroom Open'
+    name = 'CARES Classroom(s) Open'
 
 ))
 
@@ -1249,9 +1249,9 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+cases_not_closed['NAME']+
      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-     '<br><i>Did not close</i>',
+     '<br><i>Did not close all CARES Classrooms</i>',
     hoverinfo='text',
-    name = 'CARES Classroom Open, Case Reported in Last 2 Weeks'
+    name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
 
 ))
 
@@ -1268,7 +1268,7 @@ fig.add_trace(go.Scattermapbox(
          '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
          '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
     hoverinfo='text',
-    name = 'CARES Classroom Closed Due to COVID-19'
+    name = 'CARES Classroom(s) Closed Due to COVID-19'
 ))
 
 fig.update_layout(
