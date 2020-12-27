@@ -88,7 +88,7 @@ fig.add_trace(go.Bar(
 
 fig.add_trace(go.Line(
     x=data['Date'],
-    y=data['Positives'].diff().rolling('7D').mean(),
+    y=data['Positives'].diff().rolling('7D').sum()/7,
     name='7-Day Average',
     line=dict(
         color='black'
@@ -119,7 +119,7 @@ fig.add_trace(go.Bar(
 ))
 fig.add_trace(go.Line(
     x=data['Date'],
-    y=data['Deaths'].diff().rolling('7D').mean(),
+    y=data['Deaths'].diff().rolling('7D').sum()/7,
     name='7-Day Average',
     line=dict(
         color='black'
@@ -154,7 +154,7 @@ fig.add_trace(go.Bar(
 )
 fig.add_trace(go.Line(
     x=data['Date'],
-    y=data['Tested'].diff().rolling('7D').mean(),
+    y=data['Tested'].diff().rolling('7D').sum()/7,
     name='7-Day Average',
     line=dict(
         color='black'
@@ -178,7 +178,7 @@ fig.write_html("./chart_htmls/tests.html")
 ########### Demographic Statistics ################
 # Ages
 fig = go.Figure(layout=layout)
-ages_data = data.loc[:,'age0-18':'age81'].diff().rolling('7D').mean()
+ages_data = data.loc[:,'age0-18':'age81'].diff().rolling('7D').sum()/7
 for i in range(len(AGES_LIST)):
     fig.add_trace(go.Line(
         x=data['Date'],
@@ -322,7 +322,7 @@ fig.write_html("./chart_htmls/races_deaths_pie.html")
 ########### Wards #####################
 # Ward Cases
 fig = go.Figure(layout=layout)
-ward_avg = data.loc[:,'Ward 1':'Ward 8'].diff().rolling('7D').mean()
+ward_avg = data.loc[:,'Ward 1':'Ward 8'].diff().rolling('7D').sum()/7
 for i in range(8):
     fig.add_trace(go.Line(
         x=data['Date'],
@@ -379,7 +379,7 @@ fig.write_html("./chart_htmls/wards_breakdown.html")
 # Per Capita Ward Cases
 fig = go.Figure(layout=layout)
 ward_avg_pc = np.divide(ward_avg,ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
-dc_avg_pc = np.divide(data['Positives'].diff().rolling('7D').mean(), ward_demos.loc['All Wards','Population (2020)'])*10000
+dc_avg_pc = np.divide(data['Positives'].diff().rolling('7D').sum()/7, ward_demos.loc['All Wards','Population (2020)'])*10000
 for i in range(8):
     fig.add_trace(go.Line(
         x=data['Date'],
@@ -482,7 +482,7 @@ fig.update_layout(
 
 # Ward Test Rates
 fig = go.Figure(layout=layout)
-ward_test_pc = np.divide(data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling('7D').mean(),ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
+ward_test_pc = np.divide(data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling('7D').sum()/7,ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
 for i in range(8):
     fig.add_trace(go.Line(
         x=data.loc['2020-06-01':,'Date'],
@@ -491,7 +491,7 @@ for i in range(8):
             color=PASTELS[i]
         )
     ))
-dc_tests = np.divide(data['Tested'].diff().rolling('7D').mean(), ward_demos.loc['All Wards','Population (2020)'])*10000
+dc_tests = np.divide(data['Tested'].diff().rolling('7D').sum()/7, ward_demos.loc['All Wards','Population (2020)'])*10000
 fig.add_trace(go.Line(
     x=data['Date'],
     y=dc_tests,
@@ -701,7 +701,7 @@ fig.update_layout(
 fig.write_html("./chart_htmls/patients_ventilator.html")
 
 ############# MAPS #################
-hood_data = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling('7D').mean()
+hood_data = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling('7D').sum()/7
 hood_data_pc = hood_data.divide(hood_demos['Population (2019 ACS)'])*10000
 rolling_cases = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling('7D').sum()
 rolling_tests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling('7D').sum()
@@ -916,7 +916,7 @@ fig.update_layout(
 fig.write_html('chart_htmls/nhood_pc.html')
 
 # Neighborhoods Tests Per capita
-ntests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling('7D').mean()
+ntests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling('7D').sum()/7
 ntests.columns = HOOD_LIST
 ntests_pc = ntests.divide(hood_demos['Population (2019 ACS)'])*10000
 fig = go.Figure(layout=layout)
