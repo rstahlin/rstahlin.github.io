@@ -1264,23 +1264,22 @@ fig.add_trace(go.Scattermapbox(
     name = 'CARES Classroom(s) Open'
 
 ))
-
 # Open Schools, Cases in the last 2 weeks
-fig.add_trace(go.Scattermapbox(
-    lat=cases_not_closed['LATITUDE'],
-    lon=cases_not_closed['LONGITUDE'],
-    mode='markers',
-    marker=go.scattermapbox.Marker(
-        size=10,
-        color='orange',
-    ),
-    text='<b>'+cases_not_closed['NAME']+
-     '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-     '<br><i>Did not close all CARES Classrooms</i>',
-    hoverinfo='text',
-    name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
+# fig.add_trace(go.Scattermapbox(
+#     lat=cases_not_closed['LATITUDE'],
+#     lon=cases_not_closed['LONGITUDE'],
+#     mode='markers',
+#     marker=go.scattermapbox.Marker(
+#         size=10,
+#         color='orange',
+#     ),
+#     text='<b>'+cases_not_closed['NAME']+
+#      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+#      '<br><i>Did not close all CARES Classrooms</i>',
+#     hoverinfo='text',
+#     name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
 
-))
+# ))
 
 # Closed Schools
 fig.add_trace(go.Scattermapbox(
