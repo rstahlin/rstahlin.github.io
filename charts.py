@@ -720,12 +720,12 @@ map_list = ['Positives This Week Per 10k','Positives This Week','Positivity This
 for plotdata in map_list:
     if(plotdata=='Positives This Week Per 10k'):
         no_nat_mall = pos_this_week.drop(index=['National Mall','DC Medical Center'])
-        range_color = (0,np.max(no_nat_mall['Positives This Week Per 10k']))
+        range_color = (0,35)
         filename = "./chart_htmls/nhood_map_pc.html"
         tickformat = ".0f"
         titletext = 'Positives This<br>Week Per 10k'
     elif(plotdata=='Positives This Week'):
-        range_color = (0,np.max(pos_this_week['Positives This Week']))
+        range_color = (0,70)
         filename = "./chart_htmls/nhood_map_cases.html"
         tickformat = ".0f"
         titletext = 'Positives This Week'
@@ -734,6 +734,7 @@ for plotdata in map_list:
         filename = "./chart_htmls/nhood_map_positivity.html"
         tickformat = "%.0f"
         titletext = 'Postivity This Week'
+
     fig = px.choropleth_mapbox(
         pos_this_week,
         geojson=hood_map,
@@ -767,13 +768,16 @@ for plotdata in map_list:
         coloraxis=dict(
             colorbar = dict(
                 tickformat = tickformat,
+                ticksuffix = '+',
+                showticksuffix = 'last',
                 title = dict(
-                text = titletext
+                    text = titletext
+                )
+
             )
 
         )
     )
-)
     fig.write_html(filename)
 
 
@@ -1122,7 +1126,7 @@ diamond_dict={
  'Brightwood Park':(3,5),
  'Capitol Hill':(7,6)
 }
-to_plot = hood_data_pc.drop(columns=['National Mall'])
+to_plot = hood_data_pc.drop(columns=['National Mall','DC Medical Center'])
 
 
 nrows = 11
@@ -1265,21 +1269,21 @@ fig.add_trace(go.Scattermapbox(
 
 ))
 # Open Schools, Cases in the last 2 weeks
-# fig.add_trace(go.Scattermapbox(
-#     lat=cases_not_closed['LATITUDE'],
-#     lon=cases_not_closed['LONGITUDE'],
-#     mode='markers',
-#     marker=go.scattermapbox.Marker(
-#         size=10,
-#         color='orange',
-#     ),
-#     text='<b>'+cases_not_closed['NAME']+
-#      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-#      '<br><i>Did not close all CARES Classrooms</i>',
-#     hoverinfo='text',
-#     name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
+fig.add_trace(go.Scattermapbox(
+    lat=cases_not_closed['LATITUDE'],
+    lon=cases_not_closed['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='orange',
+    ),
+    text='<b>'+cases_not_closed['NAME']+
+      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+      '<br><i>Did not close all CARES Classrooms</i>',
+    hoverinfo='text',
+    name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
 
-# ))
+))
 
 # Closed Schools
 fig.add_trace(go.Scattermapbox(
