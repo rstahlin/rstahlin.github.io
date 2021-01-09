@@ -51,6 +51,7 @@ LIGHT24 = px.colors.qualitative.Dark24
 
 AGES_LIST = ['0-18','19-30','31-40','41-50','51-60','61-70','71-80','81+']
 WARD_LIST = ['Ward 1','Ward 2','Ward 3','Ward 4','Ward 5','Ward 6','Ward 7','Ward 8']
+RACE_LIST = ['White','Black','Asian','American Indian','Native Hawaiian Pacific Islander','Two or More Races','Unknown Race','Refused Race']
 NHOOD_START_IDX = 81
 NTEST_START_IDX = 134
 HOOD_LIST =['16th St Heights', 'Cathedral Heights', 'Chevy Chase', 'Chinatown', 'Columbia Heights', 'Congress Heights/Shipley', 'DC Medical Center', 'Douglass', 'Eastland Gardens', 'Edgewood', 'Forest Hills', 'Adams Morgan', 'Fort Dupont', 'Fort Lincoln/Gateway', 'Georgetown', 'Georgetown East', 'GWU', 'Hill East', 'Historic Anacostia', 'Kent/Palisades', 'Kingman Park', 'Lamond Riggs', 'Barnaby Woods', 'Lincoln Heights', 'Logan Circle/Shaw', 'Marshall Heights', 'Michigan Park', 'Mount Pleasant', 'National Mall', 'Naval Station & Air Force', 'Naylor/Hillcrest', 'Petworth', 'Saint Elizabeths', 'Bellevue', 'Shepherd Park', 'South Columbia Heights', 'Stadium Armory', 'SW/Waterfront', 'Tenleytown', 'Trinidad', 'Twining', 'U St/Pleasant Plains', 'Union Station', 'Washington Highlands', 'Bloomingdale', 'Woodley Park', 'Woodridge', 'Brentwood', 'Brightwood', 'Brightwood Park', 'Capitol Hill']
@@ -321,6 +322,37 @@ fig.update_layout(
     )
 )
 fig.write_html("./chart_htmls/races_deaths_pie.html")
+
+# Race Breakdown
+
+# race_cum_pct = data.loc['2020-04-05':,RACE_LIST].divide(data.loc['2020-04-05':,'Positives'],axis=0)
+race_daily_s =  data.loc['2020-04-05':,'White':'Two or More Races'].diff().rolling(7).sum()
+race_daily_s_pct = race_daily_s.divide(race_daily_s.sum(axis=1),axis=0)
+fig = go.Figure(layout=layout)
+for i in range(6):
+    fig.add_trace(go.Line(
+        x=data.loc['2020-04-05':,'Date'],
+        y=race_daily_s_pct.iloc[:,i],
+        mode='lines',
+        stackgroup='one',
+        name=RACE_LIST[i],
+        line=dict(
+            color=ANTIQUE[i],
+            width=0
+        )
+    ))
+fig.update_yaxes(tickformat=".0%")
+fig.update_xaxes(range=['2020-03-16',data.index[-1]])
+fig.update_layout(
+    title=dict(
+        text='Breakdown of New Cases by Race, 7-Day Average'
+    ),
+    legend=dict(
+        y=0.75,
+        x=1
+    )
+)
+fig.write_html("./chart_htmls/race_breakdown.html")
 
 ########### Wards #####################
 # Ward Cases
@@ -1379,3 +1411,35 @@ fig.update_layout(
 fig.update_xaxes(range=['2020-11-18',data.index[-1]])
 
 fig.write_html("./chart_htmls/schools_cases.html")
+
+
+# MPD Positives
+mpd_display = data.loc[~data['MPD Positives'].isna(),'MPD Positives']
+# Cases
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=mpd_display.index,
+    y=mpd_display.diff(),
+    name='New Cases',
+    marker_color='rgb(158,202,225)'
+))
+fig.add_trace(go.Line(
+    x=mpd_display.index,
+    y=mpd_display.diff().rolling('7D').sum()/7,
+    name='7-Day Average',
+    line=dict(
+        color = 'black'
+    )
+))
+fig.update_layout(
+    title=dict(
+        text='New Cases, Metropolitan Police Department'
+    ),
+    xaxis=dict(
+        showspikes = False,
+    ),
+    legend=dict(
+        bgcolor = 'rgba(0,0,0,0)'
+    )
+)
+fig.write_html("./chart_htmls/mpd_cases.html")
