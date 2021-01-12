@@ -66,17 +66,22 @@ def load_data():
     nursing_keys = pd.read_csv(r'nursing_home_keys.csv')
     school_info = pd.read_csv(r'schools.csv')
     school_cases = pd.read_csv(r'school_cases.csv')
+    vax = pd.read_csv(r'vaccinations.csv')
+
     with urlopen('https://opendata.arcgis.com/datasets/de63a68eb7674548ae0ac01867123f7e_13.geojson') as response:
         hood_map = json.load(response)
-    return dccovid, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys,school_info, school_cases
+
+    return dccovid, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys,school_info, school_cases, vax
 
 # Load data into the dataframe.
-data, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys, school_info, school_cases  = load_data()
+data, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys, school_info, school_cases, vax  = load_data()
 # Define positive tests in DC
 dc_pos = data['Positives'].diff().rolling(7).sum().divide(data['Tested'].diff().rolling(7).sum())
 # dc_pos = data.[:,'Ward 1':'Unknown Ward'].diff().rolling('7D').sum().divide(data.loc[:,'Ward 1 Tests':'Unknown Ward Tests'].diff().rolling('7D').sum())
 
 data['Date'] = pd.to_datetime(data['Date'])
+vax['Date'] = pd.to_datetime(vax['Date'])
+vax.index = vax['Date']
 
 
 bar_display = data.loc[data['Averaged'] != True,['Date','Positives','Deaths','Tested']]
@@ -1248,6 +1253,7 @@ fig.update_yaxes(
 )
 
 fig.write_html('chart_htmls/nhood_diamond_pc.html')
+fig.write_image('chart_htmls/nhood_diamond_pc.png')
 
 
 ########## SCHOOL CASES ###########
@@ -1443,3 +1449,69 @@ fig.update_layout(
     )
 )
 fig.write_html("./chart_htmls/mpd_cases.html")
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['Resident First Dose'],
+    name = '1st Dose: Residents',
+    marker_color = 'rgb(184, 230, 186)'
+))
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['Non-resident First Dose'],
+    name = '1st Dose: Non-residents',
+    marker_color = 'rgb(237, 226, 138)'
+))
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['N/A First Dose'],
+    name = '1st Dose: Unregistered',
+    marker_color = 'rgb(191, 191, 191)'
+))
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['Resident Second Dose'],
+    name = '2nd Dose: Residents',
+    marker_color = 'rgb(44, 191, 50)'
+))
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['Non-resident Second Dose'],
+    name = '2nd Dose: Non-residents',
+    marker_color = 'rgb(181, 163, 14)'
+))
+fig.add_trace(go.Bar(
+    x = vax['Date'],
+    y = vax['N/A Second Dose'],
+    name = '2nd Dose: Unregistered',
+    marker_color = 'rgb(114, 114, 114)'
+))
+
+# fig.add_trace(go.Bar(
+#     x = vax['Date'],
+#     y = vax['N/A Second Dose']+vax['Resident Second Dose']+vax['Non-resident Second Dose'],
+#     name = '2nd Dose: 7-Day Average',
+#     marker_color = 'rgb(114, 114, 114)'
+# ))
+
+fig.update_layout(
+    title=dict(
+        text='Vaccinations'
+    ),
+    barmode='stack',
+    xaxis=dict(
+        showspikes = False,
+    ),
+    legend=dict(
+        orientation="h",
+        yanchor="top",
+        y=-.1,
+        xanchor="center",
+        x=.5,
+        bgcolor = 'rgba(0,0,0,0)'
+    )
+)
+# fig.update_xaxes(range=['2020-03-07',data.index[-1]])
+
+fig.write_html('./chart_htmls/vaccinations.html')
