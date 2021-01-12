@@ -55,6 +55,7 @@ RACE_LIST = ['White','Black','Asian','American Indian','Native Hawaiian Pacific 
 NHOOD_START_IDX = 81
 NTEST_START_IDX = 134
 HOOD_LIST =['16th St Heights', 'Cathedral Heights', 'Chevy Chase', 'Chinatown', 'Columbia Heights', 'Congress Heights/Shipley', 'DC Medical Center', 'Douglass', 'Eastland Gardens', 'Edgewood', 'Forest Hills', 'Adams Morgan', 'Fort Dupont', 'Fort Lincoln/Gateway', 'Georgetown', 'Georgetown East', 'GWU', 'Hill East', 'Historic Anacostia', 'Kent/Palisades', 'Kingman Park', 'Lamond Riggs', 'Barnaby Woods', 'Lincoln Heights', 'Logan Circle/Shaw', 'Marshall Heights', 'Michigan Park', 'Mount Pleasant', 'National Mall', 'Naval Station & Air Force', 'Naylor/Hillcrest', 'Petworth', 'Saint Elizabeths', 'Bellevue', 'Shepherd Park', 'South Columbia Heights', 'Stadium Armory', 'SW/Waterfront', 'Tenleytown', 'Trinidad', 'Twining', 'U St/Pleasant Plains', 'Union Station', 'Washington Highlands', 'Bloomingdale', 'Woodley Park', 'Woodridge', 'Brentwood', 'Brightwood', 'Brightwood Park', 'Capitol Hill']
+NON_RESIDENTIAL_HOODS = ['National Mall','DC Medical Center','Stadium Armory','Naval Station & Air Force']
 
 def load_data():
     dccovid = pd.read_csv(r'data.csv')
@@ -865,6 +866,8 @@ for plotdata in map_list:
 HOOD_LIST_SORTED = sorted(HOOD_LIST)
 fig = go.Figure(layout=layout)
 for i in range(51):
+    if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
+        continue
     fig.add_trace(go.Line(
         x=data['Date'],
         y=hood_data[HOOD_LIST_SORTED[i]],
@@ -908,9 +911,11 @@ fig.write_html('chart_htmls/nhood_cases.html')
 # Neighborhoods Per capita
 fig = go.Figure(layout=layout)
 for i in range(51):
+    if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
+        continue
     fig.add_trace(go.Line(
         x=data['Date'],
-        y=hood_data_pc[HOOD_LIST_SORTED[i]],
+        y=hood_data_pc[HOOD_LIST_SORTED[i]].drop(columns=['National Mall','DC Medical Center']),
         line=dict(
             color='lightgrey',
             width=1
@@ -965,9 +970,11 @@ ntests.columns = HOOD_LIST
 ntests_pc = ntests.divide(hood_demos['Population (2019 ACS)'])*10000
 fig = go.Figure(layout=layout)
 for i in range(51):
+    if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
+        continue
     fig.add_trace(go.Line(
         x=data['Date'],
-        y=ntests_pc[HOOD_LIST_SORTED[i]],
+        y=ntests_pc[HOOD_LIST_SORTED[i]].drop(columns=['National Mall','DC Medical Center']),
         line=dict(
             color='lightgrey',
             width=1
@@ -1019,6 +1026,8 @@ fig.write_html('chart_htmls/nhood_tests_pc.html')
 # Neighborhood tests
 fig = go.Figure(layout=layout)
 for i in range(51):
+    if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
+        continue
     fig.add_trace(go.Line(
         x=data['Date'],
         y=ntests[HOOD_LIST_SORTED[i]],
@@ -1061,6 +1070,8 @@ fig.write_html('chart_htmls/nhood_tests.html')
 fig = go.Figure(layout=layout)
 hood_positive = np.divide(rolling_cases,rolling_tests)
 for i in range(51):
+    if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
+        continue
     fig.add_trace(go.Line(
         x=data['Date'],
         y=hood_positive[HOOD_LIST_SORTED[i]],
@@ -1451,6 +1462,14 @@ fig.update_layout(
 fig.write_html("./chart_htmls/mpd_cases.html")
 
 fig = go.Figure(layout=layout)
+fig.add_trace(go.Line(
+    x=vax['Date'],
+    y=vax.loc[:,'Resident First Dose':'N/A Second Dose'].sum(axis=1).rolling('7D').mean(),
+    name='7-Day Average',
+    line=dict(
+        color='black'
+    )
+))
 fig.add_trace(go.Bar(
     x = vax['Date'],
     y = vax['Resident First Dose'],
@@ -1512,6 +1531,7 @@ fig.update_layout(
         bgcolor = 'rgba(0,0,0,0)'
     )
 )
+
 # fig.update_xaxes(range=['2020-03-07',data.index[-1]])
 
 fig.write_html('./chart_htmls/vaccinations.html')
