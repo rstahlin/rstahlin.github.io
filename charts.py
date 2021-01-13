@@ -1485,7 +1485,7 @@ fig.add_trace(go.Bar(
 fig.add_trace(go.Bar(
     x = vax['Date'],
     y = vax['N/A First Dose'],
-    name = '1st Dose: Unregistered',
+    name = '1st Dose: Unreported',
     marker_color = 'rgb(191, 191, 191)'
 ))
 fig.add_trace(go.Bar(
@@ -1503,20 +1503,19 @@ fig.add_trace(go.Bar(
 fig.add_trace(go.Bar(
     x = vax['Date'],
     y = vax['N/A Second Dose'],
-    name = '2nd Dose: Unregistered',
+    name = '2nd Dose: Unreported',
     marker_color = 'rgb(114, 114, 114)'
 ))
-
 # fig.add_trace(go.Bar(
 #     x = vax['Date'],
 #     y = vax['N/A Second Dose']+vax['Resident Second Dose']+vax['Non-resident Second Dose'],
-#     name = '2nd Dose: 7-Day Average',
+#     name = '2nd Dose Dose: 7-Day Average',
 #     marker_color = 'rgb(114, 114, 114)'
 # ))
 
 fig.update_layout(
     title=dict(
-        text='Vaccinations'
+        text='Daily Vaccinations'
     ),
     barmode='stack',
     xaxis=dict(
@@ -1529,9 +1528,99 @@ fig.update_layout(
         xanchor="center",
         x=.5,
         bgcolor = 'rgba(0,0,0,0)'
-    )
+    ),
+    hovermode='x unified'
 )
-
 # fig.update_xaxes(range=['2020-03-07',data.index[-1]])
-
 fig.write_html('./chart_htmls/vaccinations.html')
+dc_pop = ward_demos.loc['All Wards','Population (2020)']
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Positives']/dc_pop*100,
+    name='Cumulative Positives',
+    marker_color='rgb(158,202,225)',
+    hovertemplate =
+        '% Tested Positive: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = data['Positives']
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Deaths']/dc_pop*100,
+    name='Cumulative Deaths',
+    marker_color='maroon',
+    hovertemplate =
+        '% Died of COVID-19: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = data['Deaths']
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=(vax['Resident First Dose'].cumsum().subtract(vax['Resident Second Dose'].cumsum(),fill_value=0))/dc_pop*100,
+    name='First Dose Only',
+    marker_color='rgb(184, 230, 186)',
+    hovertemplate =
+        '% Vaccinated with First Dose: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = vax['Resident First Dose'].cumsum().subtract(vax['Resident Second Dose'].cumsum(),fill_value=0)
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['Resident Second Dose'].cumsum()/dc_pop*100,
+    name='Fully Vaccinated',
+    marker_color='rgb(44, 191, 50)',
+    hovertemplate =
+        '% Vaccinated with Second Dose: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = vax['Resident Second Dose'].cumsum()
+))
+fig.add_trace(go.Line(
+    x=data['Date'],
+    y=np.full((data['Date'].size),100, dtype=int),
+    name='Total Population',
+    visible='legendonly',
+    marker_color='black'
+))
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=np.full((data['Date'].size),70, dtype=int),
+    name='Estimate of Herd Immunity Threshold',
+    visible='legendonly',
+    mode='lines',
+    line=dict(
+        color='black',
+        dash='dash'
+    )
+))
+# fig.add_shape(
+#     type='rect',
+#     x0=data['Date'][0],
+#     y0=70,
+#     x1=data['Date'][-1],
+#     y1=100,
+#     fillcolor='lavender',
+#     line=dict(
+#         width=0,
+#     ),
+# )
+fig.update_shapes(dict(xref='x', yref='y'))
+fig.update_layout(
+    title=dict(
+        text='Path to Herd Immunity, DC Residents'
+    ),
+    barmode='stack',
+    legend=dict(
+        orientation="h",
+        y=-.1,
+        x=0.5,
+        xanchor="center",
+    ),
+    yaxis=dict(
+        ticksuffix="%",
+        showticksuffix='all'
+    )
+
+)
+fig.write_html('./chart_htmls/herd_immunity.html')
