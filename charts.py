@@ -1533,18 +1533,28 @@ fig.update_layout(
 )
 # fig.update_xaxes(range=['2020-03-07',data.index[-1]])
 fig.write_html('./chart_htmls/vaccinations.html')
-dc_pop = ward_demos.loc['All Wards','Population (2020)']
+dc_pop = ward_demos.loc['All Wards','Population (DC Data)']
 
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Bar(
     x=data['Date'],
-    y=data['Positives']/dc_pop*100,
-    name='Cumulative Positives',
+    y=(data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0))/dc_pop*100,
+    name='Not Cleared from Isolation',
+    marker_color='gold',
+    hovertemplate =
+        '% Not Cleared: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text =data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0)
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Recoveries']/dc_pop*100,
+    name='Cumulative Recoveries',
     marker_color='rgb(158,202,225)',
     hovertemplate =
-        '% Tested Positive: %{y:.2f}%'+'<br>'+
+        '% Cleared from Isolation: %{y:.2f}%'+'<br>'+
         'Total: %{text:.0f}',
-    text = data['Positives']
+    text = data['Recoveries']
 ))
 fig.add_trace(go.Bar(
     x=data['Date'],
@@ -1562,7 +1572,7 @@ fig.add_trace(go.Bar(
     name='First Dose Only',
     marker_color='rgb(184, 230, 186)',
     hovertemplate =
-        '% Vaccinated with First Dose: %{y:.2f}%'+'<br>'+
+        '% Vaccinated with Only First Dose: %{y:.2f}%'+'<br>'+
         'Total: %{text:.0f}',
     text = vax['Resident First Dose'].cumsum().subtract(vax['Resident Second Dose'].cumsum(),fill_value=0)
 ))
@@ -1608,7 +1618,7 @@ fig.add_trace(go.Scatter(
 fig.update_shapes(dict(xref='x', yref='y'))
 fig.update_layout(
     title=dict(
-        text='Path to Herd Immunity, DC Residents'
+        text='Path to Herd Immunity, D.C. Residents'
     ),
     barmode='stack',
     legend=dict(
@@ -1616,11 +1626,51 @@ fig.update_layout(
         y=-.1,
         x=0.5,
         xanchor="center",
+        bgcolor='rgba(0,0,0,0)'
     ),
     yaxis=dict(
         ticksuffix="%",
         showticksuffix='all'
     )
-
 )
 fig.write_html('./chart_htmls/herd_immunity.html')
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['Rail Change'],
+    name='Rail',
+    mode='lines'
+))
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['Bus Change'],
+    name='Bus',
+    mode='lines'
+))
+fig.update_yaxes(tickformat=".0%")
+fig.update_layout(
+    title=dict(
+        text='Ridership Relative to Equivalent Day in 2019'
+    )
+)
+fig.write_html('./chart_htmls/wmata_comparison.html')
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Rail Ridership'],
+    name='Rail',
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Bus Ridership'],
+    name='Bus',
+))
+fig.update_layout(
+    title=dict(
+        text='Number of Riders'
+    ),
+    barmode='stack'
+)
+fig.write_html('./chart_htmls/wmata_ridership.html')
