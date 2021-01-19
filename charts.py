@@ -1566,7 +1566,7 @@ fig.add_trace(go.Bar(
 ))
 fig.update_layout(
     title=dict(
-        text='Vaccines Delivered and Administrated'
+        text='Approximate Vaccines Delivered and Administered'
     ),
     legend=dict(
         y=1,
