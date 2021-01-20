@@ -1389,17 +1389,28 @@ fig.update_layout(
 fig.write_html("./chart_htmls/schools_map.html")
 
 fig = go.Figure(layout=layout)
-dcps_cases_nogaps = data.loc[~data['DCPS Personnel'].isna(),'DCPS Personnel':'DCPS Students']
+dcps_cases_nogaps = data.loc[~data['DCPS Personnel'].isna(),'DCPS Personnel':'DCPS Students in Quarrantine']
 fig.add_trace(go.Scatter(
-    x=data['Date'],
-    y=data['DCPS Personnel in Quarrantine']+data['DCPS Students in Quarrantine'],
-    name = 'Currently Quarrantined<br>DCPS Students/Personnel',
+    x=dcps_cases_nogaps.index,
+    y=dcps_cases_nogaps['DCPS Personnel in Quarrantine'],#+data['DCPS Students in Quarrantine'],
+    name = 'Currently Quarrantined<br>DCPS Personnel',
+    mode='lines',
+    line = dict(
+        width = 0.5,
+        color = 'rgb(235, 169, 245)'
+    ),
+    stackgroup='one',
+))
+fig.add_trace(go.Scatter(
+    x=dcps_cases_nogaps.index,
+    y=dcps_cases_nogaps['DCPS Students in Quarrantine'],
+    name = 'Currently Quarrantined<br>DCPS Students',
     mode='lines',
     line = dict(
         width = 0.5,
         color = 'rgb(188, 211, 247)'
     ),
-    fill='tozeroy',
+    stackgroup='one',
 ))
 fig.add_trace(go.Bar(
     x=dcps_cases_nogaps.index,
@@ -1617,23 +1628,23 @@ fig.add_trace(go.Bar(
 ))
 fig.add_trace(go.Bar(
     x=vax['Date'],
-    y=(vax['Resident First Dose'].cumsum().subtract(vax['Resident Second Dose'].cumsum(),fill_value=0))/dc_pop*100,
+    y=(vax['Resident First Dose Cumulative']-vax['Resident Second Dose Cumulative'])/dc_pop*100,
     name='First Dose Only',
     marker_color='rgb(184, 230, 186)',
     hovertemplate =
         '% Vaccinated with Only First Dose: %{y:.2f}%'+'<br>'+
         'Total: %{text:.0f}',
-    text = vax['Resident First Dose'].cumsum().subtract(vax['Resident Second Dose'].cumsum(),fill_value=0)
+    text = vax['Resident First Dose Cumulative']-vax['Resident Second Dose Cumulative']
 ))
 fig.add_trace(go.Bar(
     x=vax['Date'],
-    y=vax['Resident Second Dose'].cumsum()/dc_pop*100,
+    y=vax['Resident Second Dose Cumulative']/dc_pop*100,
     name='Fully Vaccinated',
     marker_color='rgb(44, 191, 50)',
     hovertemplate =
         '% Vaccinated with Second Dose: %{y:.2f}%'+'<br>'+
         'Total: %{text:.0f}',
-    text = vax['Resident Second Dose'].cumsum()
+    text = vax['Resident Second Dose Cumulative']
 ))
 fig.add_trace(go.Line(
     x=data['Date'],
