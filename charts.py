@@ -751,10 +751,10 @@ fig.update_layout(
 fig.write_html("./chart_htmls/patients_ventilator.html")
 
 ############# MAPS #################
-hood_data = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling(7).mean()
+hood_data = data.loc[:,'16th St Heights':'Capitol Hill'].diff().rolling(7).mean()
 hood_data_pc = hood_data.divide(hood_demos['Population (2019 ACS)'])*10000
-rolling_cases = data.iloc[:,NHOOD_START_IDX:NHOOD_START_IDX+51].diff().rolling(7).sum()
-rolling_tests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling(7).sum()
+rolling_cases = data.loc[:,'16th St Heights':'Capitol Hill'].diff().rolling(7).sum()
+rolling_tests = data.loc[:,'16th St Heights Tests':'Capitol Hill Tests'].diff().rolling(7).sum()
 rolling_tests.columns = rolling_cases.columns
 hood_positive = np.divide(rolling_cases,rolling_tests)
 pos_this_week = hood_positive.iloc[-1,:].sort_values()
@@ -974,7 +974,7 @@ fig.update_layout(
 fig.write_html('chart_htmls/nhood_pc.html')
 
 # Neighborhoods Tests Per capita
-ntests = data.iloc[:,NTEST_START_IDX:NTEST_START_IDX+51].diff().rolling(7).mean()
+ntests = data.loc[:,'16th St Heights Tests':'Capitol Hill Tests'].diff().rolling(7).mean()
 ntests.columns = HOOD_LIST
 ntests_pc = ntests.divide(hood_demos['Population (2019 ACS)'])*10000
 fig = go.Figure(layout=layout)
@@ -1299,33 +1299,33 @@ open_schools = cares_schools.loc[~open_schools_bool,:]
 fig = go.Figure()
 
 # Closed Schools
-fig.add_trace(go.Scattermapbox(
-    lat=noncares_schools['LATITUDE'],
-    lon=noncares_schools['LONGITUDE'],
-    mode='markers',
-    marker=go.scattermapbox.Marker(
-        size=10,
-        color='grey',
-    ),
-    text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
-    hoverinfo='text',
-    name = 'Closed (No CARES Classroom)'
-))
-
-# Open Schools
-fig.add_trace(go.Scattermapbox(
-    lat=open_schools['LATITUDE'],
-    lon=open_schools['LONGITUDE'],
-    mode='markers',
-    marker=go.scattermapbox.Marker(
-        size=10,
-        color='green',
-    ),
-    text='<b>'+open_schools['NAME']+'</b>',
-    hoverinfo='text',
-    name = 'CARES Classroom(s) Open'
-
-))
+# fig.add_trace(go.Scattermapbox(
+#     lat=noncares_schools['LATITUDE'],
+#     lon=noncares_schools['LONGITUDE'],
+#     mode='markers',
+#     marker=go.scattermapbox.Marker(
+#         size=10,
+#         color='grey',
+#     ),
+#     text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
+#     hoverinfo='text',
+#     name = 'Closed (No CARES Classroom)'
+# ))
+#
+# # Open Schools
+# fig.add_trace(go.Scattermapbox(
+#     lat=open_schools['LATITUDE'],
+#     lon=open_schools['LONGITUDE'],
+#     mode='markers',
+#     marker=go.scattermapbox.Marker(
+#         size=10,
+#         color='green',
+#     ),
+#     text='<b>'+open_schools['NAME']+'</b>',
+#     hoverinfo='text',
+#     name = 'CARES Classroom(s) Open'
+#
+# ))
 # Open Schools, Cases in the last 2 weeks
 fig.add_trace(go.Scattermapbox(
     lat=cases_not_closed['LATITUDE'],
@@ -1339,7 +1339,7 @@ fig.add_trace(go.Scattermapbox(
       '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
       '<br><i>Did not close all CARES Classrooms</i>',
     hoverinfo='text',
-    name = 'Some CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
+    name = 'CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
 
 ))
 
@@ -1566,18 +1566,24 @@ fig.add_trace(go.Scatter(
     ),
     name='Cumulative Doses Delivered',
     text=vax.loc[:,'Resident First Dose':'N/A Second Dose'].cumsum().sum(axis=1).divide(vax['Total Delivered'])*100,
-    hovertemplate='Doses Delivered: %{y:.0f}'+'<br>'+
+    hovertemplate='Doses Delivered as of<br>6am the Next Morning: %{y:.0f}'+'<br>'+
                   '% Administered: %{text:.1f}%',
 ))
 fig.add_trace(go.Bar(
     x=vax['Date'],
-    y=(vax['All First Dose']+vax['All Second Dose']).cumsum(),
-    name='Cumulative Doses Administered',
+    y=vax['All First Dose'].cumsum(),
+    name='First Doses',
     marker_color='rgb(63, 204, 202)',
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['All Second Dose'].cumsum(),
+    name='Second Doses (Approximate)',
+    marker_color='rgb(0, 138, 136)',
 ))
 fig.update_layout(
     title=dict(
-        text='Approximate Vaccines Delivered and Administered'
+        text='Cumulative Vaccines Delivered and Administered'
     ),
     legend=dict(
         y=1,
@@ -1586,7 +1592,8 @@ fig.update_layout(
     ),
     xaxis=dict(
         showspikes=False,
-    )
+    ),
+    barmode='stack',
 )
 fig.write_html('./chart_htmls/vaccines_administered.html')
 
