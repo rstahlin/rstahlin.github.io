@@ -1488,7 +1488,8 @@ fig.add_trace(go.Line(
     name='7-Day Average',
     line=dict(
         color='black'
-    )
+    ),
+    line_shape='hvh'
 ))
 fig.add_trace(go.Bar(
     x = vax['Date'],
