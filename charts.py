@@ -19,7 +19,7 @@ layout = go.Layout(
         spikemode  = 'across',
         spikesnap = 'cursor',
         spikecolor = 'black',
-        spikethickness = 1),
+        spikethickness = 1,),
     yaxis = dict(
         rangemode = 'tozero',
         showgrid=True,
@@ -1353,8 +1353,8 @@ fig.add_trace(go.Scattermapbox(
         color='red',
     ),
     text='<b>'+cases_closed['NAME']+
-         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-         '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
+         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d')),#+
+         # '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
     hoverinfo='text',
     name = 'CARES Classroom(s) Closed Due to COVID-19'
 ))
@@ -1706,47 +1706,47 @@ fig.write_html("./chart_htmls/mpd_cases.html")
 # )
 # fig.write_html('./chart_htmls/herd_immunity.html')
 
-# fig = go.Figure(layout=layout)
-# fig.add_trace(go.Scatter(
-#     x=data['Date'],
-#     y=data['Rail Change'],
-#     name='Rail',
-#     mode='lines'
-# ))
-# fig.add_trace(go.Scatter(
-#     x=data['Date'],
-#     y=data['Bus Change'],
-#     name='Bus',
-#     mode='lines'
-# ))
-# fig.update_yaxes(tickformat=".0%")
-# fig.update_layout(
-#     title=dict(
-#         text='Ridership Relative to Equivalent Day in 2019'
-#     )
-# )
-# fig.write_html('./chart_htmls/wmata_comparison.html')
-#
-# fig = go.Figure(layout=layout)
-# fig.add_trace(go.Bar(
-#     x=data['Date'],
-#     y=data['Rail Ridership'],
-#     name='Rail',
-# ))
-# fig.add_trace(go.Bar(
-#     x=data['Date'],
-#     y=data['Bus Ridership'],
-#     name='Bus',
-# ))
-# fig.update_layout(
-#     title=dict(
-#         text='Number of Riders'
-#     ),
-#     barmode='stack',
-#     legend=dict(
-#         x=0.95,
-#         y=0.95,
-#         bgcolor='rgba(0,0,0,0)'
-#     )
-# )
-# fig.write_html('./chart_htmls/wmata_ridership.html')
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['Rail Change'],
+    name='Rail',
+    mode='lines'
+))
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['Bus Change'],
+    name='Bus',
+    mode='lines'
+))
+fig.update_yaxes(tickformat=".0%")
+fig.update_layout(
+    title=dict(
+        text='Ridership Relative to Equivalent Day in 2019'
+    )
+)
+fig.write_html('./chart_htmls/wmata_comparison.html')
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Rail Ridership'],
+    name='Rail',
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Bus Ridership'],
+    name='Bus',
+))
+fig.update_layout(
+    title=dict(
+        text='Number of Riders'
+    ),
+    barmode='stack',
+    legend=dict(
+        x=0.95,
+        y=0.95,
+        bgcolor='rgba(0,0,0,0)'
+    )
+)
+fig.write_html('./chart_htmls/wmata_ridership.html')
