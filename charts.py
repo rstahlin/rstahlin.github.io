@@ -295,6 +295,90 @@ fig.update_layout(
     )
 )
 fig.write_html("./chart_htmls/ages_deaths_pie.html")
+
+#New age chart
+age_demos = pd.read_csv('age_demos.csv',index_col=0)
+age_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
+age_data_pc = age_data.divide(age_demos['Population (2019 ACS)'])*10000
+
+
+fig = go.Figure(layout=layout)
+for i in range(len(age_data.columns)):
+    fig.add_trace(go.Scatter(
+        x=data['Date'],
+        y=age_data_pc.iloc[:,i],
+        name=age_data.columns[i],
+        mode='lines',
+        line=dict(
+            color=G10[i],
+            width=2
+        ),
+    ))
+
+fig.update_layout(
+    title=dict(
+        text='New Cases by Age, 7-Day Average'
+   ),
+    yaxis=dict(
+        tickformat=".1f"
+    ),
+    xaxis=dict(
+        ticks='outside',
+    ),
+    legend=dict(
+        orientation='h',
+        y=-.1,
+        x=.5
+    )
+)
+fig.write_html("./chart_htmls/ages_census.html")
+
+
+
+fig = go.Figure(layout=layout)
+# ages_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
+for i in range(len(ages_data.columns)):
+    fig.add_trace(go.Scatter(
+        x=data['Date'],
+        y=age_data_pc.iloc[:,i],
+        name=age_data_pc.columns[i],
+        mode='lines',
+        line=dict(
+            color=G10[i],
+            width=2
+        ),
+#         stackgroup='one',
+    ))
+
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=data['Positives'].diff().rolling(7).mean().divide(ward_demos.loc['All Wards','Population (2019 ACS)'])*10000,
+    mode='lines',
+    line=dict(
+        color='black',
+        width=4
+    ),
+    name='District-Wide'
+))
+fig.update_layout(
+    title=dict(
+        text='New Cases per 10,000 Residents by Age, 7-Day Average'
+    ),
+    yaxis=dict(
+       tickformat=".1f"
+    ),
+    xaxis=dict(
+        ticks='outside',
+    ),
+    legend=dict(
+        orientation='h',
+        y=-.1,
+        x=.5
+    )
+)
+fig.write_html("./chart_htmls/ages_census_pc.html")
+
+
 # Race of Cases
 fig = go.Figure(
     data=[go.Pie(
