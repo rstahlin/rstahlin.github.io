@@ -50,6 +50,7 @@ ANTIQUE_ALT = [ANTIQUE[2],ANTIQUE[1],ANTIQUE[6],ANTIQUE[0],ANTIQUE[5]]
 LIGHT24 = px.colors.qualitative.Dark24
 
 AGES_LIST = ['0-18','19-30','31-40','41-50','51-60','61-70','71-80','81+']
+AGES_LIST_CENSUS = ['0-4','5-14','15-19','20-24','25-34','35-44','45-54','55-64','65-74','75+']
 WARD_LIST = ['Ward 1','Ward 2','Ward 3','Ward 4','Ward 5','Ward 6','Ward 7','Ward 8']
 RACE_LIST = ['White','Black','Asian','American Indian','Native Hawaiian Pacific Islander','Two or More Races','Unknown Race','Refused Race']
 NHOOD_START_IDX = 81
@@ -341,7 +342,7 @@ for i in range(len(age_data_pc.columns)):
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=age_data_pc.iloc[:,i],
-        name=age_data_pc.columns[i],
+        name=AGES_LIST_CENSUS[i],
         mode='lines',
         line=dict(
             color=G10[i],
@@ -356,7 +357,7 @@ fig.add_trace(go.Scatter(
     mode='lines',
     line=dict(
         color='black',
-        width=4
+        width=3
     ),
     name='District-Wide'
 ))
