@@ -19,7 +19,8 @@ layout = go.Layout(
         spikemode  = 'across',
         spikesnap = 'cursor',
         spikecolor = 'black',
-        spikethickness = 1,),
+        spikethickness = 1,
+        ticks='outside'),
     yaxis = dict(
         rangemode = 'tozero',
         showgrid=True,
@@ -50,7 +51,7 @@ ANTIQUE_ALT = [ANTIQUE[2],ANTIQUE[1],ANTIQUE[6],ANTIQUE[0],ANTIQUE[5]]
 LIGHT24 = px.colors.qualitative.Dark24
 
 AGES_LIST = ['0-18','19-30','31-40','41-50','51-60','61-70','71-80','81+']
-AGES_LIST_CENSUS = ['0-4','5-14','15-19','20-24','25-34','35-44','45-54','55-64','65-74','75+']
+AGES_LIST_CENSUS = ['0-4','5-14','15-19','20-24','25-44','45-64','65+']
 WARD_LIST = ['Ward 1','Ward 2','Ward 3','Ward 4','Ward 5','Ward 6','Ward 7','Ward 8']
 RACE_LIST = ['White','Black','Asian','American Indian','Native Hawaiian Pacific Islander','Two or More Races','Unknown Race','Refused Race']
 NHOOD_START_IDX = 81
@@ -97,10 +98,11 @@ fig.add_trace(go.Bar(
     marker_color='rgb(158,202,225)'
 ))
 
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=data['Positives'].diff().rolling(7).mean(),
     name='7-Day Average',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -131,10 +133,11 @@ fig.add_trace(go.Bar(
     name='New Deaths',
     marker_color='maroon'
 ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=data['Deaths'].diff().rolling(7).mean(),
     name='7-Day Average',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -169,10 +172,11 @@ fig.add_trace(go.Bar(
     marker_color='orange'
     )
 )
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=data['Tested'].diff().rolling(7).mean(),
     name='7-Day Average',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -200,10 +204,11 @@ fig.write_html("./chart_htmls/tests.html")
 fig = go.Figure(layout=layout)
 ages_data = data.loc[:,'age0-18':'age81'].diff().rolling(7).mean()
 for i in range(len(AGES_LIST)):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ages_data.iloc[:,i],
         name=AGES_LIST[i],
+        mode='lines',
         line=dict(
             color=G10[i],
             )
@@ -228,7 +233,7 @@ age_daily_s = ages_data*7
 age_daily_s_pct = age_daily_s.divide(age_daily_s.sum(axis=1),axis=0)
 fig = go.Figure(layout=layout)
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=age_daily_s_pct.iloc[:,i],
         mode='lines',
@@ -298,8 +303,12 @@ fig.update_layout(
 fig.write_html("./chart_htmls/ages_deaths_pie.html")
 
 #New age chart
-age_demos = pd.read_csv('age_demos.csv',index_col=0)
+age_demos = pd.read_csv('age_demos.csv',index_col=0).drop(index=['25-34 Cases','35-44 Cases','45-54 Cases','55-64 Cases','65-74 Cases','75+ Cases'])
 age_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
+age_data['25-44 Cases'] = age_data['25-34 Cases']+age_data['35-44 Cases']
+age_data['45-64 Cases'] = age_data['45-54 Cases']+age_data['55-64 Cases']
+age_data['65+ Cases'] = age_data['65-74 Cases']+age_data['75+ Cases']
+age_data = age_data.drop(columns=['25-34 Cases','35-44 Cases','45-54 Cases','55-64 Cases','65-74 Cases','75+ Cases'])
 age_data_pc = age_data.divide(age_demos['Population (2019 ACS)'])*10000
 
 fig = go.Figure(layout=layout)
@@ -307,7 +316,7 @@ for i in range(len(age_data.columns)):
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=age_data.iloc[:,i],
-        name=age_data.columns[i],
+        name=AGES_LIST_CENSUS[i],
         mode='lines',
         line=dict(
             color=G10[i],
@@ -338,7 +347,7 @@ fig.write_html("./chart_htmls/ages_census.html")
 
 fig = go.Figure(layout=layout)
 # ages_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
-for i in range(len(age_data_pc.columns)):
+for i in range(len(age_data.columns)):
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=age_data_pc.iloc[:,i],
@@ -431,7 +440,7 @@ race_daily_s =  data.loc['2020-04-05':,'White':'Two or More Races'].diff().rolli
 race_daily_s_pct = race_daily_s.divide(race_daily_s.sum(axis=1),axis=0)
 fig = go.Figure(layout=layout)
 for i in range(6):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data.loc['2020-04-05':,'Date'],
         y=race_daily_s_pct.iloc[:,i],
         mode='lines',
@@ -460,7 +469,7 @@ fig.write_html("./chart_htmls/race_breakdown.html")
 fig = go.Figure(layout=layout)
 ward_avg = data.loc[:,'Ward 1':'Ward 8'].diff().rolling(7).mean()
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ward_avg[WARD_LIST[i]],
         name=WARD_LIST[i],
@@ -487,7 +496,7 @@ ward_daily_s = data.loc[:,WARD_LIST].diff().rolling(7).sum()
 ward_daily_s_pct = ward_daily_s.divide(ward_daily_s.sum(axis=1),axis=0)
 fig = go.Figure(layout=layout)
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ward_daily_s_pct.iloc[:,i],
         mode='lines',
@@ -514,21 +523,23 @@ fig.write_html("./chart_htmls/wards_breakdown.html")
 
 # Per Capita Ward Cases
 fig = go.Figure(layout=layout)
-ward_avg_pc = np.divide(ward_avg,ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
-dc_avg_pc = np.divide(data['Positives'].diff().rolling(7).mean(), ward_demos.loc['All Wards','Population (2020)'])*10000
+ward_avg_pc = np.divide(ward_avg,ward_demos.loc[WARD_LIST,'Population (2019 ACS)'])*10000
+dc_avg_pc = np.divide(data['Positives'].diff().rolling(7).mean(), ward_demos.loc['All Wards','Population (2019 ACS)'])*10000
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ward_avg_pc[WARD_LIST[i]],
         name=WARD_LIST[i],
+        mode='lines',
         line=dict(
             color=PASTELS[i]
         )
     ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_avg_pc,
     name='District-Wide',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -551,18 +562,20 @@ fig.write_html("./chart_htmls/wards_pc.html")
 fig = go.Figure(layout=layout)
 positivity = np.divide(data.loc['2020-06-01':,'Ward 1':'Ward 8'].diff().rolling(7).sum(),data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling(7).sum())
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data.loc['2020-06-01':,'Date'],
         y=positivity.iloc[:,i],
         name=WARD_LIST[i],
+        mode='lines',
         line=dict(
             color=PASTELS[i]
         )
     ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_pos,
     name='District-Wide',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -602,7 +615,7 @@ ward_deaths.index = WARD_LIST
 fig = go.Figure(
     data=[go.Bar(
         x=WARD_LIST,
-        y=ward_deaths.divide(ward_demos.loc[WARD_LIST,'Population (2020)'])*10000,
+        y=ward_deaths.divide(ward_demos.loc[WARD_LIST,'Population (2019 ACS)'])*10000,
         name='Deaths',
         marker_color=PASTELS[0:8] # marker color can be a single color value or an iterable
     )],
@@ -618,20 +631,22 @@ fig.update_layout(
 
 # Ward Test Rates
 fig = go.Figure(layout=layout)
-ward_test_pc = np.divide(data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling(7).mean(),ward_demos.loc[WARD_LIST,'Population (2020)'])*10000
+ward_test_pc = np.divide(data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff().rolling(7).mean(),ward_demos.loc[WARD_LIST,'Population (2019 ACS)'])*10000
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data.loc['2020-06-01':,'Date'],
         y=ward_test_pc.iloc[:,i],name=WARD_LIST[i],
+        mode='lines',
         line=dict(
             color=PASTELS[i]
         )
     ))
-dc_tests = np.divide(data['Tested'].diff().rolling(7).mean(), ward_demos.loc['All Wards','Population (2020)'])*10000
-fig.add_trace(go.Line(
+dc_tests = np.divide(data['Tested'].diff().rolling(7).mean(), ward_demos.loc['All Wards','Population (2019 ACS)'])*10000
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_tests,
     name='District-Wide',
+    mode='lines',
     line=dict(
         color='black'
     )
@@ -656,7 +671,7 @@ ward_daily_s_tests = data.loc['2020-06-01':,'Ward 1 Tests':'Ward 8 Tests'].diff(
 ward_daily_s_tests_pct = ward_daily_s_tests.divide(ward_daily_s_tests.sum(axis=1),axis=0)
 fig = go.Figure(layout=layout)
 for i in range(8):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data.loc['2020-06-01':,'Date'],
         y=ward_daily_s_tests_pct.iloc[:,i],
         mode='lines',
@@ -683,7 +698,7 @@ fig.write_html("./chart_htmls/wards_tests_breakdown.html")
 fig = go.Figure(layout=layout)
 ward_daily_s_tests_pct.columns = WARD_LIST
 ward_daily_s_pct
-ward_demos['makeup'] = ward_demos.loc[WARD_LIST,'Population (2020)']
+ward_demos['makeup'] = ward_demos.loc[WARD_LIST,'Population (2019 ACS)']
 
 ############## Hospital Statistics ####################
 # COVID Patients Only
@@ -740,10 +755,11 @@ fig.add_trace(go.Bar(
         '% of All Patients: %{text:.1f}%',
     text = data['COVID Patients'].divide(data['Total Patients'])*100
 ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=np.full((data['Date'].size), 2487, dtype=int),
     name='Total Hospital Beds',
+    mode='lines',
     marker_color='black'
 ))
 fig.update_layout(
@@ -779,9 +795,10 @@ fig.add_trace(go.Bar(
         '% of All ICU Patients: %{text:.1f}%',
     text = data['COVID ICU Patients'].divide(data['Total ICU Beds']-data['ICU Beds Available'])*100
 ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=data['Total ICU Beds'],
+    mode='lines',
     name='Total ICU Beds',
     marker_color='black'
 ))
@@ -818,10 +835,11 @@ fig.add_trace(go.Bar(
         '% of All Ventilated : %{text:.1f}%',
     text = data['COVID Ventilators'].divide(data['In-Use Ventilators'])*100
 ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=data['Total Ventilators'],
     name='Total Ventilators',
+    mode='lines',
     marker_color='black'
 ))
 fig.update_layout(
@@ -963,9 +981,10 @@ fig = go.Figure(layout=layout)
 for i in range(51):
     if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
         continue
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_data[HOOD_LIST_SORTED[i]],
+        mode='lines',
         line=dict(
             color='lightgrey',
             width=1
@@ -974,10 +993,11 @@ for i in range(51):
         showlegend=False
     ))
 for i in range(51):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_data[HOOD_LIST_SORTED[i]],
         name=HOOD_LIST_SORTED[i],
+        mode='lines',
         visible='legendonly',
         line=dict(
             color=LIGHT24[i%24]
@@ -997,7 +1017,8 @@ fig.update_layout(
         yanchor="top",
         y=-.1,
         xanchor="center",
-        x=.5
+        x=.5,
+        bgcolor='rgba(0,0,0,0)'
     )
 )
 fig.write_html('chart_htmls/nhood_cases.html')
@@ -1008,9 +1029,10 @@ fig = go.Figure(layout=layout)
 for i in range(51):
     if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
         continue
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_data_pc[HOOD_LIST_SORTED[i]].drop(columns=['National Mall','DC Medical Center']),
+        mode='lines',
         line=dict(
             color='lightgrey',
             width=1
@@ -1018,19 +1040,21 @@ for i in range(51):
         hoverinfo='skip',
         showlegend=False
     ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_avg_pc,
     name='District-Wide',
+    mode='lines',
     line=dict(
         color='black',
         width=3.0
     )
 ))
 for i in range(51):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_data_pc[HOOD_LIST_SORTED[i]],
+        mode='lines',
         name=HOOD_LIST_SORTED[i],
         visible='legendonly',
         line=dict(
@@ -1054,7 +1078,9 @@ fig.update_layout(
         yanchor="top",
         y=-.1,
         xanchor="center",
-        x=.5
+        x=.5,
+        bgcolor='rgba(0,0,0,0)'
+
     )
 )
 fig.write_html('chart_htmls/nhood_pc.html')
@@ -1067,30 +1093,33 @@ fig = go.Figure(layout=layout)
 for i in range(51):
     if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
         continue
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ntests_pc[HOOD_LIST_SORTED[i]].drop(columns=['National Mall','DC Medical Center']),
         line=dict(
             color='lightgrey',
             width=1
         ),
+        mode='lines',
         hoverinfo='skip',
         showlegend=False
     ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_tests,
     name='District-Wide',
+    mode='lines',
     line=dict(
         color='black',
         width=3.0
     )
 ))
 for i in range(51):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ntests_pc[HOOD_LIST_SORTED[i]],
         name=HOOD_LIST_SORTED[i],
+        mode='lines',
         visible='legendonly',
         line=dict(
             color=LIGHT24[i%24]
@@ -1113,7 +1142,8 @@ fig.update_layout(
         yanchor="top",
         y=-.1,
         xanchor="center",
-        x=.5
+        x=.5,
+        bgcolor='rgba(0,0,0,0)'
     )
 )
 fig.write_html('chart_htmls/nhood_tests_pc.html')
@@ -1123,9 +1153,10 @@ fig = go.Figure(layout=layout)
 for i in range(51):
     if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
         continue
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ntests[HOOD_LIST_SORTED[i]],
+        mode='lines',
         line=dict(
             color='lightgrey',
             width=1
@@ -1134,11 +1165,12 @@ for i in range(51):
         showlegend=False
     ))
 for i in range(51):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=ntests[HOOD_LIST_SORTED[i]],
         name=HOOD_LIST_SORTED[i],
         visible='legendonly',
+        mode='lines',
         line=dict(
             color=LIGHT24[i%24]
         )
@@ -1157,8 +1189,10 @@ fig.update_layout(
         yanchor="top",
         y=-.1,
         xanchor="center",
-        x=.5)
+        x=.5,
+        bgcolor='rgba(0,0,0,0)'
     )
+)
 fig.write_html('chart_htmls/nhood_tests.html')
 
 # Neighborhood Test positivity
@@ -1167,19 +1201,21 @@ hood_positive = np.divide(rolling_cases,rolling_tests)
 for i in range(51):
     if HOOD_LIST_SORTED[i] in NON_RESIDENTIAL_HOODS:
         continue
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_positive[HOOD_LIST_SORTED[i]],
         line=dict(
             color='lightgrey',
             width=1
         ),
+        mode='lines',
         hoverinfo='skip',
         showlegend=False
     ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=data['Date'],
     y=dc_pos,
+    mode='lines',
     name="District-Wide",
     line=dict(
         color='black',
@@ -1187,9 +1223,10 @@ fig.add_trace(go.Line(
     )
 ))
 for i in range(51):
-    fig.add_trace(go.Line(
+    fig.add_trace(go.Scatter(
         x=data['Date'],
         y=hood_positive[HOOD_LIST_SORTED[i]],
+        mode='lines',
         name=HOOD_LIST_SORTED[i],
         visible='legendonly',
         line=dict(
@@ -1211,7 +1248,8 @@ fig.update_layout(
         yanchor="top",
         y=-.1,
         xanchor="center",
-        x=.5
+        x=.5,
+        bgcolor='rgba(0,0,0,0)'
     )
 )
 fig.write_html('chart_htmls/nhood_positivity.html')
@@ -1546,10 +1584,11 @@ fig.add_trace(go.Bar(
     name='New Cases',
     marker_color='rgb(158,202,225)'
 ))
-fig.add_trace(go.Line(
+fig.add_trace(go.Scatter(
     x=mpd_display.index,
     y=mpd_display.diff().rolling('7D').sum()/7,
     name='7-Day Average',
+    mode='lines',
     line=dict(
         color = 'black'
     )
