@@ -79,34 +79,7 @@
             </li>
           </ul>
           <!-- end basic data tabs -->
-
-          <!-- basic data tab content -->
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="basic-cases" role="tabpanel" aria-labelledby="basic-cases-tab">
-               <!-- new cases graph -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%" ></iframe>
-              </div>
-              <!-- end new cases graph -->
-            </div>
-            <div class="tab-pane fade" id="basic-deaths" role="tabpanel" aria-labelledby="basic-deaths-tab">
-              <!-- new deaths graph -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/deaths.html" height="525" width="100%"></iframe>
-              </div>
-              <!-- end new deaths graph -->
-            </div>
-            <div class="tab-pane fade" id="basic-tests" role="tabpanel" aria-labelledby="basic-tests-tab">
-              <!-- new tests graph -->
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/tests.html" height="525" width="100%"></iframe>
-                <p style="text-align:center"> <em> Note: District-Wide tests are based on the "Total Overall Number of Tests" variable released by D.C., and is different than the testing data referenced in D.C.'s ReOpening Metrics. </em> </p>
-              </div>
-              <!-- end new tests graph -->
-            </div>
-          </div>
-          <!-- end basic data tab content -->
-
+        
         </div>
         <!-- end basic data -->
 
@@ -130,40 +103,6 @@
           </ul>
           <!-- end neighborhood data tabs -->
 
-          <!-- neighborhood tab content -->
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="neighborhood-data-overview" role="tabpanel" aria-labelledby="neighborhood-data-overview-tab">
-              <!-- neighborhood diamond graph -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="750" width="750"></iframe>
-              </div>
-              <!-- end neighborhood diamond graph -->
-            </div>
-            <div class="tab-pane fade" id="neighborhood-data-total-positives" role="tabpanel" aria-labelledby="neighborhood-data-total-positives-tab">
-              <!-- new positives, 7 day average graph -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_cases.html" height="700" width="95%"></iframe>
-              </div>
-              <!-- end new positives, 7 day average graph -->
-            </div>
-            <div class="tab-pane fade" id="neighborhood-data-positives-per-10k" role="tabpanel" aria-labelledby="neighborhood-data-positives-per-10k-tab">
-              <!-- new positives per 10k graph -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_pc.html" height="700" width="95%"></iframe>
-              </div>
-              <!-- end new positives per 10k graph -->
-            </div>
-            <div class="tab-pane fade" id="neighborhood-data-positivity" role="tabpanel" aria-labelledby="neighborhood-data-positivity-tab">
-              <!-- test positivity graph -->
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_positivity.html" height="700" width="95%"></iframe>
-                <p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.'s ReOpening Metrics. </em> </p>
-              </div>
-              <!-- end test positivity graph -->
-            </div>
-          </div>
-          <!-- end neighborhood tab content -->
-
         </div>
         <!-- end neighborhood data -->
 
@@ -182,32 +121,6 @@
             </li>
           </ul>
           <!-- end  data tabs -->
-
-          <!--  tab content -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="neighborhood-maps-weekly-positives" role="tabpanel" aria-labelledby="neighborhood-maps-weekly-positives-tab">
-              <!-- positive this week -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="525" width="80%"></iframe>
-              </div>
-              <!-- end positive this week -->
-            </div>
-            <div class="tab-pane fade" id="neighborhood-maps-positives-10k" role="tabpanel" aria-labelledby="neighborhood-maps-positives-10k-tab">
-              <!-- positives this week per 10k  -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_pc.html" height="525" width="80%"></iframe>
-              </div>
-              <!-- end positives this week per 10k -->
-            </div>
-            <div class="tab-pane fade" id="neighborhood-maps-positivity" role="tabpanel" aria-labelledby="neighborhood-maps-positivity-tab">
-              <!-- positivity this week -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_positivity.html" height="525" width="80%"></iframe>
-              </div>
-              <!-- end positivity this week -->
-            </div>
-          </div>
-          <!-- end tab content -->
 
         </div>
         <!-- end neighborhood maps -->
@@ -229,31 +142,6 @@
           </ul>
           <!-- end age data tabs -->
 
-          <!-- age tab content -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="age-data-new-cases" role="tabpanel" aria-labelledby="age-data-new-cases-tab">
-              <!-- new cases by age -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end new cases by age -->
-            </div>
-            <div class="tab-pane fade" id="age-data-case-breakdown" role="tabpanel" aria-labelledby="age-data-case-breakdown-tab">
-              <!-- case breakdown by age  -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_cases_pie.html" height="500" width="45%"></iframe>
-              </div>
-              <!-- end case breakdown by age -->
-            </div>
-            <div class="tab-pane fade" id="age-data-death" role="tabpanel" aria-labelledby="age-data-death-tab">
-              <!-- death breakdown by age -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/ages_deaths_pie.html" height="500" width="45%"></iframe>
-              </div>
-              <!-- end death breakdown by age -->
-            </div>
-          </div>
-          <!-- end age tab content -->
 
         </div>
         <!-- end data -->
@@ -280,49 +168,6 @@
             </li>
           </ul>
           <!-- end  data tabs -->
-
-          <!--  tab content -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="ward-data-new-cases" role="tabpanel" aria-labelledby="ward-data-new-cases-tab">
-              <!-- new cases by ward -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end new cases by ward -->
-            </div>
-            <div class="tab-pane fade" id="ward-data-new-cases-10k" role="tabpanel" aria-labelledby="ward-data-new-cases-10k-tab">
-              <!-- new cases per 10k residents  -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_pc.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end new cases per 10k residents -->
-            </div>
-            <div class="tab-pane fade" id="ward-data-positivity" role="tabpanel" aria-labelledby="ward-data-positivity-tab">
-              <!-- positivity by ward -->
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_positivity.html" height="525" width="90%"></iframe>
-                <p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.'s ReOpening Metrics. </em> </p>
-              </div>
-              <!-- end positivity by ward  -->
-            </div>
-            <div class="tab-pane fade" id="ward-data-case-breakdown" role="tabpanel" aria-labelledby="ward-data-case-breakdown-tab">
-              <!-- breakdown of new cases by ward -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_breakdown.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end breakdown of new cases by ward -->
-            </div>
-            <div class="tab-pane fade" id="ward-data-tests" role="tabpanel" aria-labelledby="ward-data-tests-tab">
-              <!-- tests per 10k residents -->
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/wards_tests.html" height="525" width="90%"></iframe>
-                <p style="text-align:center"> <em> Note: District-Wide tests are based on the "Total Overall Number of Tests" variable released by D.C., and is different than the testing data referenced in D.C.'s ReOpening Metrics. </em> </p>
-              </div>
-              <!-- end tests per 10k residents -->
-            </div>
-          </div>
-          <!-- end tab content -->
-
         </div>
         <!-- end ward data -->
 
@@ -345,39 +190,6 @@
             </li>
           </ul>
           <!-- end  data tabs -->
-
-          <!--  tab content -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="hospitalization-data-patients" role="tabpanel" aria-labelledby="hospitalization-data-patients-tab">
-              <!-- covid patients -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end covid patients -->
-            </div>
-            <div class="tab-pane fade" id="hospitalization-data-hospitalizations" role="tabpanel" aria-labelledby="hospitalization-data-hospitalizations-tab">
-              <!-- all hospitalized  -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_hospitalized.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end all hospitalized -->
-            </div>
-            <div class="tab-pane fade" id="hospitalization-data-icu" role="tabpanel" aria-labelledby="hospitalization-data-icu-tab">
-              <!-- all icu patients -->
-              <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_icu.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end all icu patients -->
-            </div>
-            <div class="tab-pane fade" id="hospitalization-data-ventilators" role="tabpanel" aria-labelledby="hospitalization-data-ventilators-tab">
-              <!-- all patients on ventilators -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/patients_ventilator.html" height="525" width="90%"></iframe>
-              </div>
-              <!-- end all patients on ventilators -->
-            </div>
-          </div>
-          <!-- end tab content -->
 
         </div>
         <!-- end hospitalization data -->
@@ -404,27 +216,14 @@
           </ul>
           <!-- end  data tabs -->
 
-          <!--  tab content -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="race-and-ethnicity-data-cases" role="tabpanel" aria-labelledby="race-and-ethnicity-data-cases-tab">
-              <!-- cases -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_cases_pie.html" height="525" width="525"></iframe>
-              </div>
-              <!-- end cases -->
-            </div>
-            <div class="tab-pane fade" id="race-and-ethnicity-data-deaths" role="tabpanel" aria-labelledby="race-and-ethnicity-data-deaths-tab">
-              <!-- deaths  -->
-              <div class="d-flex justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/races_deaths_pie.html" height="525" width="525"></iframe>
-              </div>
-              <!-- end deaths -->
-            </div>
-          </div>
-          <!-- end tab content -->
-
         </div>
         <!-- end race and ethnicity -->
+
+        <!-- new cases graph -->
+        <div class="d-flex justify-content-center">
+          <iframe id="test-iframe" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%" ></iframe>
+        </div>
+        <!-- end new cases graph -->
 
     </main>
   </div>
