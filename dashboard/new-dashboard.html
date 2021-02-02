@@ -33,31 +33,34 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" id="welcome" href="#"> Welcome </a>
+              <a class="nav-link active" id="home" href="#"> Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="basic-data" href="#"> Basic Data</a>
+              <a class="nav-link" id="basic-data" href="#basic"> Basic Data</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data" href="#"> Neighborhoods </a>
+              <a class="nav-link" id="neighborhood-data" href="#neighborhoods"> Neighborhoods </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-maps" href="#"> Maps </a>
+              <a class="nav-link" id="neighborhood-maps" href="#maps"> Maps </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="age-data" href="#"> Ages </a>
+              <a class="nav-link" id="age-data" href="#ages"> Ages </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="ward-data" href="#"> Wards </a>
+              <a class="nav-link" id="ward-data" href="#wards"> Wards </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="hospitalization-data" href="#"> Hospitalization </a>
+              <a class="nav-link" id="hospitalization-data" href="#hospitalization"> Hospitalization </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="race-and-ethnicity-data" href="#"> Race and Ethnicity </a>
+              <a class="nav-link" id="race-and-ethnicity-data" href="#race-and-ethnicity"> Race and Ethnicity </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="about" href="#"> About </a>
+              <a class="nav-link" id="school-data" href="#schools"> DC Public Schools </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="about" href="#about"> About </a>
             </li>
         </ul>
       </div>
@@ -69,10 +72,10 @@
             <h1 class="h2" id="dashboard-header">Charting Coronavirus in D.C.</h1>
         </div>
 
-        <!-- welcome pane -->
-        <div id="welcome-pane" class="data-pane">
-          <!-- insert welcome stuff here -->
-          <!-- welcome -->
+        <!-- home pane -->
+        <div id="home-pane" class="data-pane">
+          <!-- insert home stuff here -->
+          <!-- home -->
           <div class="jumbotron">
             <!-- <h1 class="display-4">District of Columbia Coronavirus Data</h1> -->
             <p class="lead text-center">Interact with the data D.C. collects on Covid-19. Pan, zoom, and create your own charts to better understand the trends behind the pandemic</p>
@@ -91,7 +94,7 @@
               </script>
             </p>
           </div>
-          <!-- end welcome -->
+          <!-- end home -->
 
           <!-- vaccinations paragraph -->
           <div class="d-flex flex-column align-items-center justify-content-center">
@@ -116,7 +119,7 @@
           <!-- end vaccinations paragraph -->
 
         </div>
-        <!-- end welcome pane -->
+        <!-- end home pane -->
 
         <!-- basic data -->
         <div id="basic-data-pane" class="data-pane" style="display: none">
@@ -134,7 +137,7 @@
             </li>
           </ul>
           <!-- end basic data tabs -->
-        
+
         </div>
         <!-- end basic data -->
 
@@ -228,7 +231,6 @@
 
         <!-- hospitalization data -->
         <div id="hospitalization-data-pane" class="data-pane" style="display: none">
-
           <!--  data tabs -->
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
@@ -261,14 +263,36 @@
             </li>
           </ul>
           <!-- end  data tabs -->
-
         </div>
         <!-- end race and ethnicity -->
 
+          <!-- schools -->
+        <div id="school-data-pane" class="data-pane" style="display: none">
+          <!--  data tabs -->
+          <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+              <a class="nav-link active" id="dcps-cases-tab" data-toggle="tab" href="#dcps-cases" role="tab"> DCPS Cases </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="dcps-map-tab" data-toggle="tab" href="#school-map" role="tab"> DCPS Map </a>
+            </li>
+          </ul>
+          <!-- end  data tabs -->
+        </div>
+          <!-- end schools -->
+
+
         <!-- about pane -->
         <div id="about-pane" class="data-pane" style="display: none">
-          <!-- insert welcome stuff here -->
-
+          <!-- insert about stuff here -->
+            <h3>The Mission</h3>
+              <p style="text-align:left">
+                DC releases a truly incredible amount of data every day on Covid-19. The problem? It's in a completely useless format, showing cumulative totals rather than daily changes.
+                The mission of this project is to fix that problem with interactive visualizations that help ordinary Washingtonians digest trends, risk, and inequities during the pandemic.
+            <h3>The Team</h3>
+              <p style="text-align:left">
+                This website is maintained and developed by Ryan Stahlin and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us </a> for comments, suggestions, data questions, or media inquiries.
+              </p>
         </div>
         <!-- end about pane -->
 

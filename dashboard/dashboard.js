@@ -6,12 +6,12 @@ $( document ).ready(function() {
         $('.nav-link').removeClass('active');
 
         // display welcome
-        $('#welcome-pane').css('display', 'block');
+        $('#home-pane').css('display', 'block');
         // make basic data nav active
-        $('#welcome').addClass('active');
+        $('#home').addClass('active');
         // set dashboard header
         $('#dashboard-header').text('Charting Coronavirus in D.C.');
-       
+
         // hide iframe
         $('#display-iframe').hide();
 
@@ -39,7 +39,7 @@ $( document ).ready(function() {
         $('#basic-cases-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/cases.html');
 
         // set tab note
@@ -54,7 +54,7 @@ $( document ).ready(function() {
     // display cases graph on tab click
     $('#basic-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/cases.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -63,7 +63,7 @@ $( document ).ready(function() {
     // display deaths graph on tab click
     $('#basic-deaths-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/deaths.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -72,7 +72,7 @@ $( document ).ready(function() {
     // display tests graph on tab click
     $('#basic-tests-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/tests.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -84,7 +84,7 @@ $( document ).ready(function() {
          $('.data-pane').css('display', 'none');
          $('.nav-link').removeClass('active');
 
-        // display neighborhood data 
+        // display neighborhood data
         $('#neighborhood-data-pane').css('display', 'block');
         // make neightborhood nav active
         $('#neighborhood-data').addClass('active');
@@ -94,13 +94,13 @@ $( document ).ready(function() {
         $('#neighborhood-data-overview-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
 
         // set tab note
         var tab_note_html = '';
         $('#tab-note').html(tab_note_html);
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -109,7 +109,7 @@ $( document ).ready(function() {
     // display neighborhood overview graph on tab click
     $('#neighborhood-data-overview-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -118,7 +118,7 @@ $( document ).ready(function() {
     // display neighborhood total positives graph on tab click
     $('#neighborhood-data-total-positives-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_cases.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -127,7 +127,7 @@ $( document ).ready(function() {
     // display neighborhood positives per 10k graph on tab click
     $('#neighborhood-data-positives-per-10k-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_pc.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -136,7 +136,7 @@ $( document ).ready(function() {
     // display neighborhood positivity graph on tab click
     $('#neighborhood-data-positivity-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_positivity.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -148,7 +148,7 @@ $( document ).ready(function() {
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
 
-       // display neighborhood data 
+       // display neighborhood data
        $('#neighborhood-maps-pane').css('display', 'block');
        // make neightborhood nav active
        $('#neighborhood-maps').addClass('active');
@@ -158,9 +158,9 @@ $( document ).ready(function() {
        $('#neighborhood-maps-weekly-positives-tab').addClass('active');
        // display iframe
        $('#display-iframe').show();
-       // set iframe 
+       // set iframe
        $('#display-iframe').attr('src', './chart_htmls/nhood_map_cases.html');
-  
+
         // set tab note
         var tab_note_html = '';
         $('#tab-note').html(tab_note_html);
@@ -173,7 +173,7 @@ $( document ).ready(function() {
     // display neighborhood maps weekly positives graph on tab click
     $('#neighborhood-maps-weekly-positives-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_map_cases.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -182,7 +182,7 @@ $( document ).ready(function() {
     // display neighborhood map positives per 10k graph on tab click
     $('#neighborhood-maps-positives-10k-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_map_pc.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -191,7 +191,7 @@ $( document ).ready(function() {
     // display neighborhood positivity graph on tab click
     $('#neighborhood-maps-positivity-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_map_positivity.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -204,7 +204,7 @@ $( document ).ready(function() {
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
 
-        // display neighborhood data 
+        // display neighborhood data
         $('#age-data-pane').css('display', 'block');
         // make neightborhood nav active
         $('#age-data').addClass('active');
@@ -216,13 +216,13 @@ $( document ).ready(function() {
         $('#age-data-new-cases-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/ages.html');
-    
+
         // set tab note
         var tab_note_html = '';
         $('#tab-note').html(tab_note_html);
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -231,7 +231,7 @@ $( document ).ready(function() {
     // display cases by age graph on tab click
     $('#age-data-new-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/ages.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -240,7 +240,7 @@ $( document ).ready(function() {
     // display case breakdown by age graph on tab click
     $('#age-data-case-breakdown-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/ages_cases_pie.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -249,7 +249,7 @@ $( document ).ready(function() {
     // display deaths by age graph on tab click
     $('#age-data-death-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/ages_deaths_pie.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -261,7 +261,7 @@ $( document ).ready(function() {
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
 
-        // display neighborhood data 
+        // display neighborhood data
         $('#ward-data-pane').css('display', 'block');
         // make neightborhood nav active
         $('#ward-data').addClass('active');
@@ -271,9 +271,9 @@ $( document ).ready(function() {
         $('#ward-data-new-cases-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/wards.html');
-    
+
         // set tab note
         var tab_note_html = '';
         $('#tab-note').html(tab_note_html);
@@ -286,7 +286,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#ward-data-new-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -295,7 +295,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#ward-data-new-cases-10k-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards_pc.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -313,7 +313,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#ward-data-case-breakdown-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards_breakdown.htm');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -330,7 +330,7 @@ $( document ).ready(function() {
         // display graph on tab click
     $('#ward-data-new-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -339,7 +339,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#ward-data-new-cases-10k-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards_pc.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -357,7 +357,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#ward-data-case-breakdown-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/wards_breakdown.htm');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -369,7 +369,7 @@ $( document ).ready(function() {
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
 
-        // display neighborhood data 
+        // display neighborhood data
         $('#hospitalization-data-pane').css('display', 'block');
         // make neightborhood nav active
         $('#hospitalization-data').addClass('active');
@@ -379,7 +379,7 @@ $( document ).ready(function() {
         $('#hospitalization-data-patients-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/patients.html');
 
         // set tab note
@@ -394,7 +394,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#hospitalization-data-patients-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/patients.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -403,7 +403,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#hospitalization-data-hospitalizations-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/patients_hospitalized.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -412,7 +412,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#hospitalization-data-icu-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/patients_icu.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -421,7 +421,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#hospitalization-data-ventilators-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/patients_ventilator.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -433,7 +433,7 @@ $( document ).ready(function() {
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
 
-        // display neighborhood data 
+        // display neighborhood data
         $('#race-and-ethnicity-data-pane').css('display', 'block');
         // make neightborhood nav active
         $('#race-and-ethnicity-data').addClass('active');
@@ -443,7 +443,7 @@ $( document ).ready(function() {
         $('#race-and-ethnicity-data-cases-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
-        // set iframe 
+        // set iframe
         $('#display-iframe').attr('src', './chart_htmls/races_cases_pie.html');
 
         // set tab note
@@ -458,7 +458,7 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#race-and-ethnicity-data-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/races_cases_pie.html');
-    
+
         // set graph note
         var graph_note = '';
         $('#graph-note').html(graph_note);
@@ -467,9 +467,54 @@ $( document ).ready(function() {
     // display graph on tab click
     $('#race-and-ethnicity-data-deaths-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/races_deaths_pie.html');
-    
+
         // set graph note
         var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    $('#school-data').on('click', function(){
+        // ward others
+        $('.data-pane').css('display', 'none');
+        $('.nav-link').removeClass('active');
+
+        // display neighborhood data
+        $('#school-data-pane').css('display', 'block');
+        // make neightborhood nav active
+        $('#school-data').addClass('active');
+        // set dashboard header
+        $('#dashboard-header').text('DC Public Schools Data');
+        // set first tab to active
+        $('#dcps-map-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
+        // set iframe
+        $('#display-iframe').attr('src', './chart_htmls/schools_map.html.html');
+
+        // set tab note
+        var tab_note_html = '';
+        $('#tab-note').html(tab_note_html);
+
+        // set graph note
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.</em></p></div>';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#dcps-cases-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/schools_cases.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#dcps-map-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/schools_map.html');
+
+        // set graph note
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
@@ -484,7 +529,7 @@ $( document ).ready(function() {
         $('#about').addClass('active');
         // set dashboard header
         $('#dashboard-header').text('About');
-       
+
         // hide iframe
         $('#display-iframe').hide();
 
@@ -496,5 +541,5 @@ $( document ).ready(function() {
         var graph_note = '';
         $('#graph-note').html(graph_note);
     });
-    
+
 });
