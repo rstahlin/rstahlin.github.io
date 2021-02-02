@@ -1,5 +1,29 @@
 $( document ).ready(function() {
 
+    $('#welcome').on('click', function(){
+        // reverse others
+        $('.data-pane').css('display', 'none');
+        $('.nav-link').removeClass('active');
+
+        // display welcome
+        $('#welcome-pane').css('display', 'block');
+        // make basic data nav active
+        $('#welcome').addClass('active');
+        // set dashboard header
+        $('#dashboard-header').text('Charting Coronavirus in D.C.');
+       
+        // hide iframe
+        $('#display-iframe').hide();
+
+        // set tab note
+        var tab_note_html = '';
+        $('#tab-note').html(tab_note_html);
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
     $('#basic-data').on('click', function(){
         // reverse others
         $('.data-pane').css('display', 'none');
@@ -13,6 +37,8 @@ $( document ).ready(function() {
         $('#dashboard-header').text('Basic Data');
         // set first tab to active
         $('#basic-cases-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/cases.html');
 
@@ -66,6 +92,8 @@ $( document ).ready(function() {
         $('#dashboard-header').text('Neighborhood Data');
         // set first tab to active
         $('#neighborhood-data-overview-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
 
@@ -128,6 +156,8 @@ $( document ).ready(function() {
        $('#dashboard-header').text('Neighborhood Maps');
        // set first tab to active
        $('#neighborhood-maps-weekly-positives-tab').addClass('active');
+       // display iframe
+       $('#display-iframe').show();
        // set iframe 
        $('#display-iframe').attr('src', './chart_htmls/nhood_map_cases.html');
   
@@ -184,6 +214,8 @@ $( document ).ready(function() {
         $('age-data-new-cases-tab').addClass('active');
         // set first tab to active
         $('#age-data-new-cases-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/ages.html');
     
@@ -237,6 +269,8 @@ $( document ).ready(function() {
         $('#dashboard-header').text('Ward Data');
         // set first tab to active
         $('#ward-data-new-cases-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/wards.html');
     
@@ -343,6 +377,8 @@ $( document ).ready(function() {
         $('#dashboard-header').text('Hospitilization Data');
         // set first tab to active
         $('#hospitalization-data-patients-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/patients.html');
 
@@ -405,6 +441,8 @@ $( document ).ready(function() {
         $('#dashboard-header').text('Race and Ethnicity Data');
         // set first tab to active
         $('#race-and-ethnicity-data-cases-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
         // set iframe 
         $('#display-iframe').attr('src', './chart_htmls/races_cases_pie.html');
 
@@ -435,5 +473,28 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
+    $('#about').on('click', function(){
+        // reverse others
+        $('.data-pane').css('display', 'none');
+        $('.nav-link').removeClass('active');
+
+        // display about
+        $('#about-pane').css('display', 'block');
+        // make basic data nav active
+        $('#about').addClass('active');
+        // set dashboard header
+        $('#dashboard-header').text('About');
+       
+        // hide iframe
+        $('#display-iframe').hide();
+
+        // set tab note
+        var tab_note_html = '';
+        $('#tab-note').html(tab_note_html);
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
     
 });

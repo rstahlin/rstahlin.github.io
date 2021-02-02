@@ -21,7 +21,7 @@
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Charting Coronavirus in D.C.</a>
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">D.C. COVID </a>
       <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,26 +33,32 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" id="basic-data" href="#"> Basic Data</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="neighborhood-data" href="#"> Neighborhoods </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="neighborhood-maps" href="#"> Maps </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="age-data" href="#"> Ages </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="ward-data" href="#"> Wards </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="hospitalization-data" href="#"> Hospitalization </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="race-and-ethnicity-data" href="#"> Race and Ethnicity </a>
-              </li>
+              <a class="nav-link active" id="welcome" href="#"> Welcome </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="basic-data" href="#"> Basic Data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="neighborhood-data" href="#"> Neighborhoods </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="neighborhood-maps" href="#"> Maps </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="age-data" href="#"> Ages </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="ward-data" href="#"> Wards </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="hospitalization-data" href="#"> Hospitalization </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="race-and-ethnicity-data" href="#"> Race and Ethnicity </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="about" href="#"> About </a>
+            </li>
         </ul>
       </div>
     </nav>
@@ -60,11 +66,18 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2" id="dashboard-header">Basic Data</h1>
+            <h1 class="h2" id="dashboard-header">Charting Coronavirus in D.C.</h1>
         </div>
 
+        <!-- welcome pane -->
+        <div id="welcome-pane" class="data-pane">
+          <!-- insert welcome stuff here -->
+
+        </div>
+        <!-- end welcome pane -->
+
         <!-- basic data -->
-        <div id="basic-data-pane" class="data-pane">
+        <div id="basic-data-pane" class="data-pane" style="display: none">
 
           <!-- basic data tabs -->
           <ul class="nav nav-tabs nav-fill">
@@ -196,15 +209,6 @@
 
         <!-- race and ethnicity -->
         <div id="race-and-ethnicity-data-pane" class="data-pane" style="display: none">
-
-            <!-- note -->
-            <div class="d-flex flex-column align-items-center justify-content-center">
-              <p>
-                <em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.</em>
-              </p>
-            </div>
-            <!-- end note -->
-
           <!--  data tabs -->
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
@@ -219,11 +223,25 @@
         </div>
         <!-- end race and ethnicity -->
 
-        <!-- new cases graph -->
-        <div class="d-flex justify-content-center">
-          <iframe id="test-iframe" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%" ></iframe>
+        <!-- about pane -->
+        <div id="about-pane" class="data-pane" style="display: none">
+          <!-- insert welcome stuff here -->
+
         </div>
-        <!-- end new cases graph -->
+        <!-- end about pane -->
+
+
+        <!-- tab note -->
+        <div id="tab-note"> </div>
+
+        <!-- display iframe -->
+        <div class="d-flex justify-content-center"  >
+          <iframe style="display: none; border: none;" id="display-iframe" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%" ></iframe>
+        </div>
+        <!-- end display iframe -->
+
+        <!-- graph note -->
+        <div id="graph-note"></div>
 
     </main>
   </div>
