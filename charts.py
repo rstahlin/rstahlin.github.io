@@ -1127,7 +1127,7 @@ for i in range(51):
     ))
 fig.update_yaxes(
     rangemode="nonnegative",
-    range=[0,350]
+    range=[0,450]
 )
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(
@@ -1461,9 +1461,9 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+cases_not_closed['NAME']+
       '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-      '<br><i>Did not close all CARES Classrooms</i>',
+      '<br><i>Did not close</i>',
     hoverinfo='text',
-    name = 'CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
+    name = 'Case Reported in Last 2 Weeks'
 
 ))
 
@@ -1480,7 +1480,7 @@ fig.add_trace(go.Scattermapbox(
          '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d')),#+
          # '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
     hoverinfo='text',
-    name = 'CARES Classroom(s) Closed Due to COVID-19'
+    name = 'Closure/Transition to Online Learning Reported Due to COVID-19'
 ))
 
 fig.update_layout(
