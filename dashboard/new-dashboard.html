@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Dashboard Template · Bootstrap</title>
+    <title>D.C. COVID-19 Dashboard</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
@@ -60,6 +60,9 @@
               <a class="nav-link" id="school-data" href="#schools"> DC Public Schools </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" id="vaccination-data" href="#vaccinations"> Vaccinations </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" id="about" href="#about"> About </a>
             </li>
         </ul>
@@ -96,27 +99,12 @@
           </div>
           <!-- end home -->
 
-          <!-- vaccinations paragraph -->
+          <!-- home diamond -->
           <div class="d-flex flex-column align-items-center justify-content-center">
-              <p style="margin-left: 40px; text-align:left; max-width:800px; text-indent: 50px">
-                <br><br>
-                Looking for vaccination data? As of 1/25, D.C. has stopped releasing the data in the format that it had been.
-                Vaccinations by day and by residency and second dose information is now illegible on the <a href="https://coronavirus.dc.gov/sites/default/files/dc/sites/coronavirus/page_content/attachments/Residency-2-1.png">screenshot</a> that D.C. Health releases.
-                Hopefully in the future D.C. Health will commit to releasing this data, preferably in a tabular format rather than a screenshot of a bar chart.
-                When that happens, vaccination data will return to this website. Until then, the <a href="https://covid.cdc.gov/covid-data-tracker/#vaccinations"> CDC's COVID Data Tracker</a> is the best way to follow vaccine administration in D.C.
-                <br><br>
-                As of right now, there is no way to tell:
-                  <ul style="align:left; max-width:800px">
-                    <li>The total number of doses D.C. has administered (1st and 2nd doses)</li>
-                    <li>The overall pace of vaccination in D.C.</li>
-                    <li>How many doses have gone to residents vs. non-residents</li>
-                    <li>What percent of doses have been used</li>
-                    <li>The degree to which vaccination is slower on weeekends</li>
-                  </ul>
-
-              </p>
+              <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="750" width="750"></iframe>
           </div>
-          <!-- end vaccinations paragraph -->
+
+          <!-- home diamond -->
 
         </div>
         <!-- end home pane -->
@@ -147,16 +135,19 @@
           <!-- neighborhood data tabs -->
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-              <a class="nav-link active" id="neighborhood-data-overview-tab" data-toggle="tab" href="#neighborhood-data-overview" role="tab">Overview</a>
+              <a class="nav-link" id="neighborhood-data-total-positives-tab" data-toggle="tab" href="#neighborhood-data-total-positives" role="tab">New Positives</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data-total-positives-tab" data-toggle="tab" href="#neighborhood-data-total-positives" role="tab">New Positives Total</a>
+              <a class="nav-link" id="neighborhood-data-positives-per-10k-tab" data-toggle="tab" href="#neighborhood-data-positives-per-10k" role="tab">New Positives per 10k</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data-positives-per-10k-tab" data-toggle="tab" href="#neighborhood-data-positives-per-10k" role="tab">New Positives per 10,000 Residents</a>
+              <a class="nav-link" id="neighborhood-data-positivity-tab" data-toggle="tab" href="#neighborhood-data-positivity" role="tab">Positive Rate</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data-positivity-tab" data-toggle="tab" href="#neighborhood-data-positivity" role="tab">Test Positivity</a>
+              <a class="nav-link" id="neighborhood-data-tests-tab" data-toggle="tab" href="#neighborhood-data-tests" role="tab">New Tests</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="neighborhood-data-tests-per-10k-tab" data-toggle="tab" href="#neighborhood-data-tests-per-10k" role="tab">New Tests per 10k</a>
             </li>
           </ul>
           <!-- end neighborhood data tabs -->
@@ -190,6 +181,12 @@
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
               <a class="nav-link active" id="age-data-new-cases-tab" data-toggle="tab" href="#age-data-new-cases" role="tab"> New Cases </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="age-data-new-cases-census-tab" data-toggle="tab" href="#age-data-new-cases-census" role="tab"> New Cases (Census Style)</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="age-data-new-cases-census-per-10k-tab" data-toggle="tab" href="#age-data-new-cases-census-per-10k" role="tab"> New Cases per 10k (Census Style)</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="age-data-case-breakdown-tab" data-toggle="tab" href="#age-data-case-breakdown" role="tab"> Case Breakdown </a>
@@ -266,7 +263,7 @@
         </div>
         <!-- end race and ethnicity -->
 
-          <!-- schools -->
+        <!-- schools -->
         <div id="school-data-pane" class="data-pane" style="display: none">
           <!--  data tabs -->
           <ul class="nav nav-tabs nav-fill">
@@ -279,7 +276,25 @@
           </ul>
           <!-- end  data tabs -->
         </div>
-          <!-- end schools -->
+        <!-- end schools -->
+
+        <!-- vaccinations -->
+        <div id="vaccination-data-pane" class="data-pane" style="display: none">
+          <!--  data tabs -->
+          <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+              <a class="nav-link active" id="vaccination-data-cumulative-vaccinations-tab" data-toggle="tab" href="#cumulative-vaccinations" role="tab"> Cumulative Vaccinations </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="vaccination-data-new-vaccinations-tab" data-toggle="tab" href="#new-vaccinations" role="tab"> New Vaccinations </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="vaccination-data-all-vaccinations-tab" data-toggle="tab" href="#all-vaccinations" role="tab"> All Vaccinations </a>
+            </li>
+          </ul>
+          <!-- end  data tabs -->
+        </div>
+        <!-- end schools -->
 
 
         <!-- about pane -->

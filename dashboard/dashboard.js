@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-    $('#welcome').on('click', function(){
+    $('#home').on('click', function(){
         // reverse others
         $('.data-pane').css('display', 'none');
         $('.nav-link').removeClass('active');
@@ -12,8 +12,10 @@ $( document ).ready(function() {
         // set dashboard header
         $('#dashboard-header').text('Charting Coronavirus in D.C.');
 
-        // hide iframe
         $('#display-iframe').hide();
+        // set iframe
+        // $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
+        // $('#display-iframe').attr('height', '750');
 
         // set tab note
         var tab_note_html = '';
@@ -41,6 +43,7 @@ $( document ).ready(function() {
         $('#display-iframe').show();
         // set iframe
         $('#display-iframe').attr('src', './chart_htmls/cases.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -95,7 +98,8 @@ $( document ).ready(function() {
         // display iframe
         $('#display-iframe').show();
         // set iframe
-        $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
+        $('#display-iframe').attr('src', './chart_htmls/nhood_pc.html');
+        $('#display-iframe').attr('height', '700');
 
         // set tab note
         var tab_note_html = '';
@@ -106,18 +110,10 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
-    // display neighborhood overview graph on tab click
-    $('#neighborhood-data-overview-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/nhood_diamond_pc.html');
-
-        // set graph note
-        var graph_note = '';
-        $('#graph-note').html(graph_note);
-    });
-
     // display neighborhood total positives graph on tab click
     $('#neighborhood-data-total-positives-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_cases.html');
+        $('#display-iframe').attr('height', '700');
 
         // set graph note
         var graph_note = '';
@@ -127,6 +123,7 @@ $( document ).ready(function() {
     // display neighborhood positives per 10k graph on tab click
     $('#neighborhood-data-positives-per-10k-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_pc.html');
+        $('#display-iframe').attr('height', '700');
 
         // set graph note
         var graph_note = '';
@@ -136,6 +133,27 @@ $( document ).ready(function() {
     // display neighborhood positivity graph on tab click
     $('#neighborhood-data-positivity-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/nhood_positivity.html');
+        $('#display-iframe').attr('height', '700');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    //display neighborhood tests graph on tab click
+    $('#neighborhood-data-tests-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/nhood_tests.html');
+        $('#display-iframe').attr('height', '700');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    //display neighborhood tests per 10k graph on tab click
+    $('#neighborhood-data-tests-per-10k-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/nhood_tests_pc.html');
+        $('#display-iframe').attr('height', '700');
 
         // set graph note
         var graph_note = '';
@@ -160,6 +178,7 @@ $( document ).ready(function() {
        $('#display-iframe').show();
        // set iframe
        $('#display-iframe').attr('src', './chart_htmls/nhood_map_cases.html');
+       $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -218,6 +237,7 @@ $( document ).ready(function() {
         $('#display-iframe').show();
         // set iframe
         $('#display-iframe').attr('src', './chart_htmls/ages.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -231,6 +251,24 @@ $( document ).ready(function() {
     // display cases by age graph on tab click
     $('#age-data-new-cases-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/ages.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display cases by age graph on tab click
+    $('#age-data-new-cases-census-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/ages_census.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display cases by age graph on tab click
+    $('#age-data-new-cases-census-per-10k-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/ages_census_pc.html');
 
         // set graph note
         var graph_note = '';
@@ -273,6 +311,7 @@ $( document ).ready(function() {
         $('#display-iframe').show();
         // set iframe
         $('#display-iframe').attr('src', './chart_htmls/wards.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -381,6 +420,7 @@ $( document ).ready(function() {
         $('#display-iframe').show();
         // set iframe
         $('#display-iframe').attr('src', './chart_htmls/patients.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -445,6 +485,7 @@ $( document ).ready(function() {
         $('#display-iframe').show();
         // set iframe
         $('#display-iframe').attr('src', './chart_htmls/races_cases_pie.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Note: DC releases separate Race and Ethnicity case data, but combines Race and Ethnicity in death data.</em></p></div>';
@@ -489,7 +530,8 @@ $( document ).ready(function() {
         // display iframe
         $('#display-iframe').show();
         // set iframe
-        $('#display-iframe').attr('src', './chart_htmls/schools_map.html.html');
+        $('#display-iframe').attr('src', './chart_htmls/schools_map.html');
+        $('#display-iframe').attr('height', '575');
 
         // set tab note
         var tab_note_html = '';
@@ -515,6 +557,61 @@ $( document ).ready(function() {
 
         // set graph note
         var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.</em></p></div>';
+        $('#graph-note').html(graph_note);
+    });
+
+    $('#vaccination-data').on('click', function(){
+        // ward others
+        $('.data-pane').css('display', 'none');
+        $('.nav-link').removeClass('active');
+
+        // display neighborhood data
+        $('#vaccination-data-pane').css('display', 'block');
+        // make neightborhood nav active
+        $('#vaccination-data').addClass('active');
+        // set dashboard header
+        $('#dashboard-header').text('Vaccination Data');
+        // set first tab to active
+        $('#vaccination-data-cumulative-vaccinations-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
+        // set iframe
+        $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
+        $('#display-iframe').attr('height', '575');
+
+        // set tab note
+        var tab_note_html = '';
+        $('#tab-note').html(tab_note_html);
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-cumulative-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-new-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/new_vaccinations.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-all-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
+
+        // set graph note
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em>Many healthcare workers in D.C. reside in Virginia or Maryland.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
