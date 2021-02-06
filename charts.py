@@ -1403,8 +1403,11 @@ fig.write_image('chart_htmls/nhood_diamond_pc.png')
 ########## SCHOOL CASES ###########
 school_info.index = school_info['NAME']
 
+school_info =  school_info.join(school_cases['School'].value_counts().rename('Number of Notifications'))
+school_info['Number of Notifications']= school_info['Number of Notifications'].fillna(0).astype(int)
 
 school_cases = school_cases.join(school_info,on='School',how='right')
+
 
 school_cases['Resume Date'] = pd.to_datetime(school_cases['Resume Date'])
 school_cases['Most Recent Day of Case'] = pd.to_datetime(school_cases['Most Recent Day of Case'])
@@ -1418,22 +1421,13 @@ cases_not_closed = school_cases.loc[cases_not_closed_bool,:]
 open_schools_bool = school_info['NAME'].isin(cases_not_closed['School'])|school_info['NAME'].isin(cases_closed['School'])
 open_schools = school_info.loc[~open_schools_bool,:]
 
+
+
 fig = go.Figure()
 
-# Closed Schools
-# fig.add_trace(go.Scattermapbox(
-#     lat=noncares_schools['LATITUDE'],
-#     lon=noncares_schools['LONGITUDE'],
-#     mode='markers',
-#     marker=go.scattermapbox.Marker(
-#         size=10,
-#         color='grey',
-#     ),
-#     text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
-#     hoverinfo='text',
-#     name = 'Closed (No CARES Classroom)'
-# ))
-#
+fig = go.Figure()
+
+
 # Open Schools
 fig.add_trace(go.Scattermapbox(
     lat=open_schools['LATITUDE'],
@@ -1443,7 +1437,8 @@ fig.add_trace(go.Scattermapbox(
         size=10,
         color='green',
     ),
-    text='<b>'+open_schools['NAME']+'</b>',
+    text='<b>'+open_schools['NAME']+'</b>'+
+         '<br>Total Case Notifications: '+open_schools['Number of Notifications'].astype(str),
     hoverinfo='text',
     name = 'Open DCPS Schools'
 
@@ -1458,8 +1453,8 @@ fig.add_trace(go.Scattermapbox(
         color='orange',
     ),
     text='<b>'+cases_not_closed['NAME']+
-      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d')),#+
-      # '<br><i>Did not close</i>',
+      '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+      '<br>Total Case Notifications: '+cases_not_closed['Number of Notifications'].astype(str),
     hoverinfo='text',
     name = 'Case Notification in Last 2 Weeks'
 
@@ -1475,20 +1470,19 @@ fig.add_trace(go.Scattermapbox(
         color='red',
     ),
     text='<b>'+cases_closed['NAME']+
-         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d')),#+
-         # '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
-         # '<br>Total Case Notifications: '+cases_closed['Name']
+         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+         '<br>Total Case Notifications: '+cases_closed['Number of Notifications'].astype(str),
     hoverinfo='text',
     name = 'Classroom Transition to Online Learning Reported Due to COVID-19'
 ))
 
 fig.update_layout(
-    title='Test',
+    title='DCPS Map',
     autosize=True,
     hovermode='closest',
 #     showlegend=False,
     mapbox=dict(
-        accesstoken=open(".mapboxtoken").read(),
+        accesstoken='pk.eyJ1IjoicnN0YWhsaW4iLCJhIjoiY2tpdGE3ZHA4MDl5NzJxcGhodjIzNGJycyJ9.1E_uWlVkw2AeFfasLcQ50w',
         center=dict(
             lat=38.8977,
             lon=-77.0365
