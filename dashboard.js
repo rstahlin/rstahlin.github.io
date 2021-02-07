@@ -262,7 +262,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/ages_census.html');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<pn style="text-align:center"><em>Because D.C. overwites its per capita age data, this data is a recreation from a crowdsourced archive of downloaded files from the D.C. Box site.<br>Do you have a downloaded copy of <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">this spreadsheet</a> from before November?<br><a href="mailto:ryan.stahlin@gmail.com">Send me an email!</a></em></p>';
         $('#graph-note').html(graph_note);
     });
 
@@ -271,7 +271,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/ages_census_pc.html');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<p style="text-align:center"><em>Because D.C. overwites its per capita age data, this data is a recreation from a crowdsourced archive of downloaded files from the D.C. Box site.<br>Do you have a downloaded copy of <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">this spreadsheet</a> from before November?<br><a href="mailto:ryan.stahlin@gmail.com">Send me an email!</a></em></p>';
         $('#graph-note').html(graph_note);
     });
 
@@ -345,16 +345,16 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', '../chart_htmls/wards_positivity.html');
 
         // set graph text
-        var graph_note = 'p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.\'s ReOpening Metrics. </em> </p>'
+        var graph_note = '<p style="text-align:center"><em>Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.\'s ReOpening Metrics.</em></p>'
         $('#graph-note').html(graph_note);
     });
 
     // display graph on tab click
-    $('#ward-data-case-breakdown-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/wards_breakdown.htm');
+    $('#ward-data-test-breakdown-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/wards_tests_breakdown.html');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<p style="text-align:center"><em>The data on this chart answers the question: "Over the last 7 days, what percent of tests have gone to each Ward?"</em></p>';
         $('#graph-note').html(graph_note);
     });
 
@@ -393,14 +393,14 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
-    // display graph on tab click
-    $('#ward-data-case-breakdown-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/wards_breakdown.htm');
-
-        // set graph note
-        var graph_note = '';
-        $('#graph-note').html(graph_note);
-    });
+    // // display graph on tab click
+    // $('#ward-data-case-breakdown-tab').click(function(){
+    //     $('#display-iframe').attr('src', './chart_htmls/wards_breakdown.html');
+    //
+    //     // set graph note
+    //     var graph_note = '';
+    //     $('#graph-note').html(graph_note);
+    // });
 
 
     $('#hospitalization-data').on('click', function(){
@@ -611,7 +611,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
 
         // set graph note
-        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em>Many healthcare workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of healthcare workers in D.C. reside in Virginia or Maryland.<br>D.C. stopped releasing legible daily vaccination data after 1/16 and currently only releases data weekly.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 

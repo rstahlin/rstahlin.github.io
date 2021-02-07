@@ -727,8 +727,10 @@ fig.update_layout(
     ),
     barmode='overlay',
     legend=dict(
-        y=0.75,
-        x=1
+        y=-.1,
+        x=.5,
+        orientation='h',
+        xanchor='center'
     )
 )
 fig.write_html("./chart_htmls/patients.html")
@@ -768,8 +770,10 @@ fig.update_layout(
     ),
     barmode='overlay',
     legend=dict(
-        y=0.75,
-        x=1
+        y=-.1,
+        x=.5,
+        orientation='h',
+        xanchor='center'
     )
 )
 fig.write_html("./chart_htmls/patients_hospitalized.html")
@@ -808,8 +812,10 @@ fig.update_layout(
     ),
     barmode='overlay',
     legend=dict(
-        y=0.75,
-        x=1
+        y=-.1,
+        x=.5,
+        orientation='h',
+        xanchor='center'
     )
 )
 fig.write_html("./chart_htmls/patients_icu.html")
@@ -848,8 +854,10 @@ fig.update_layout(
     ),
     barmode='overlay',
     legend=dict(
-        y=0.75,
-        x=1
+        y=-.1,
+        x=.5,
+        orientation='h',
+        xanchor='center'
     )
 )
 fig.write_html("./chart_htmls/patients_ventilator.html")
@@ -1363,7 +1371,8 @@ for nhood in hood_data_pc.columns:
         )
 
 
-fig.update_layout(plot_bgcolor='rgba(0,0,0,0)',
+fig.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',
     hovermode='x',
     font=dict(
         family='Arial'
@@ -1395,9 +1404,11 @@ fig.update_yaxes(
     tickformat="0.1f",
     fixedrange = True
 )
-
-fig.write_html('chart_htmls/nhood_diamond_pc.html')
 fig.write_image('chart_htmls/nhood_diamond_pc.png')
+fig.update_layout(
+    paper_bgcolor='rgba(0,0,0,0)'
+)
+fig.write_html('chart_htmls/nhood_diamond_pc.html')
 
 
 ########## SCHOOL CASES ###########
@@ -1996,9 +2007,76 @@ fig.update_layout(
     ),
     title=dict(
         text='New Vaccinations by Ward',
+        x=0.5
     ),
 )
 fig.write_html('./chart_htmls/new_vaccinations.html')
+
+fig = go.Figure(layout=layout)
+residency=vax.loc[:,'Cumulative First Doses, Residents':'Cumulative First Doses, Not Reported'].dropna()
+delivered = vax.loc[:,'Total Delivered'].dropna()
+fig.add_trace(go.Scatter(
+    x = residency.index,
+    y = residency['Cumulative First Doses, Residents'],
+    name = 'Residents',
+    line=dict(
+        color='green',
+        width=0
+    ),
+    mode='lines',
+    stackgroup='group1',
+    text=residency['Cumulative First Doses, Residents'].divide(residency.sum(axis=1))*100,
+    hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
+))
+fig.add_trace(go.Scatter(
+    x = residency.index,
+    y = residency['Cumulative First Doses, Non-Residents'],
+    name = 'Non-Residents',
+    line=dict(
+        color='lightblue',
+        width=0
+    ),
+    mode='lines',
+    stackgroup='group1',
+    text=residency['Cumulative First Doses, Non-Residents'].divide(residency.sum(axis=1))*100,
+    hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
+))
+fig.add_trace(go.Scatter(
+    x = residency.index,
+    y = residency['Cumulative First Doses, Not Reported'],
+    name = 'Not Reported',
+    line=dict(
+        color='khaki',
+        width=0
+    ),
+    mode='lines',
+    stackgroup='group1',
+    text=residency['Cumulative First Doses, Not Reported'].divide(residency.sum(axis=1))*100,
+    hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
+))
+fig.add_trace(go.Scatter(
+    x = delivered.index,
+    y = delivered,
+    name = 'Total First Doses Delivered',
+    mode='lines',
+    line=dict(
+        color='grey',
+        width=4
+    ),
+    hovertemplate='As of 6am the Next Morning: %{y:.0i}'
+
+))
+fig.update_layout(
+    title=dict(
+        text='Cumulative First Doses Administered by Residency'
+    ),
+    legend=dict(
+        bgcolor='rgba(0,0,0,0)',
+    )
+)
+fig.write_html('./chart_htmls/all_vaccinations.html')
+
+
 
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Scatter(

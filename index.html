@@ -48,7 +48,7 @@
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">D.C. COVID </a>
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">D.C. COVID</a>
       <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -63,7 +63,7 @@
               <a class="nav-link active" id="home" href="#"> Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="basic-data" href="#basic-data"> Basic Data</a>
+              <a class="nav-link" id="basic-data" href="#basic-data"> Basic Data </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="neighborhood-data" href="#neighborhood-data"> Neighborhoods </a>
@@ -241,10 +241,10 @@
               <a class="nav-link" id="ward-data-positivity-tab" data-toggle="tab" href="#ward-data-positivity" role="tab"> Positivity by Ward</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="ward-data-case-breakdown-tab" data-toggle="tab" href="#ward-data-case-breakdown" role="tab">New Cases Breakdown</a>
+              <a class="nav-link" id="ward-data-tests-tab" data-toggle="tab" href="#ward-data-tests" role="tab"> Tests per 10,000 Residents </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="ward-data-tests-tab" data-toggle="tab" href="#ward-data-tests" role="tab"> Tests per 10,000 Residents </a>
+              <a class="nav-link" id="ward-data-test-breakdown-tab" data-toggle="tab" href="#ward-data-test-breakdown" role="tab">New Tests Breakdown</a>
             </li>
           </ul>
           <!-- end  data tabs -->
@@ -327,19 +327,23 @@
           <!-- insert about stuff here -->
             <h3>The Mission</h3>
               <p style="text-align:left">
-                DC releases a truly incredible amount of data every day on Covid-19. The problem? It's in a completely useless format, showing cumulative totals rather than daily changes.
-                The mission of this project is to fix that problem with interactive visualizations that help ordinary Washingtonians digest trends, risk, and inequities during the pandemic.
+                DC releases a truly incredible amount of data every day on Covid-19. The problem? It's in a pretty indecipherable format, showing cumulative totals rather than daily changes and located in multiple places.
+                The mission of this project is to display current and historical data with interactive visualizations that help ordinary Washingtonians digest trends, risk, and inequities during the pandemic.
               </p>
             <h3>The Data</h3>
               <p style="text-align:left">
-                This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
-                Neighborhood population data comes from combinations of the latest census tract level data from 2019.
-              <br>
-                Code and full data can be found on <a href="https://github.com/rstahlin/rstahlin.github.io"> Github.<a>
+                This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official</a> <a href="https://coronavirus.dc.gov/data">data</a> <a href="https://dcpsreopenstrong.com/updates/">sources</a> to show a more detailed account of the pandemic.
+                Neighborhood and Ward population data comes from combinations of the latest census tract level data from 2019.
+                <br><br>
+                The site is updated every day slightly after 10:00am, depending on when D.C. releases its daily data and personal availability.
+                <br><br>
+                Throughout the many months D.C. Health has been releasing data, there have been several (~ a dozen) copy/paste errors and obvious typos in the data. These have been painstakingly corrected as much as possible, but where a reasonable fix wasn't possible, the corrupted data was replaced with a simple average between the days before and after the error. This means you will not get the same results/charts if you were to recreate the on your own, which I don't recommend anyway, because it's hard to do!
+                <br><br>
+                Code and full data can be found on <a href="https://github.com/rstahlin/rstahlin.github.io">Github.<a>
               </p>
             <h3>The Team</h3>
               <p style="text-align:left">
-                This website is maintained and developed by Ryan Stahlin and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us </a> for comments, suggestions for new visualizations, questions about the data, or media inquiries.
+                The website and data are developed and maintained by Ryan Stahlin of NW D.C. and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us </a> for comments, suggestions for new visualizations, questions about the data, or media inquiries.
               </p>
         </div>
         <!-- end about pane -->
