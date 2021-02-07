@@ -1127,7 +1127,7 @@ for i in range(51):
     ))
 fig.update_yaxes(
     rangemode="nonnegative",
-    range=[0,350]
+    range=[0,450]
 )
 fig.update_xaxes(range=['2020-05-13',data.index[-1]])
 fig.update_layout(
@@ -1403,53 +1403,46 @@ fig.write_image('chart_htmls/nhood_diamond_pc.png')
 ########## SCHOOL CASES ###########
 school_info.index = school_info['NAME']
 
-cares_schools = school_info.loc[school_info['CARES Classroom']==True,:]
-noncares_schools = school_info.loc[school_info['CARES Classroom']==False,:]
+school_info =  school_info.join(school_cases['School'].value_counts().rename('Number of Notifications'))
+school_info['Number of Notifications']= school_info['Number of Notifications'].fillna(0).astype(int)
 
 school_cases = school_cases.join(school_info,on='School',how='right')
+
 
 school_cases['Resume Date'] = pd.to_datetime(school_cases['Resume Date'])
 school_cases['Most Recent Day of Case'] = pd.to_datetime(school_cases['Most Recent Day of Case'])
 school_cases['Day Announced'] = pd.to_datetime(school_cases['Day Announced'])
 
 cases_closed = school_cases.loc[school_cases['Resume Date']>np.datetime64('today'),:]
-
 cases_not_closed_bool = ((school_cases['Most Recent Day of Case']-np.datetime64('today'))>np.timedelta64(-14, 'D'))&(school_cases['Resume Date'].isna())
+
 cases_not_closed = school_cases.loc[cases_not_closed_bool,:]
 
-open_schools_bool = cares_schools['NAME'].isin(cases_not_closed['School'])|cares_schools['NAME'].isin(cases_closed['School'])
-open_schools = cares_schools.loc[~open_schools_bool,:]
+open_schools_bool = school_info['NAME'].isin(cases_not_closed['School'])|school_info['NAME'].isin(cases_closed['School'])
+open_schools = school_info.loc[~open_schools_bool,:]
+
+
 
 fig = go.Figure()
 
-# Closed Schools
-# fig.add_trace(go.Scattermapbox(
-#     lat=noncares_schools['LATITUDE'],
-#     lon=noncares_schools['LONGITUDE'],
-#     mode='markers',
-#     marker=go.scattermapbox.Marker(
-#         size=10,
-#         color='grey',
-#     ),
-#     text='<b>'+noncares_schools['NAME']+'</b><br><i>Closed</i>',
-#     hoverinfo='text',
-#     name = 'Closed (No CARES Classroom)'
-# ))
-#
-# # Open Schools
-# fig.add_trace(go.Scattermapbox(
-#     lat=open_schools['LATITUDE'],
-#     lon=open_schools['LONGITUDE'],
-#     mode='markers',
-#     marker=go.scattermapbox.Marker(
-#         size=10,
-#         color='green',
-#     ),
-#     text='<b>'+open_schools['NAME']+'</b>',
-#     hoverinfo='text',
-#     name = 'CARES Classroom(s) Open'
-#
-# ))
+fig = go.Figure()
+
+
+# Open Schools
+fig.add_trace(go.Scattermapbox(
+    lat=open_schools['LATITUDE'],
+    lon=open_schools['LONGITUDE'],
+    mode='markers',
+    marker=go.scattermapbox.Marker(
+        size=10,
+        color='green',
+    ),
+    text='<b>'+open_schools['NAME']+'</b>'+
+         '<br>Total Case Notifications: '+open_schools['Number of Notifications'].astype(str),
+    hoverinfo='text',
+    name = 'Open DCPS Schools'
+
+))
 # Open Schools, Cases in the last 2 weeks
 fig.add_trace(go.Scattermapbox(
     lat=cases_not_closed['LATITUDE'],
@@ -1461,9 +1454,9 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+cases_not_closed['NAME']+
       '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-      '<br><i>Did not close all CARES Classrooms</i>',
+      '<br>Total Case Notifications: '+cases_not_closed['Number of Notifications'].astype(str),
     hoverinfo='text',
-    name = 'CARES Classroom(s) Open, Case Reported in Last 2 Weeks'
+    name = 'Case Notification in Last 2 Weeks'
 
 ))
 
@@ -1477,19 +1470,19 @@ fig.add_trace(go.Scattermapbox(
         color='red',
     ),
     text='<b>'+cases_closed['NAME']+
-         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d')),#+
-         # '<br>Reopening: '+cases_closed['Resume Date'].apply(lambda x: x.strftime('%m/%d')),
+         '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
+         '<br>Total Case Notifications: '+cases_closed['Number of Notifications'].astype(str),
     hoverinfo='text',
-    name = 'CARES Classroom(s) Closed Due to COVID-19'
+    name = 'Classroom Transition to Online Learning Reported Due to COVID-19'
 ))
 
 fig.update_layout(
-    title='Test',
+    title='DCPS Map',
     autosize=True,
     hovermode='closest',
 #     showlegend=False,
     mapbox=dict(
-        accesstoken=open(".mapboxtoken").read(),
+        accesstoken='pk.eyJ1IjoicnN0YWhsaW4iLCJhIjoiY2tpdGE3ZHA4MDl5NzJxcGhodjIzNGJycyJ9.1E_uWlVkw2AeFfasLcQ50w',
         center=dict(
             lat=38.8977,
             lon=-77.0365
@@ -1830,6 +1823,182 @@ fig.write_html("./chart_htmls/mpd_cases.html")
 #     ),
 # )
 # fig.write_html('./chart_htmls/herd_immunity.html')
+
+vax_ward = vax.loc[:,'Ward 1':'All Wards'].dropna()
+vax_ward_pc = vax_ward.divide(ward_demos['Population (2019 ACS)'])
+vax_ward_65 = vax.loc[:,'Ward 1 65+':'All Wards 65+'].dropna()
+vax_ward_65.columns = vax_ward.columns
+vax_ward_65_pc = vax_ward_65.divide(ward_demos['65+ (2019 ACS)'])
+
+fig = make_subplots(rows=1,cols=2,subplot_titles=['% Fully Vaccinated','% 65+ Population Recieved First Dose'],shared_xaxes=True,)
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(
+        go.Scatter(
+            x=vax_ward_pc.index,
+            y=vax_ward_pc[ward],
+#             mode='lines',
+            line=dict(
+                color=PASTELS[i]
+            ),
+            name=ward,
+            legendgroup='group'+str(i+1),
+        ),
+        row=1,
+        col=1,
+    )
+    i+=1
+fig.add_trace(
+    go.Scatter(
+        x=vax_ward_pc.index,
+        y=vax_ward_pc['All Wards'],
+        line=dict(
+            color='black',
+            width=2,
+        ),
+        name='District-Wide',
+        legendgroup='group'+str(i+1),
+    ),
+    row=1,
+    col=1
+)
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(
+        go.Scatter(
+            x=vax_ward_65_pc.index,
+            y=vax_ward_65_pc[ward],
+#             mode='lines',
+            line=dict(
+                color=PASTELS[i]
+            ),
+            name=ward,
+            legendgroup='group'+str(i+1),
+            showlegend = False
+        ),
+        row=1,
+        col=2,
+    )
+    i+=1
+fig.add_trace(
+    go.Scatter(
+        x=vax_ward_65_pc.index,
+        y=vax_ward_65_pc['All Wards'],
+        line=dict(
+            color='black',
+            width=3,
+        ),
+        name='District-Wide',
+        legendgroup='group'+str(i+1),
+        showlegend = False,
+    ),
+    row=1,
+    col=2
+)
+fig.update_yaxes(
+    rangemode = 'tozero',
+    showgrid=True,
+    gridcolor='grey',
+    tickformat=".1%",
+    gridwidth=1
+)
+fig.update_xaxes(
+    showspikes=True,
+    spikedash = 'solid',
+    spikemode  = 'across',
+    spikesnap = 'cursor',
+    spikecolor = 'black',
+    spikethickness = 1,
+    ticks='outside'
+)
+fig.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',
+
+    spikedistance =  -1,
+    legend=dict(
+        yanchor="middle",
+        y=.5,
+        xanchor="center",
+        x=1.2,
+        bgcolor='rgba(0,0,0,0)'
+    ),
+    hovermode='x',
+    font=dict(
+        family='Arial',
+        size=14
+    ),
+    title=dict(
+        text='Cumulative Vaccinations by Ward',
+        x=0.5
+    ),
+
+)
+fig.write_html('./chart_htmls/cumulative_vaccinations.html')
+
+
+fig = make_subplots(rows=1,cols=2,subplot_titles=['New Second Doses Administered','New First Doses Administered, 65+ Population'],shared_xaxes=True,)
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(
+        go.Bar(
+            x=vax_ward.index,
+            y=vax_ward[ward].diff(),
+            marker_color=PASTELS[i],
+            name=ward,
+            legendgroup='group'+str(i+1),
+        ),
+        row=1,
+        col=1,
+    )
+    i+=1
+
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(
+        go.Bar(
+            x=vax_ward_65.index,
+            y=vax_ward_65[ward].diff(),
+            marker_color=PASTELS[i],
+            name=ward,
+            legendgroup='group'+str(i+1),
+            showlegend = False
+        ),
+        row=1,
+        col=2,
+    )
+    i+=1
+
+fig.update_yaxes(
+    rangemode = 'tozero',
+    showgrid=True,
+    gridcolor='grey',
+#     tickformat=".1%",
+    gridwidth=1
+)
+fig.update_xaxes(
+    ticks='outside'
+)
+fig.update_layout(
+    barmode='stack',
+    plot_bgcolor='rgba(0,0,0,0)',
+    spikedistance =  -1,
+    legend=dict(
+        yanchor="middle",
+        y=.5,
+        xanchor="center",
+        x=1.2,
+        bgcolor='rgba(0,0,0,0)'
+    ),
+    hovermode='x',
+    font=dict(
+        family='Arial',
+        size=14
+    ),
+    title=dict(
+        text='New Vaccinations by Ward',
+    ),
+)
+fig.write_html('./chart_htmls/new_vaccinations.html')
 
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Scatter(
