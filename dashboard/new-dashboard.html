@@ -4,9 +4,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="author" content="Noah Marcus, Ryan Stahlin">
     <meta name="generator" content="Jekyll v4.1.1">
     <title>D.C. COVID-19 Dashboard</title>
+
+    <meta charset="utf-8">
+    <title>D.C. COVID-19 Dashboard</title>
+    <link rel="icon" type="image/png" href="./chart_htmls/icon.png"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X9025LNJ0T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-X9025LNJ0T');
+    </script>
+
+    <!-- Twitter Card preview meta -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@stalebread14"/>
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
+    <meta name="twitter:title" content="D.C. COVID-19 Dashboard"/>
+
+    <!-- OG preview meta -->
+    <meta property='og:title' content='D.C. COVID-19 Dashboard'/>
+    <meta property="og:type" content='website'/>
+    <meta property="og:url" content="https://dccovid.com"/>
+    <meta property='og:image' content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
+    <meta property='og:image:width' content="750"/>
+    <meta property='og:image:height' content="750"/>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
@@ -36,31 +63,31 @@
               <a class="nav-link active" id="home" href="#"> Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="basic-data" href="#basic"> Basic Data</a>
+              <a class="nav-link" id="basic-data" href="#basic-data"> Basic Data</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data" href="#neighborhoods"> Neighborhoods </a>
+              <a class="nav-link" id="neighborhood-data" href="#neighborhood-data"> Neighborhoods </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-maps" href="#maps"> Maps </a>
+              <a class="nav-link" id="neighborhood-maps" href="#neighborhood-maps"> Maps </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="age-data" href="#ages"> Ages </a>
+              <a class="nav-link" id="age-data" href="#age-data"> Ages </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="ward-data" href="#wards"> Wards </a>
+              <a class="nav-link" id="ward-data" href="#ward-data"> Wards </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="hospitalization-data" href="#hospitalization"> Hospitalization </a>
+              <a class="nav-link" id="hospitalization-data" href="#hospitalization-data"> Hospitalization </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="race-and-ethnicity-data" href="#race-and-ethnicity"> Race and Ethnicity </a>
+              <a class="nav-link" id="race-and-ethnicity-data" href="#race-and-ethnicity-data"> Race and Ethnicity </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="school-data" href="#schools"> DC Public Schools </a>
+              <a class="nav-link" id="school-data" href="#school-data"> DC Public Schools </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="vaccination-data" href="#vaccinations"> Vaccinations </a>
+              <a class="nav-link" id="vaccination-data" href="#vaccination-data"> Vaccinations </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="about" href="#about"> About </a>
@@ -86,10 +113,7 @@
             <p style="text-align:center">
               Want to learn more about the city's response? Visit <a href="https://coronavirus.dc.gov/"> D.C.'s official website. </a><br>
               <br>
-              <em>
-                This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
-                Neighborhood population data comes from combinations of the latest census tract level data from 2019.
-              </em>
+
             </p>
             <p style="text-align:center">Last updated <span id="demo"></span>.</p>
               <script>
@@ -141,7 +165,7 @@
               <a class="nav-link" id="neighborhood-data-positives-per-10k-tab" data-toggle="tab" href="#neighborhood-data-positives-per-10k" role="tab">New Positives per 10k</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="neighborhood-data-positivity-tab" data-toggle="tab" href="#neighborhood-data-positivity" role="tab">Positive Rate</a>
+              <a class="nav-link" id="neighborhood-data-positivity-tab" data-toggle="tab" href="#neighborhood-data-positivity" role="tab">Positivity</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="neighborhood-data-tests-tab" data-toggle="tab" href="#neighborhood-data-tests" role="tab">New Tests</a>
@@ -304,9 +328,17 @@
               <p style="text-align:left">
                 DC releases a truly incredible amount of data every day on Covid-19. The problem? It's in a completely useless format, showing cumulative totals rather than daily changes.
                 The mission of this project is to fix that problem with interactive visualizations that help ordinary Washingtonians digest trends, risk, and inequities during the pandemic.
+              </p>
+            <h3>The Data</h3>
+              <p style="text-align:left">
+                This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official data portal</a> to show a more detailed account of the pandemic.
+                Neighborhood population data comes from combinations of the latest census tract level data from 2019.
+              <br>
+                Code and full data can be found on <a href="https://github.com/rstahlin/rstahlin.github.io"> Github.<a>
+              </p>
             <h3>The Team</h3>
               <p style="text-align:left">
-                This website is maintained and developed by Ryan Stahlin and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us </a> for comments, suggestions, data questions, or media inquiries.
+                This website is maintained and developed by Ryan Stahlin and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us </a> for comments, suggestions for new visualizations, questions about the data, or media inquiries.
               </p>
         </div>
         <!-- end about pane -->

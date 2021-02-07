@@ -94,7 +94,7 @@ $( document ).ready(function() {
         // set dashboard header
         $('#dashboard-header').text('Neighborhood Data');
         // set first tab to active
-        $('#neighborhood-data-overview-tab').addClass('active');
+        $('#neighborhood-data-total-positives-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
         // set iframe
@@ -102,7 +102,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('height', '700');
 
         // set tab note
-        var tab_note_html = '';
+        var tab_note_html = '<p style="text-align:center">Select a neighborhood in the legend to activate it on the chart</p>';
         $('#tab-note').html(tab_note_html);
 
         // set graph note
