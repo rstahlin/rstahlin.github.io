@@ -1472,7 +1472,7 @@ fig.add_trace(go.Scattermapbox(
       '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
       '<br>Total Case Notifications: '+cases_not_closed['Number of Notifications'].astype(str),
     hoverinfo='text',
-    name = 'Case Notification in Last 2 Weeks'
+    name = 'Case Reported on Campus in Last 2 Weeks'
 
 ))
 

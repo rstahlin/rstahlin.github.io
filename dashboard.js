@@ -580,7 +580,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('height', '575');
 
         // set tab note
-        var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">Ward 3\'s fully vaccinated rate fell without explanation in the latest batch of data released by D.C. on 2/8/2021. This could be a typo or a correction from the previous week\'s data.</p></div>';
+        var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">Ward 3\'s fully vaccinated rate fell in the latest batch of data released by D.C. on 2/8/2021 due to a correction from the previous week\'s data.</p></div>';
         $('#tab-note').html(tab_note_html);
 
         // set graph note
