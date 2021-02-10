@@ -274,9 +274,10 @@ fig.update_layout(
         text='Case Breakdown by Age'
     ),
     legend=dict(
-        y=-.2,
-        x=0,
-        bgcolor='rgba(0,0,0,0)'
+        y=.5,
+        x=1,
+        bgcolor='rgba(0,0,0,0)',
+        yanchor='middle'
     )
 )
 fig.write_html("./chart_htmls/ages_cases_pie.html")
@@ -297,9 +298,10 @@ fig.update_layout(
         text='Death Breakdown by Age'
     ),
     legend=dict(
-        y=-.2,
-        x=0,
-        bgcolor='rgba(0,0,0,0)'
+        y=.5,
+        x=1,
+        bgcolor='rgba(0,0,0,0)',
+        yanchor='middle'
     )
 )
 fig.write_html("./chart_htmls/ages_deaths_pie.html")
@@ -432,7 +434,7 @@ fig.update_layout(
     ),
     legend=dict(
         y=-.2,
-        x=.5,
+        x=.0,
         bgcolor='rgba(0,0,0,0)'
     )
 )
