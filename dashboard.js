@@ -615,6 +615,51 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
+    $('#facility-data').on('click', function(){
+        // ward others
+        $('.data-pane').css('display', 'none');
+        $('.nav-link').removeClass('active');
+
+        // display neighborhood data
+        $('#facility-data-pane').css('display', 'block');
+        // make neightborhood nav active
+        $('#facility-data').addClass('active');
+        // set dashboard header
+        $('#dashboard-header').text('Nursing Facility and Assisted Living Data');
+        // set first tab to active
+        $('#facility-data-snf-cases-tab').addClass('active');
+        // display iframe
+        $('#display-iframe').show();
+        // set iframe
+        $('#display-iframe').attr('src', './chart_htmls/snf_cases.html');
+        $('#display-iframe').attr('height', '575');
+
+        // set tab note
+        var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">Data is released weekly and is self reported by facilities and residences.</p></div>';
+        $('#tab-note').html(tab_note_html);
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#facility-data-snf-cases-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/snf_cases.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#facility-data-alr-cases-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/alr_cases.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
     $('#about').on('click', function(){
         // reverse others
         $('.data-pane').css('display', 'none');

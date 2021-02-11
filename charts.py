@@ -65,8 +65,10 @@ def load_data():
     dccovid['Unknown Ward Tests'] = pd.to_numeric(dccovid['Unknown Ward Tests'])
     hood_demos = pd.read_csv(r'nhood_demographics.csv',index_col='Neighborhood Name')
     ward_demos = pd.read_csv(r'ward_demographics.csv', index_col='Ward')
-    nursing_data = pd.read_csv(r'nursing_home_data.csv')
-    nursing_keys = pd.read_csv(r'nursing_home_keys.csv')
+    snf_cases = pd.read_csv(r'snf_cases.csv')
+    snf_keys = pd.read_csv(r'snf_keys.csv')
+    al_cases = pd.read_csv(r'assisted_living_cases.csv')
+    al_keys = pd.read_csv(r'assisted_living_keys.csv')
     school_info = pd.read_csv(r'schools.csv')
     school_cases = pd.read_csv(r'school_cases.csv')
     vax = pd.read_csv(r'vaccinations.csv')
@@ -74,10 +76,10 @@ def load_data():
     with urlopen('https://opendata.arcgis.com/datasets/de63a68eb7674548ae0ac01867123f7e_13.geojson') as response:
         hood_map = json.load(response)
 
-    return dccovid, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys,school_info, school_cases, vax
+    return dccovid, hood_demos, ward_demos, hood_map, snf_cases, snf_keys, al_cases, al_keys,school_info, school_cases, vax
 
 # Load data into the dataframe.
-data, hood_demos, ward_demos, hood_map, nursing_data, nursing_keys, school_info, school_cases, vax  = load_data()
+data, hood_demos, ward_demos, hood_map, snf_cases, snf_keys, al_cases, al_keys, school_info, school_cases, vax  = load_data()
 # Define positive tests in DC
 dc_pos = data['Positives'].diff().rolling(7).sum().divide(data['Tested'].diff().rolling(7).sum())
 # dc_pos = data.[:,'Ward 1':'Unknown Ward'].diff().rolling('7D').sum().divide(data.loc[:,'Ward 1 Tests':'Unknown Ward Tests'].diff().rolling('7D').sum())
@@ -1498,7 +1500,6 @@ fig.update_layout(
     title='DCPS Map',
     autosize=True,
     hovermode='closest',
-#     showlegend=False,
     mapbox=dict(
         accesstoken='pk.eyJ1IjoicnN0YWhsaW4iLCJhIjoiY2tpdGE3ZHA4MDl5NzJxcGhodjIzNGJycyJ9.1E_uWlVkw2AeFfasLcQ50w',
         center=dict(
@@ -1560,14 +1561,6 @@ fig.add_trace(go.Bar(
     marker_color='rgb(0, 82, 130)'
 ))
 
-# fig.add_trace(go.Scatter(
-#     x=data['Date'],
-#     y=data['DCPS Students in Quarrantine'],
-#     name = 'DCPS Students in Quarrantine',
-#     # mode='none',
-#     marker_color = '#0092e8',
-#     fill='tonexty'
-# ))
 fig.update_layout(
     title=dict(
         text='New DC Public School Cases'
@@ -2132,3 +2125,69 @@ fig.update_layout(
     )
 )
 fig.write_html('./chart_htmls/wmata_ridership.html')
+
+
+snf_cases['Date'] = pd.to_datetime(snf_cases['Date'])
+snf_cases['Skilled Nursing Facility'] = snf_cases['Skilled Nursing Facility'].map(dict(zip(snf_keys['Name'],snf_keys['Data Name'])))
+snf_pivot_cases = snf_cases.pivot(index='Date',columns='Skilled Nursing Facility',values='Total Resident Positive Cases')
+
+fig = go.Figure(layout=layout)
+i=0
+snf_pivot_cases_daily = snf_pivot_cases.diff().replace(to_replace=0,value=np.nan)
+for snf in snf_pivot_cases.columns:
+    fig.add_trace(go.Bar(
+        x=snf_pivot_cases_daily.index,
+        y=snf_pivot_cases_daily[snf],
+        name=snf,
+        marker_color=LIGHT24[i],
+    ))
+    i+=1
+fig.update_layout(
+    barmode='stack',
+    legend=dict(
+        orientation='h',
+        y=-.2,
+        x=.5,
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+    ),
+    xaxis=dict(
+        showspikes=False
+    ),
+    title=dict(
+        text='Weekly Cases at Select Skilled Nursing Facilities'
+    )
+)
+fig.write_html('./chart_htmls/snf_cases.html')
+
+al_cases['Date'] = pd.to_datetime(al_cases['Date'])
+al_cases['Assisted Living Residence'] = al_cases['Assisted Living Residence'].map(dict(zip(al_keys['Data Name'],al_keys['Name'])))
+al_pivot_cases = al_cases.pivot(index='Date',columns='Assisted Living Residence',values='Total Resident Positive Cases')
+fig = go.Figure(layout=layout)
+i=0
+al_pivot_cases_daily = al_pivot_cases.diff().replace(to_replace=0,value=np.nan)
+for al in al_pivot_cases.columns:
+    fig.add_trace(go.Bar(
+        x=al_pivot_cases_daily.index,
+        y=al_pivot_cases_daily[al],
+        name=al,
+        marker_color=LIGHT24[i],
+    ))
+    i+=1
+fig.update_layout(
+    barmode='stack',
+    legend=dict(
+        orientation='h',
+        y=-.2,
+        x=.5,
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+    ),
+    xaxis=dict(
+        showspikes=False
+    ),
+    title=dict(
+        text='Weekly Cases at Select Assisted Living Residences'
+    )
+)
+fig.write_html('./chart_htmls/alr_cases.html')
