@@ -1422,6 +1422,9 @@ fig.write_html('chart_htmls/nhood_diamond_pc.html')
 
 ########## SCHOOL CASES ###########
 school_info.index = school_info['NAME']
+school_info = school_info[school_info['School ID'].notna()]
+school_info['Students Scheduled for In-Person Programming in Term 3 (As of 2.4.21)'] = school_info['Students Scheduled for In-Person Programming in Term 3 (As of 2.4.21)'].astype('Int64')
+school_info['TOTAL_STUD']= school_info['TOTAL_STUD'].astype('Int64')
 
 school_info =  school_info.join(school_cases['School'].value_counts().rename('Number of Notifications'))
 school_info['Number of Notifications']= school_info['Number of Notifications'].fillna(0).astype(int)
@@ -1458,7 +1461,10 @@ fig.add_trace(go.Scattermapbox(
         color='green',
     ),
     text='<b>'+open_schools['NAME']+'</b>'+
-         '<br>Total Case Notifications: '+open_schools['Number of Notifications'].astype(str),
+         '<br>Total Case Notifications: '+open_schools['Number of Notifications'].astype(str)+
+         '<br>'+open_schools['Students Scheduled for In-Person Programming in Term 3 (As of 2.4.21)'].astype(str)+'/'+open_schools['TOTAL_STUD'].astype(str)+
+         ' Students Scheduled for<br>In-Person Learning'+
+         '<br>Open '+open_schools['Days per Week'],
     hoverinfo='text',
     name = 'Open DCPS Schools'
 
@@ -1474,7 +1480,10 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+cases_not_closed['NAME']+
       '</b><br>Case Last Reported on Campus: '+cases_not_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-      '<br>Total Case Notifications: '+cases_not_closed['Number of Notifications'].astype(str),
+      '<br>Total Case Notifications: '+cases_not_closed['Number of Notifications'].astype(str)+
+      '<br>'+cases_not_closed['Students Scheduled for In-Person Programming in Term 3 (As of 2.4.21)'].astype(str)+'/'+cases_not_closed['TOTAL_STUD'].astype(str)+
+      ' Students Scheduled for<br>In-Person Learning'+
+      '<br>Open '+cases_not_closed['Days per Week'],
     hoverinfo='text',
     name = 'Case Reported on Campus in Last 2 Weeks'
 
@@ -1491,7 +1500,10 @@ fig.add_trace(go.Scattermapbox(
     ),
     text='<b>'+cases_closed['NAME']+
          '</b><br>Case Last Reported on Campus: '+cases_closed['Most Recent Day of Case'].apply(lambda x: x.strftime('%m/%d'))+
-         '<br>Total Case Notifications: '+cases_closed['Number of Notifications'].astype(str),
+         '<br>Total Case Notifications: '+cases_closed['Number of Notifications'].astype(str)+
+         '<br>'+cases_closed['Students Scheduled for In-Person Programming in Term 3 (As of 2.4.21)'].astype(str)+'/'+cases_closed['TOTAL_STUD'].astype(str)+
+         ' Students Scheduled for<br>In-Person Learning'+
+         '<br>Open '+cases_closed['Days per Week'],
     hoverinfo='text',
     name = 'Classroom Transition to Online Learning Reported Due to COVID-19'
 ))
@@ -1501,7 +1513,7 @@ fig.update_layout(
     autosize=True,
     hovermode='closest',
     mapbox=dict(
-        accesstoken='pk.eyJ1IjoicnN0YWhsaW4iLCJhIjoiY2tpdGE3ZHA4MDl5NzJxcGhodjIzNGJycyJ9.1E_uWlVkw2AeFfasLcQ50w',
+        accesstoken=open(".mapboxtoken").read(),
         center=dict(
             lat=38.8977,
             lon=-77.0365
