@@ -98,7 +98,7 @@ $( document ).ready(function() {
         // display iframe
         $('#display-iframe').show();
         // set iframe
-        $('#display-iframe').attr('src', './chart_htmls/nhood_pc.html');
+        $('#display-iframe').attr('src', './chart_htmls/nhood_cases.html');
         $('#display-iframe').attr('height', '700');
 
         // set tab note
@@ -538,7 +538,7 @@ $( document ).ready(function() {
         $('#tab-note').html(tab_note_html);
 
         // set graph note
-        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.</em></p></div>';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.<br>Total number of students comes from OpenData and may not be up to date.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
