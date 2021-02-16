@@ -21,6 +21,17 @@
       gtag('config', 'G-X9025LNJ0T');
     </script>
 
+    <!-- Twitter universal website tag code -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+    },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+    a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+    // Insert Twitter Pixel ID and Standard Event data below
+    twq('init','o5ijw');
+    twq('track','PageView');
+  </script>
+  <!-- End Twitter universal website tag code -->
+
     <!-- Twitter Card preview meta -->
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:creator" content="@stalebread14"/>
@@ -116,16 +127,16 @@
             <p style="text-align:center">
               Want to learn more about the city's response? Visit <a href="https://coronavirus.dc.gov/"> D.C.'s official website. </a><br>
               <br>
-              <!-- <h2 style='text-align:center;'><b>As of 10:45, DC has not released the tabular data for 2/12 needed to create the visualizations for this site.</b></h2> -->
+              <h2 style='text-align:center;'><b>As of 10:45, DC has not released testing or tabular neighborhood data from 2/15.</b></h2>
             </p>
             <p style="text-align:center">Last updated <span id="demo"></span>.</p>
               <script>
                 document.getElementById("demo").innerHTML = document.lastModified;
               </script>
             </p>
-            <div class="d-flex flex-column align-items-center justify-content-center">
+            <!-- <div class="d-flex flex-column align-items-center justify-content-center">
                 <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="750" width="750"></iframe>
-            </div>
+            </div> -->
           </div>
           <!-- end home -->
 
