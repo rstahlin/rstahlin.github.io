@@ -1,4 +1,9 @@
 $( document ).ready(function() {
+    // $(function() {
+    //     var url = window.location.href;
+    //     var page = url.match(/page=([^\?]+)/)[1];
+    //     if (page=="reel") { runAccordion(1); }
+    // });
 
     $('#home').on('click', function(){
         // reverse others
