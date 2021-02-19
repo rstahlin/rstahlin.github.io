@@ -907,25 +907,25 @@ for plotdata in map_list:
         pos_this_week,
         geojson=hood_map,
         color=plotdata,
-       locations="OBJECTID",
-       featureidkey="properties.OBJECTID",
-       center={"lat": 38.91,
-               "lon": -77.03
-               },
-       color_continuous_scale="Hot_r",
-       range_color=range_color,
-       opacity=0.5,
-       mapbox_style="carto-positron",
-       zoom=10,
-       hover_name='Neighborhood',
-       hover_data={'Neighborhood':False,
-                   'OBJECTID':False,
-                   'Positives This Week':True,
-                   'Tests This Week':True,
-                   'Population':True,
-                   'Positivity This Week':':.2%',
-                   'Positives This Week Per 10k':':.1f'
-                   }
+        locations="OBJECTID",
+        featureidkey="properties.OBJECTID",
+        center={"lat": 38.91,
+                "lon": -77.03
+                },
+        color_continuous_scale="Hot_r",
+        range_color=range_color,
+        opacity=0.5,
+        mapbox_style="carto-positron",
+        zoom=10,
+        hover_name='Neighborhood',
+        hover_data={'Neighborhood':False,
+                    'OBJECTID':False,
+                    'Positives This Week':True,
+                    'Tests This Week':True,
+                    'Population':True,
+                    'Positivity This Week':':.2%',
+                    'Positives This Week Per 10k':':.1f'
+                    }
        )
     fig.update_layout(margin={
         "r":0,
@@ -1742,110 +1742,110 @@ fig.write_html("./chart_htmls/mpd_cases.html")
 #
 #
 #
-# dc_pop = ward_demos.loc['All Wards','Population (DC Data)']
-#
-# fig = go.Figure(layout=layout)
-# fig.add_trace(go.Bar(
-#     x=data['Date'],
-#     y=(data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0))/dc_pop*100,
-#     name='Not Cleared from Isolation',
-#     marker_color='gold',
-#     hovertemplate =
-#         '% Not Cleared: %{y:.2f}%'+'<br>'+
-#         'Total: %{text:.0f}',
-#     text =data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0)
-# ))
-# fig.add_trace(go.Bar(
-#     x=data['Date'],
-#     y=data['Recoveries']/dc_pop*100,
-#     name='Cumulative Recoveries',
-#     marker_color='rgb(158,202,225)',
-#     hovertemplate =
-#         '% Cleared from Isolation: %{y:.2f}%'+'<br>'+
-#         'Total: %{text:.0f}',
-#     text = data['Recoveries']
-# ))
-# fig.add_trace(go.Bar(
-#     x=data['Date'],
-#     y=data['Deaths']/dc_pop*100,
-#     name='Cumulative Deaths',
-#     marker_color='maroon',
-#     hovertemplate =
-#         '% Died of COVID-19: %{y:.2f}%'+'<br>'+
-#         'Total: %{text:.0f}',
-#     text = data['Deaths']
-# ))
-# fig.add_trace(go.Bar(
-#     x=vax['Date'],
-#     y=(vax['Resident First Dose Cumulative']-vax['Resident Second Dose Cumulative'])/dc_pop*100,
-#     name='First Dose Only',
-#     marker_color='rgb(184, 230, 186)',
-#     hovertemplate =
-#         '% Vaccinated with Only First Dose: %{y:.2f}%'+'<br>'+
-#         'Total: %{text:.0f}',
-#     text = vax['Resident First Dose Cumulative']-vax['Resident Second Dose Cumulative']
-# ))
-# fig.add_trace(go.Bar(
-#     x=vax['Date'],
-#     y=vax['Resident Second Dose Cumulative']/dc_pop*100,
-#     name='Fully Vaccinated',
-#     marker_color='rgb(44, 191, 50)',
-#     hovertemplate =
-#         '% Vaccinated with Second Dose: %{y:.2f}%'+'<br>'+
-#         'Total: %{text:.0f}',
-#     text = vax['Resident Second Dose Cumulative']
-# ))
-# fig.add_trace(go.Line(
-#     x=data['Date'],
-#     y=np.full((data['Date'].size),100, dtype=int),
-#     name='Total Population',
-#     visible='legendonly',
-#     marker_color='black'
-# ))
-# fig.add_trace(go.Scatter(
-#     x=data['Date'],
-#     y=np.full((data['Date'].size),70, dtype=int),
-#     name='Estimate of Herd Immunity Threshold',
-#     visible='legendonly',
-#     mode='lines',
+dc_pop = ward_demos.loc['All Wards','Population (DC Data)']
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=(data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0))/dc_pop*100,
+    name='Not Cleared from Isolation',
+    marker_color='gold',
+    hovertemplate =
+        '% Not Cleared: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text =data['Positives'].subtract(data['Deaths']+data['Recoveries'],fill_value=0)
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Recoveries']/dc_pop*100,
+    name='Cumulative Recoveries',
+    marker_color='rgb(158,202,225)',
+    hovertemplate =
+        '% Cleared from Isolation: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = data['Recoveries']
+))
+fig.add_trace(go.Bar(
+    x=data['Date'],
+    y=data['Deaths']/dc_pop*100,
+    name='Cumulative Deaths',
+    marker_color='maroon',
+    hovertemplate =
+        '% Died of COVID-19: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = data['Deaths']
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=(vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0))/dc_pop*100,
+    name='Partially Vaccinated',
+    marker_color='rgb(184, 230, 186)',
+    hovertemplate =
+        '% Partially vaccinated: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0)
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['Cumulative Full Doses: Residents']/dc_pop*100,
+    name='Fully Vaccinated',
+    marker_color='rgb(44, 191, 50)',
+    hovertemplate =
+        '% Fully vaccinated: %{y:.2f}%'+'<br>'+
+        'Total: %{text:.0f}',
+    text = vax['Cumulative Full Doses: Residents']
+))
+fig.add_trace(go.Line(
+    x=data['Date'],
+    y=np.full((data['Date'].size),100, dtype=int),
+    name='Total Population',
+    visible='legendonly',
+    marker_color='black'
+))
+fig.add_trace(go.Scatter(
+    x=data['Date'],
+    y=np.full((data['Date'].size),70, dtype=int),
+    name='Estimate of Herd Immunity Threshold',
+    visible='legendonly',
+    mode='lines',
+    line=dict(
+        color='black',
+        dash='dash'
+    )
+))
+# fig.add_shape(
+#     type='rect',
+#     x0=data['Date'][0],
+#     y0=70,
+#     x1=data['Date'][-1],
+#     y1=100,
+#     fillcolor='lavender',
 #     line=dict(
-#         color='black',
-#         dash='dash'
-#     )
-# ))
-# # fig.add_shape(
-# #     type='rect',
-# #     x0=data['Date'][0],
-# #     y0=70,
-# #     x1=data['Date'][-1],
-# #     y1=100,
-# #     fillcolor='lavender',
-# #     line=dict(
-# #         width=0,
-# #     ),
-# # )
-# fig.update_shapes(dict(xref='x', yref='y'))
-# fig.update_layout(
-#     title=dict(
-#         text='Path to Herd Immunity, D.C. Residents'
-#     ),
-#     barmode='stack',
-#     legend=dict(
-#         orientation="h",
-#         y=-.1,
-#         x=0.5,
-#         xanchor="center",
-#         bgcolor='rgba(0,0,0,0)'
-#     ),
-#     yaxis=dict(
-#         ticksuffix="%",
-#         showticksuffix='all'
-#     ),
-#     xaxis=dict(
-#         showspikes = False,
+#         width=0,
 #     ),
 # )
-# fig.write_html('./chart_htmls/herd_immunity.html')
+fig.update_shapes(dict(xref='x', yref='y'))
+fig.update_layout(
+    title=dict(
+        text='Path to Herd Immunity, D.C. Residents'
+    ),
+    barmode='stack',
+    legend=dict(
+        orientation="h",
+        y=-.1,
+        x=0.5,
+        xanchor="center",
+        bgcolor='rgba(0,0,0,0)'
+    ),
+    yaxis=dict(
+        ticksuffix="%",
+        showticksuffix='all'
+    ),
+    xaxis=dict(
+        showspikes = False,
+    ),
+)
+fig.write_html('./chart_htmls/herd_immunity.html')
 
 vax_ward = vax.loc[:,'Ward 1':'All Wards'].dropna()
 vax_ward_pc = vax_ward.divide(ward_demos['Population (2019 ACS)'])
@@ -2028,11 +2028,11 @@ fig.update_xaxes(range=['2021-01-13',data.index[-1]],title_text='Date of Vaccine
 fig.write_html('./chart_htmls/new_vaccinations.html')
 
 fig = go.Figure(layout=layout)
-residency=vax.loc[:,'Cumulative First Doses, Residents':'Cumulative First Doses, Not Reported'].dropna()
+residency=vax.loc[:,['Cumulative Partial Doses: Residents','Cumulative Partial Doses: Non-Residents']].dropna()
 delivered = vax.loc[:,'Total Delivered'].dropna()
 fig.add_trace(go.Scatter(
     x = residency.index,
-    y = residency['Cumulative First Doses, Residents'],
+    y = residency['Cumulative Partial Doses: Residents'],
     name = 'Residents',
     line=dict(
         color='green',
@@ -2040,12 +2040,12 @@ fig.add_trace(go.Scatter(
     ),
     mode='lines',
     stackgroup='group1',
-    text=residency['Cumulative First Doses, Residents'].divide(residency.sum(axis=1))*100,
+    text=residency['Cumulative Partial Doses: Residents'].divide(residency.sum(axis=1))*100,
     hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
 ))
 fig.add_trace(go.Scatter(
     x = residency.index,
-    y = residency['Cumulative First Doses, Non-Residents'],
+    y = residency['Cumulative Partial Doses: Non-Residents'],
     name = 'Non-Residents',
     line=dict(
         color='lightblue',
@@ -2053,22 +2053,10 @@ fig.add_trace(go.Scatter(
     ),
     mode='lines',
     stackgroup='group1',
-    text=residency['Cumulative First Doses, Non-Residents'].divide(residency.sum(axis=1))*100,
+    text=residency['Cumulative Partial Doses: Non-Residents'].divide(residency.sum(axis=1))*100,
     hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
 ))
-fig.add_trace(go.Scatter(
-    x = residency.index,
-    y = residency['Cumulative First Doses, Not Reported'],
-    name = 'Not Reported',
-    line=dict(
-        color='khaki',
-        width=0
-    ),
-    mode='lines',
-    stackgroup='group1',
-    text=residency['Cumulative First Doses, Not Reported'].divide(residency.sum(axis=1))*100,
-    hovertemplate='Total: %{y:.0i}<br>% of All 1st Doses: %{text:.1f}%'
-))
+
 fig.add_trace(go.Scatter(
     x = delivered.index,
     y = delivered,
@@ -2078,8 +2066,8 @@ fig.add_trace(go.Scatter(
         color='grey',
         width=4
     ),
-    hovertemplate='As of 6am the Next Morning: %{y:.0i}'
-
+    hovertemplate='%{y:.0i}<br>%{text:.1%} used',
+    text = residency.sum(axis=1).divide(delivered)
 ))
 fig.update_layout(
     title=dict(
