@@ -1847,185 +1847,238 @@ fig.update_layout(
 )
 fig.write_html('./chart_htmls/herd_immunity.html')
 
-vax_ward = vax.loc[:,'Ward 1':'All Wards'].dropna()
-vax_ward_pc = vax_ward.divide(ward_demos['Population (2019 ACS)'])
-vax_ward_65 = vax.loc[:,'Ward 1 65+':'All Wards 65+'].dropna()
-vax_ward_65.columns = vax_ward.columns
-vax_ward_65_pc = vax_ward_65.divide(ward_demos['65+ (2019 ACS)'])
+# vax_ward = vax.loc[:,'Ward 1':'All Wards'].dropna()
+# vax_ward_pc = vax_ward.divide(ward_demos['Population (2019 ACS)'])
+# vax_ward_65 = vax.loc[:,'Ward 1 65+':'All Wards 65+'].dropna()
+# vax_ward_65.columns = vax_ward.columns
+# vax_ward_65_pc = vax_ward_65.divide(ward_demos['65+ (2019 ACS)'])
 
-fig = make_subplots(rows=1,cols=2,subplot_titles=['% Fully Vaccinated','% 65+ Population<br>Recieved First Dose'],shared_xaxes=True,)
-i=0
-for ward in WARD_LIST:
-    fig.add_trace(
-        go.Scatter(
-            x=vax_ward_pc.index,
-            y=vax_ward_pc[ward],
-#             mode='lines',
-            line=dict(
-                color=PASTELS[i]
-            ),
-            name=ward,
-            legendgroup='group'+str(i+1),
-        ),
-        row=1,
-        col=1,
-    )
-    i+=1
-fig.add_trace(
-    go.Scatter(
-        x=vax_ward_pc.index,
-        y=vax_ward_pc['All Wards'],
-        line=dict(
-            color='black',
-            width=2,
-        ),
-        name='District-Wide',
-        legendgroup='group'+str(i+1),
-    ),
-    row=1,
-    col=1
-)
-i=0
-for ward in WARD_LIST:
-    fig.add_trace(
-        go.Scatter(
-            x=vax_ward_65_pc.index,
-            y=vax_ward_65_pc[ward],
-#             mode='lines',
-            line=dict(
-                color=PASTELS[i]
-            ),
-            name=ward,
-            legendgroup='group'+str(i+1),
-            showlegend = False
-        ),
-        row=1,
-        col=2,
-    )
-    i+=1
-fig.add_trace(
-    go.Scatter(
-        x=vax_ward_65_pc.index,
-        y=vax_ward_65_pc['All Wards'],
-        line=dict(
-            color='black',
-            width=3,
-        ),
-        name='District-Wide',
-        legendgroup='group'+str(i+1),
-        showlegend = False,
-    ),
-    row=1,
-    col=2
-)
-fig.update_yaxes(
-    rangemode = 'tozero',
-    showgrid=True,
-    gridcolor='grey',
-    tickformat=".1%",
-    gridwidth=1
-)
-fig.update_xaxes(
-    showspikes=True,
-    spikedash = 'solid',
-    spikemode  = 'across',
-    spikesnap = 'cursor',
-    spikecolor = 'black',
-    spikethickness = 1,
-    ticks='outside'
-)
-fig.update_layout(
-    plot_bgcolor='rgba(0,0,0,0)',
-
-    spikedistance =  -1,
-    legend=dict(
-        yanchor="middle",
-        y=.5,
-        xanchor="center",
-        x=1.2,
-        bgcolor='rgba(0,0,0,0)'
-    ),
-    hovermode='x',
-    font=dict(
-        family='Arial',
-        size=14
-    ),
-    title=dict(
-        text='Cumulative Vaccinations by Ward',
-        x=0.5
-    ),
-
-)
-fig.update_xaxes(range=['2021-01-15',data.index[-1]])
-
-fig.write_html('./chart_htmls/cumulative_vaccinations.html')
-
-
-fig = make_subplots(rows=1,cols=2,subplot_titles=['New Second<br>Doses','New First Doses,<br>65+ Population'],shared_xaxes=True,)
-i=0
-for ward in WARD_LIST:
-    fig.add_trace(
-        go.Bar(
-            x=vax_ward.index,
-            y=vax_ward[ward].diff(),
-            marker_color=PASTELS[i],
-            name=ward,
-            legendgroup='group'+str(i+1),
-        ),
-        row=1,
-        col=1,
-    )
-    i+=1
-
-i=0
-for ward in WARD_LIST:
-    fig.add_trace(
-        go.Bar(
-            x=vax_ward_65.index,
-            y=vax_ward_65[ward].diff(),
-            marker_color=PASTELS[i],
-            name=ward,
-            legendgroup='group'+str(i+1),
-            showlegend = False
-        ),
-        row=1,
-        col=2,
-    )
-    i+=1
-
-fig.update_yaxes(
-    rangemode = 'tozero',
-    showgrid=True,
-    gridcolor='grey',
+# fig = make_subplots(rows=1,cols=2,subplot_titles=['% Fully Vaccinated','% 65+ Population<br>Recieved First Dose'],shared_xaxes=True,)
+# i=0
+# for ward in WARD_LIST:
+#     fig.add_trace(
+#         go.Scatter(
+#             x=vax_ward_pc.index,
+#             y=vax_ward_pc[ward],
+# #             mode='lines',
+#             line=dict(
+#                 color=PASTELS[i]
+#             ),
+#             name=ward,
+#             legendgroup='group'+str(i+1),
+#         ),
+#         row=1,
+#         col=1,
+#     )
+#     i+=1
+# fig.add_trace(
+#     go.Scatter(
+#         x=vax_ward_pc.index,
+#         y=vax_ward_pc['All Wards'],
+#         line=dict(
+#             color='black',
+#             width=2,
+#         ),
+#         name='District-Wide',
+#         legendgroup='group'+str(i+1),
+#     ),
+#     row=1,
+#     col=1
+# )
+# i=0
+# for ward in WARD_LIST:
+#     fig.add_trace(
+#         go.Scatter(
+#             x=vax_ward_65_pc.index,
+#             y=vax_ward_65_pc[ward],
+# #             mode='lines',
+#             line=dict(
+#                 color=PASTELS[i]
+#             ),
+#             name=ward,
+#             legendgroup='group'+str(i+1),
+#             showlegend = False
+#         ),
+#         row=1,
+#         col=2,
+#     )
+#     i+=1
+# fig.add_trace(
+#     go.Scatter(
+#         x=vax_ward_65_pc.index,
+#         y=vax_ward_65_pc['All Wards'],
+#         line=dict(
+#             color='black',
+#             width=3,
+#         ),
+#         name='District-Wide',
+#         legendgroup='group'+str(i+1),
+#         showlegend = False,
+#     ),
+#     row=1,
+#     col=2
+# )
+# fig.update_yaxes(
+#     rangemode = 'tozero',
+#     showgrid=True,
+#     gridcolor='grey',
 #     tickformat=".1%",
-    gridwidth=1
-)
-fig.update_xaxes(
-    ticks='outside'
-)
+#     gridwidth=1
+# )
+# fig.update_xaxes(
+#     showspikes=True,
+#     spikedash = 'solid',
+#     spikemode  = 'across',
+#     spikesnap = 'cursor',
+#     spikecolor = 'black',
+#     spikethickness = 1,
+#     ticks='outside'
+# )
+# fig.update_layout(
+#     plot_bgcolor='rgba(0,0,0,0)',
+
+#     spikedistance =  -1,
+#     legend=dict(
+#         yanchor="middle",
+#         y=.5,
+#         xanchor="center",
+#         x=1.2,
+#         bgcolor='rgba(0,0,0,0)'
+#     ),
+#     hovermode='x',
+#     font=dict(
+#         family='Arial',
+#         size=14
+#     ),
+#     title=dict(
+#         text='Cumulative Vaccinations by Ward',
+#         x=0.5
+#     ),
+
+# )
+# fig.update_xaxes(range=['2021-01-15',data.index[-1]])
+
+# fig.write_html('./chart_htmls/cumulative_vaccinations.html')
+
+
+# fig = make_subplots(rows=1,cols=2,subplot_titles=['New Second<br>Doses','New First Doses,<br>65+ Population'],shared_xaxes=True,)
+# i=0
+# for ward in WARD_LIST:
+#     fig.add_trace(
+#         go.Bar(
+#             x=vax_ward.index,
+#             y=vax_ward[ward].diff(),
+#             marker_color=PASTELS[i],
+#             name=ward,
+#             legendgroup='group'+str(i+1),
+#         ),
+#         row=1,
+#         col=1,
+#     )
+#     i+=1
+
+# i=0
+# for ward in WARD_LIST:
+#     fig.add_trace(
+#         go.Bar(
+#             x=vax_ward_65.index,
+#             y=vax_ward_65[ward].diff(),
+#             marker_color=PASTELS[i],
+#             name=ward,
+#             legendgroup='group'+str(i+1),
+#             showlegend = False
+#         ),
+#         row=1,
+#         col=2,
+#     )
+#     i+=1
+
+# fig.update_yaxes(
+#     rangemode = 'tozero',
+#     showgrid=True,
+#     gridcolor='grey',
+# #     tickformat=".1%",
+#     gridwidth=1
+# )
+# fig.update_xaxes(
+#     ticks='outside'
+# )
+# fig.update_layout(
+#     barmode='stack',
+#     plot_bgcolor='rgba(0,0,0,0)',
+#     spikedistance =  -1,
+#     legend=dict(
+#         yanchor="middle",
+#         y=.5,
+#         xanchor="center",
+#         x=1.2,
+#         bgcolor='rgba(0,0,0,0)'
+#     ),
+#     hovermode='x',
+#     font=dict(
+#         family='Arial',
+#         size=14
+#     ),
+#     title=dict(
+#         text='New Vaccinations by Ward',
+#         x=0.5
+#     ),
+# )
+# fig.update_xaxes(range=['2021-01-13',data.index[-1]],title_text='Date of Vaccine Data Batch')
+# fig.write_html('./chart_htmls/new_vaccinations.html')
+
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['New Partial Doses: Residents'],
+    marker_color='lightgreen',
+    name='Resident Partial Doses',
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['New Partial Doses: Non-Residents'],
+    marker_color='skyblue',
+    name='Non-resident Partial Doses',
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['New Full Doses: Residents'],
+    marker_color='darkgreen',
+    name='Resident Full Doses',
+))
+fig.add_trace(go.Bar(
+    x=vax['Date'],
+    y=vax['New Full Doses: Non-residents'],
+    marker_color='darkblue',
+    name='Non-resident Full Doses',
+))
+fig.add_trace(go.Scatter(
+    x=vax['Date'],
+    y=vax.loc[:,'New Partial Doses: Residents':'New Full Doses: Non-residents'].sum(axis=1).rolling(7).mean(),
+    name='7-Day Average (All)',
+    mode='lines',
+    line=dict(
+        color='black'
+    )
+))
 fig.update_layout(
-    barmode='stack',
-    plot_bgcolor='rgba(0,0,0,0)',
-    spikedistance =  -1,
-    legend=dict(
-        yanchor="middle",
-        y=.5,
-        xanchor="center",
-        x=1.2,
-        bgcolor='rgba(0,0,0,0)'
-    ),
-    hovermode='x',
-    font=dict(
-        family='Arial',
-        size=14
-    ),
     title=dict(
-        text='New Vaccinations by Ward',
-        x=0.5
+        text='Daily Doses by Residency'
     ),
+    barmode='stack',
+    xaxis=dict(
+        showspikes=False,
+    ),
+    legend=dict(
+        bgcolor='rgba(0,0,0,0)',
+        orientation='h',
+        x=.5,
+        y=-.2,
+        xanchor='center'
+    )
 )
-fig.update_xaxes(range=['2021-01-13',data.index[-1]],title_text='Date of Vaccine Data Batch')
-fig.write_html('./chart_htmls/new_vaccinations.html')
+fig.write_html('./chart_htmls/daily_vaccinations.html')
+
 
 fig = go.Figure(layout=layout)
 residency=vax.loc[:,['Cumulative Partial Doses: Residents','Cumulative Partial Doses: Non-Residents']].dropna()
@@ -2035,7 +2088,7 @@ fig.add_trace(go.Scatter(
     y = residency['Cumulative Partial Doses: Residents'],
     name = 'Residents',
     line=dict(
-        color='green',
+        color='lightgreen',
         width=0
     ),
     mode='lines',
@@ -2048,7 +2101,7 @@ fig.add_trace(go.Scatter(
     y = residency['Cumulative Partial Doses: Non-Residents'],
     name = 'Non-Residents',
     line=dict(
-        color='lightblue',
+        color='skyblue',
         width=0
     ),
     mode='lines',
@@ -2066,7 +2119,7 @@ fig.add_trace(go.Scatter(
         color='grey',
         width=4
     ),
-    hovertemplate='%{y:.0i}<br>%{text:.1%} used',
+    hovertemplate='%{y:.0i}',
     text = residency.sum(axis=1).divide(delivered)
 ))
 fig.update_layout(
@@ -2078,6 +2131,83 @@ fig.update_layout(
     )
 )
 fig.write_html('./chart_htmls/all_vaccinations.html')
+
+new_vax = vax.loc[:,'New Partial Doses: Residents':'New Full Doses: Non-residents']
+new_vax_breakdown = new_vax.rolling(7).sum().divide(new_vax.sum(axis=1).rolling(7).sum(),axis=0)
+new_vax_first = vax.loc[:,'New Partial Doses: Residents':'New Partial Doses: Non-Residents']
+new_vax_first_breakdown = new_vax_first.rolling(7).sum().divide(new_vax_first.sum(axis=1).rolling(7).sum(),axis=0)
+
+colors = ['lightgreen','skyblue','green','blue']
+fig = make_subplots(rows=2,cols=1,shared_xaxes=True,subplot_titles=['All Doses','Partial Doses'],vertical_spacing=0.07,)
+i = 0
+for vax_cat in new_vax_breakdown.columns:
+    fig.add_trace(go.Scatter(
+        x=new_vax_breakdown.index,
+        y=new_vax_breakdown[vax_cat],
+        line=dict(
+            color=colors[i],
+            width=0
+        ),
+        stackgroup='one',
+        legendgroup='group'+str(i+1),
+        mode='lines',
+        name=vax_cat
+    ),row=1,col=1)
+    i+=1
+
+i = 0
+for vax_cat in new_vax_first_breakdown.columns:
+    fig.add_trace(go.Scatter(
+        x=new_vax_first_breakdown.index,
+        y=new_vax_first_breakdown[vax_cat],
+        line=dict(
+            color=colors[i],
+            width=0
+        ),
+        stackgroup='one',
+        legendgroup='group'+str(i+1),
+        showlegend = False,
+        mode='lines',
+        name=vax_cat
+    ),row=2,col=1)
+    i+=1
+
+fig.update_yaxes(
+    tickformat='.1%',
+)
+fig.update_xaxes(
+    showspikes=True,
+    spikedash = 'solid',
+    spikemode  = 'across',
+    spikesnap = 'cursor',
+    spikecolor = 'black',
+    spikethickness = 1,
+    ticks='outside',
+    range=['2020-12-18',vax.index[-1]]
+)
+fig.update_yaxes(
+    tickformat='.1%',
+    showgrid=True,
+    gridcolor='grey',
+)
+fig.update_layout(
+    spikedistance =  -1,
+    legend=dict(
+        x=0.5,
+        y=-.1,
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+        orientation='h'
+    ),
+    plot_bgcolor='rgba(0,0,0,0)',
+    hovermode='x',
+    title = dict(
+        x=0.5,
+        text="Breakdown of New Doses<br>7-Day Average"
+    ),
+)
+fig.update_traces(xaxis="x2")
+fig.write_html('./chart_htmls/vaccinations_breakdown.html')
 
 
 

@@ -86,6 +86,15 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
+    // display cumulative graph on tab click
+    $('#basic-cumulative-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/herd_immunity.html');
+
+        // set graph note
+        var graph_note = 'Scientists generally agree that people who recover from COVID-19 attain at least some degree of immunity that lasts for several months after infection.';
+        $('#graph-note').html(graph_note);
+    });
+
 
     $('#neighborhood-data').on('click', function(){
          // reverse others
@@ -577,15 +586,15 @@ $( document ).ready(function() {
         // set dashboard header
         $('#dashboard-header').text('Vaccination Data');
         // set first tab to active
-        $('#vaccination-data-cumulative-vaccinations-tab').addClass('active');
+        $('#vaccination-data-daily-vaccinations-tab').addClass('active');
         // display iframe
         $('#display-iframe').show();
         // set iframe
-        $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
+        $('#display-iframe').attr('src', './chart_htmls/daily_vaccinations.html');
         $('#display-iframe').attr('height', '575');
 
         // set tab note
-        var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">Decreases in cumulative vaccinations across wards may be a correction from the previous week\'s data.</p></div>';
+        var tab_note_html = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">The most recent days\' daily vaccinations are likely an underestimate.</p></div>';
         $('#tab-note').html(tab_note_html);
 
         // set graph note
@@ -594,8 +603,17 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    $('#vaccination-data-cumulative-vaccinations-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
+    // $('#vaccination-data-cumulative-vaccinations-tab').click(function(){
+    //     $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
+
+    //     // set graph note
+    //     var graph_note = '';
+    //     $('#graph-note').html(graph_note);
+    // });
+
+    // display graph on tab click
+    $('#vaccination-data-daily-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/daily_vaccinations.html');
 
         // set graph note
         var graph_note = '';
@@ -603,20 +621,20 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    $('#vaccination-data-new-vaccinations-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/new_vaccinations.html');
+    // $('#vaccination-data-vaccination-supply-tab').click(function(){
+    //     $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
 
-        // set graph note
-        var graph_note = '';
-        $('#graph-note').html(graph_note);
-    });
+    //     // set graph note
+    //     var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+    //     $('#graph-note').html(graph_note);
+    // });
 
     // display graph on tab click
-    $('#vaccination-data-all-vaccinations-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
+    $('#vaccination-data-vaccination-breakdown-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccinations_breakdown.html');
 
         // set graph note
-        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of healthcare workers in D.C. reside in Virginia or Maryland.<br>D.C. stopped releasing legible daily vaccination data after 1/16 and currently only releases data weekly.</em></p></div>';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
