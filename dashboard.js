@@ -603,15 +603,6 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    // $('#vaccination-data-cumulative-vaccinations-tab').click(function(){
-    //     $('#display-iframe').attr('src', './chart_htmls/cumulative_vaccinations.html');
-
-    //     // set graph note
-    //     var graph_note = '';
-    //     $('#graph-note').html(graph_note);
-    // });
-
-    // display graph on tab click
     $('#vaccination-data-daily-vaccinations-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/daily_vaccinations.html');
 
@@ -621,20 +612,46 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    // $('#vaccination-data-vaccination-supply-tab').click(function(){
-    //     $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
+    $('#vaccination-data-vaccination-supply-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/all_vaccinations.html');
 
-    //     // set graph note
-    //     var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
-    //     $('#graph-note').html(graph_note);
-    // });
-
+        // set graph note
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+        $('#graph-note').html(graph_note);
+    });
     // display graph on tab click
     $('#vaccination-data-vaccination-breakdown-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/vaccinations_breakdown.html');
 
         // set graph note
         var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+        $('#graph-note').html(graph_note);
+    });
+
+     // display graph on tab click
+     $('#vaccination-data-vaccination-map-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccination_map_cumulative.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-vaccination-map-new-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccination_map_new.html');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-vaccination-map-new-pc-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccination_map_new_pc.html');
+
+        // set graph note
+        var graph_note = '';
         $('#graph-note').html(graph_note);
     });
 
