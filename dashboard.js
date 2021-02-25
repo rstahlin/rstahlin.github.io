@@ -86,6 +86,15 @@ $( document ).ready(function() {
         $('#graph-note').html(graph_note);
     });
 
+    // display tests graph on tab click
+    $('#basic-positivity-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/positivity.html');
+
+        // set graph note
+        var graph_note = '<p style="text-align:center"> <em> Note: District-Wide positivity is based on the "Total Overall Number of Tests" variable released by D.C., and is different than the positivity data referenced in D.C.\'s ReOpening Metrics, which is an average of single-day positivity rates and adjusted for date of test. This 7-day positivity rate is a measure of what percent of tests were positive over the last 7-day period. </em> </p>'
+        $('#graph-note').html(graph_note);
+    });
+
     // display cumulative graph on tab click
     $('#basic-cumulative-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/herd_immunity.html');

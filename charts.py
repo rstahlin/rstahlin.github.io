@@ -201,6 +201,49 @@ fig.update_layout(
 )
 fig.write_html("./chart_htmls/tests.html")
 
+fig = go.Figure(layout=layout)
+fig.add_trace(go.Scatter(
+    x = data.index,
+    y = data['Positives'].diff().divide(data['Tested'].diff()),
+    mode='markers',
+    marker=dict(
+        color = 'orange'
+    ),
+    name = 'Single-Day',
+    hovertemplate='New Tests: '+ data['Tested'].diff().map('{:,.0f}'.format)+
+                  '<br>New Cases: '+ data['Positives'].diff().map('{:.0f}'.format)+
+                  '<br>%{y:.1%} Positive'
+))
+fig.add_trace(go.Scatter(
+    x = data.index,
+    y = dc_pos,
+    mode='lines',
+    line=dict(
+        color = 'black'
+    ),
+    hovertemplate='%{y:.1%}',
+    name = '7-Day'
+))
+fig.update_layout(
+    legend=dict(
+        x=.8,
+        y=.99,
+    ),
+    yaxis=dict(
+        tickformat=".0%",
+        range=[0,.4]
+    ),
+    xaxis=dict(
+        showspikes=False
+    ),
+    title=dict(
+        text = "Daily and Weekly Positivity Rate"
+    )
+    
+)
+fig.write_html("./chart_htmls/positivity.html")
+
+
 ########### Demographic Statistics ################
 # Ages
 fig = go.Figure(layout=layout)
