@@ -107,7 +107,9 @@ fig.add_trace(go.Scatter(
     mode='lines',
     line=dict(
         color='black'
-    )
+    ),
+    hovertemplate='%{y:,.1f}'
+
 ))
 fig.add_annotation(
             x = '2020-12-26',
@@ -142,7 +144,9 @@ fig.add_trace(go.Scatter(
     mode='lines',
     line=dict(
         color='black'
-    )
+    ),
+    hovertemplate='%{y:,.1f}'
+
 ))
 fig.add_annotation(
             x = '2020-12-26',
@@ -162,6 +166,7 @@ fig.update_layout(
     xaxis=dict(
         showspikes = False,
     ),
+    
 )
 fig.write_html("./chart_htmls/deaths.html")
 
@@ -181,7 +186,9 @@ fig.add_trace(go.Scatter(
     mode='lines',
     line=dict(
         color='black'
-    )
+    ),
+    hovertemplate='%{y:,.1f}'
+
 ))
 fig.add_annotation(
             x = '2020-12-26',
@@ -256,16 +263,16 @@ for i in range(len(AGES_LIST)):
         mode='lines',
         line=dict(
             color=G10[i],
-            )
-        )
-    )
+        ),
+        hovertemplate='%{y:.1f}'
+    ))
 fig.update_layout(
     title=dict(
         text='New Cases by Age, 7-Day Average'
     ),
-    yaxis=dict(
-        tickformat=".1f"
-    ),
+    # yaxis=dict(
+    #     tickformat=".1f"
+    # ),
     legend=dict(
         y=0.75,
         x=1
@@ -371,15 +378,16 @@ for i in range(len(age_data.columns)):
             color=G10[i],
             width=2
         ),
+        hovertemplate='%{y:.1f}'
     ))
 
 fig.update_layout(
     title=dict(
         text='New Cases by Age, 7-Day Average'
    ),
-    yaxis=dict(
-        tickformat=".1f"
-    ),
+    # yaxis=dict(
+    #     tickformat=".1f"
+    # ),
     xaxis=dict(
         ticks='outside',
     ),
@@ -2162,7 +2170,8 @@ fig.add_trace(go.Scatter(
         color='grey',
         width=4
     ),
-    hovertemplate='%{y:.0i}',
+    hovertemplate='%{y:,.0f}, '+delivered.diff().map('{:,.0f}'.format)+' Newly Delivered',
+                #   '<br>%{text:.1%} Administered',
     text = residency.sum(axis=1).divide(delivered)
 ))
 fig.update_layout(
