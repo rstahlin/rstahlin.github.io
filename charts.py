@@ -360,6 +360,7 @@ fig.write_html("./chart_htmls/ages_deaths_pie.html")
 
 #New age chart
 age_demos = pd.read_csv('age_demos.csv',index_col=0).drop(index=['25-34 Cases','35-44 Cases','45-54 Cases','55-64 Cases','65-74 Cases','75+ Cases'])
+# age_data = data.loc[:,'0-4 Cases':'75+ Cases'].dropna().diff().rolling('7d').sum()/7
 age_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
 age_data['25-44 Cases'] = age_data['25-34 Cases']+age_data['35-44 Cases']
 age_data['45-64 Cases'] = age_data['45-54 Cases']+age_data['55-64 Cases']
@@ -370,7 +371,7 @@ age_data_pc = age_data.divide(age_demos['Population (2019 ACS)'])*10000
 fig = go.Figure(layout=layout)
 for i in range(len(age_data.columns)):
     fig.add_trace(go.Scatter(
-        x=data['Date'],
+        x=age_data.index,
         y=age_data.iloc[:,i],
         name=AGES_LIST_CENSUS[i],
         mode='lines',
@@ -406,7 +407,7 @@ fig = go.Figure(layout=layout)
 # ages_data = data.loc[:,'0-4 Cases':'75+ Cases'].diff().rolling(7).mean()
 for i in range(len(age_data.columns)):
     fig.add_trace(go.Scatter(
-        x=data['Date'],
+        x=age_data.index,
         y=age_data_pc.iloc[:,i],
         name=AGES_LIST_CENSUS[i],
         mode='lines',
