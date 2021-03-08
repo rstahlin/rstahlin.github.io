@@ -647,11 +647,11 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    $('#vaccination-data-vaccination-map-new-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/vaccination_map_new.html');
+    $('#vaccination-data-vaccination-map-65-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccination_map_65_pc.html');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>DC\'s dashboard\'s version of this does not show % of seniors vaccinated by neighborhood, but instead shows % of population who are vaccinated seniors.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 

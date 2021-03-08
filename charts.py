@@ -2263,12 +2263,16 @@ fig.update_traces(xaxis="x2")
 fig.write_html('./chart_htmls/vaccinations_breakdown.html')
 
 hood_vax = vax.loc[:,'16th St Heights':'Capitol Hill'].dropna()
+hood_vax_65 = vax.loc[:,'16th St Heights 65+':'Capitol Hill 65+'].dropna()
+hood_vax_65.columns = hood_vax.columns
 cumulative = hood_vax.iloc[-1,:]
+cumulative_65 = hood_vax_65.iloc[-1]
 cumulative_pc = hood_vax.iloc[-1,:].divide(hood_demos['Population (2019 ACS)'])
+cumulative_65_pc = hood_vax_65.iloc[-1,:].divide(hood_demos['Population age 65+ (2019 ACS)'])
 new = hood_vax.diff().iloc[-1,:]
 new_pc = new.divide(hood_demos['Population (2019 ACS)'])*10000
-vax_this_week = pd.concat([cumulative,cumulative_pc,new,new_pc,hood_demos['Population (2019 ACS)'],hood_demos['Population age 65+ (2019 ACS)'].divide(hood_demos['Population (2019 ACS)']),hood_demos['OBJECTID']],axis=1)
-vax_this_week.columns = ['Total Vaccinations','% Vaccinated','New Vaccinations','New Vaccinations per 10k','Population','% Population 65+','OBJECTID']
+vax_this_week = pd.concat([cumulative,cumulative_pc,cumulative_65,cumulative_65_pc,new,new_pc,hood_demos['Population (2019 ACS)'],hood_demos['Population age 65+ (2019 ACS)'].divide(hood_demos['Population (2019 ACS)']),hood_demos['OBJECTID']],axis=1)
+vax_this_week.columns = ['Total Vaccinations','% Vaccinated','Total Vaccinations (65+)','% 65+ Population Vaccinated','New Vaccinations','New Vaccinations per 10k','Population','% Population 65+','OBJECTID']
 vax_this_week['Neighborhood'] = vax_this_week.index
 
 fig = px.choropleth_mapbox(
@@ -2291,6 +2295,8 @@ fig = px.choropleth_mapbox(
            'New Vaccinations':':.0f',
            'New Vaccinations per 10k':':.1f',
            '% Vaccinated':':.2%',   
+           '% 65+ Population Vaccinated':':.2%',
+           'Total Vaccinations (65+)':True,
            'Population':':.0f',
            '% Population 65+':':.1%',
             
@@ -2337,9 +2343,10 @@ fig = px.choropleth_mapbox(
            'New Vaccinations':':.0f',
            'New Vaccinations per 10k':':.1f',
            '% Vaccinated':':.2%',   
+           '% 65+ Population Vaccinated':':.2%',
+           'Total Vaccinations (65+)':True,
            'Population':':.0f',
            '% Population 65+':':.1%',
-            
            }
 )
 fig.update_layout(margin={
@@ -2383,9 +2390,10 @@ fig = px.choropleth_mapbox(
            'New Vaccinations':':.0f',
            'New Vaccinations per 10k':':.1f',
            '% Vaccinated':':.2%',   
+           '% 65+ Population Vaccinated':':.2%',
+           'Total Vaccinations (65+)':True,
            'Population':':.0f',
            '% Population 65+':':.1%',
-            
            }
 )
 fig.update_layout(margin={
@@ -2408,6 +2416,53 @@ fig.update_layout(margin={
     )
 )
 fig.write_html('./chart_htmls/vaccination_map_new.html')
+
+fig = px.choropleth_mapbox(
+    vax_this_week,
+    geojson=hood_map,
+    color=vax_this_week['% 65+ Population Vaccinated'],
+    locations="OBJECTID",
+    featureidkey="properties.OBJECTID",
+    center={"lat": 38.91,
+       "lon": -77.03
+       },
+    color_continuous_scale="Greens",
+    opacity=0.5,
+    mapbox_style="carto-positron",
+    zoom=10,
+    hover_name='Neighborhood',
+    hover_data={'Neighborhood':False,
+           'OBJECTID':False,
+           'Total Vaccinations':True,
+           'New Vaccinations':':.0f',
+           'New Vaccinations per 10k':':.1f',
+           '% Vaccinated':':.2%',   
+           '% 65+ Population Vaccinated':':.2%',
+           'Total Vaccinations (65+)':True,
+           'Population':':.0f',
+           '% Population 65+':':.1%',
+           }
+)
+fig.update_layout(margin={
+    "r":0,
+    "t":0,
+    "l":0,
+    "b":0
+    },
+    coloraxis=dict(
+        colorbar = dict(
+            tickformat = "%.2f",
+#                 ticksuffix = '+',
+#                 showticksuffix = 'last',
+            title = dict(
+                text = '% 65+<br>Fully Vaccinated'
+            )
+
+        )
+
+    )
+)
+fig.write_html('./chart_htmls/vaccination_map_65_pc.html')
 
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Scatter(
