@@ -2199,7 +2199,7 @@ for vax_cat in new_vax_breakdown.columns:
         y=new_vax_breakdown[vax_cat],
         line=dict(
             color=colors[i],
-            width=0
+            # width=0
         ),
         stackgroup='one',
         legendgroup='group'+str(i+1),
@@ -2215,7 +2215,7 @@ for vax_cat in new_vax_first_breakdown.columns:
         y=new_vax_first_breakdown[vax_cat],
         line=dict(
             color=colors[i],
-            width=0
+            # width=0
         ),
         stackgroup='one',
         legendgroup='group'+str(i+1),
@@ -2263,8 +2263,10 @@ fig.update_traces(xaxis="x2")
 fig.write_html('./chart_htmls/vaccinations_breakdown.html')
 
 hood_vax = vax.loc[:,'16th St Heights':'Capitol Hill'].dropna()
+hood_vax_pc = hood_vax.divide(hood_demos['Population (2019 ACS)'])
 hood_vax_65 = vax.loc[:,'16th St Heights 65+':'Capitol Hill 65+'].dropna()
 hood_vax_65.columns = hood_vax.columns
+hood_vax_65_pc = hood_vax_65.divide(hood_demos['Population age 65+ (2019 ACS)'])
 cumulative = hood_vax.iloc[-1,:]
 cumulative_65 = hood_vax_65.iloc[-1]
 cumulative_pc = hood_vax.iloc[-1,:].divide(hood_demos['Population (2019 ACS)'])
@@ -2463,6 +2465,313 @@ fig.update_layout(margin={
     )
 )
 fig.write_html('./chart_htmls/vaccination_map_65_pc.html')
+
+fig = go.Figure(layout=layout)
+for hood in sorted(HOOD_LIST):
+    if hood in NON_RESIDENTIAL_HOODS:
+        continue
+    else:
+        fig.add_trace(go.Scatter(
+            x = hood_vax_pc.index,
+            y = hood_vax_pc[hood],
+            mode='lines',
+            line=dict(
+                color='lightgrey',
+                width=1
+            ),
+            hoverinfo='skip',
+            showlegend=False
+        ))
+
+fig.add_trace(go.Scatter(
+    x = vax.index,
+    y = vax['Cumulative Full Doses: Residents']/ward_demos.loc['All Wards','Population (2019 ACS)'],
+    mode='lines',
+    line=dict(
+        color='black',
+        width=3
+    ),
+    name='District-Wide (Fully)',
+    hovertemplate='%{y:.1%}<extra>District-Wide (Fully)</extra>',
+#     legendgroup='district'
+))
+fig.add_trace(go.Scatter(
+    x = vax.index,
+    y = vax['Cumulative Partial Doses: Residents']/ward_demos.loc['All Wards','Population (2019 ACS)'],
+    mode='lines',
+    line=dict(
+        color='black',
+        width=3,
+        dash='dash'
+    ),
+    name='District-Wide (Partially)',
+#     showlegend=False,
+#     legendgroup='district',
+    hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
+
+))
+i = 0
+for hood in sorted(HOOD_LIST):
+    fig.add_trace(go.Scatter(
+            x = hood_vax_pc.index,
+            y = hood_vax_pc[hood],
+            mode = 'lines+markers',
+            line = dict(
+                color=LIGHT24[i%24]
+            ),
+            name = hood,
+            visible='legendonly',
+        ))
+    i+=1
+
+fig.update_layout(
+    yaxis=dict(
+        tickformat='.1%'
+    ),
+    xaxis=dict(
+        range=['2021-01-14',data.index[-1]]
+    ),
+    title=dict(
+        text='% Fully Vaccinated by Neighborhood',
+    ),
+    legend=dict(
+        x=.5,
+        y=-.3,
+        yanchor='top',
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+        orientation='h'
+    )
+)
+fig.write_html('./chart_htmls/nhood_vax.html')
+
+fig = go.Figure(layout=layout)
+for hood in sorted(HOOD_LIST):
+    if hood in NON_RESIDENTIAL_HOODS:
+        continue
+    else:
+        fig.add_trace(go.Scatter(
+            x = hood_vax_65_pc.index,
+            y = hood_vax_65_pc[hood],
+            mode='lines',
+            line=dict(
+                color='lightgrey',
+                width=1
+            ),
+            hoverinfo='skip',
+            showlegend=False
+        ))
+
+fig.add_trace(go.Scatter(
+    x = vax['Fully Vaccinated: 65+'].dropna().index,
+    y = vax['Fully Vaccinated: 65+'].dropna()/ward_demos.loc['All Wards','65+ (2019 ACS)'],
+    mode='lines+markers',
+    line=dict(
+        color='black',
+        width=3
+    ),
+    name='District-Wide (Fully)'
+))
+
+fig.add_trace(go.Scatter(
+    x = vax['All Wards 65+ Partial'].dropna().index,
+    y = vax['All Wards 65+ Partial'].dropna()/ward_demos.loc['All Wards','65+ (2019 ACS)'],
+    mode='lines+markers',
+    line=dict(
+        color='black',
+        width=3,
+        dash='dot'
+    ),
+    name='District-Wide (Partially)'
+))
+i = 0
+for hood in sorted(HOOD_LIST):
+    fig.add_trace(go.Scatter(
+            x = hood_vax_65_pc.index,
+            y = hood_vax_65_pc[hood],
+            mode = 'lines+markers',
+            line = dict(
+                color=LIGHT24[i%24]
+            ),
+            name = hood,
+            visible='legendonly',
+        ))
+    i+=1
+
+fig.update_layout(
+    yaxis=dict(
+        tickformat='.1%'
+    ),
+    xaxis=dict(
+        range=['2021-01-14',data.index[-1]]
+    ),
+    title=dict(
+        text='% 65+ Fully Vaccinated by Neighborhood',
+    ),
+    legend=dict(
+        x=.5,
+        y=-.3,
+        yanchor='top',
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+        orientation='h'
+    )
+)
+fig.write_html('./chart_htmls/nhood_vax_65.html')
+
+ward_vax = vax.loc[:,'Ward 1':'Ward 8'].dropna()
+ward_vax = ward_vax.divide(ward_demos['Population (2019 ACS)'])
+
+ward_vax_65 = vax.loc[:,'Ward 1 65+':'Ward 8 65+'].dropna()
+ward_vax_65.columns = WARD_LIST
+ward_vax_65 = ward_vax_65.divide(ward_demos['65+ (2019 ACS)'])
+
+ward_vax_65_partial = vax.loc[:,'Ward 1 65+ Partial':'Ward 8 65+ Partial'].dropna()
+ward_vax_65_partial.columns = WARD_LIST
+ward_vax_65_partial = ward_vax_65_partial.divide(ward_demos['65+ (2019 ACS)'])
+
+fig = go.Figure(layout=layout)
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(go.Scatter(
+        x = ward_vax_65.index,
+        y = ward_vax_65[ward],
+        name = ward,
+        mode='markers+lines',
+        line=dict(
+            color=PASTELS[i],
+        ),
+        hovertemplate='%{y:.1%}<extra>'+ward+' (Full)</extra>',
+        legendgroup=str(i)
+    ))
+    fig.add_trace(go.Scatter(
+        x = ward_vax_65_partial.index,
+        y = ward_vax_65_partial[ward],
+        mode='markers+lines',
+        line=dict(
+            color=PASTELS[i],
+            dash='dash'
+        ),
+        name=ward,
+        hovertemplate='%{y:.1%}<extra>'+ward+' (Partial)</extra>',
+        legendgroup=str(i),
+        showlegend=False,
+
+    ))
+    i+=1
+    
+fig.add_trace(go.Scatter(
+    x = vax['Fully Vaccinated: 65+'].dropna().index,
+    y = vax['Fully Vaccinated: 65+'].dropna()/ward_demos.loc['All Wards','65+ (2019 ACS)'],
+    mode='lines+markers',
+    line=dict(
+        color='black',
+        width=3
+    ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Fully)</extra>',
+    legendgroup = str(9),
+    name='District-Wide'
+))
+
+fig.add_trace(go.Scatter(
+    x = vax['All Wards 65+ Partial'].dropna().index,
+    y = vax['All Wards 65+ Partial'].dropna()/ward_demos.loc['All Wards','65+ (2019 ACS)'],
+    mode='lines+markers',
+    line=dict(
+        color='black',
+        width=3,
+        dash='dot'
+    ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
+    legendgroup = str(9),
+    showlegend=False
+))
+fig.update_layout(
+    yaxis=dict(
+        tickformat = '.1%',
+    ),
+    legend=dict(
+        x=1,
+        y=.5,
+        yanchor='middle'
+    ),
+    title=dict(
+        text='% 65+ Partially/Fully<br>Vaccinated by Ward'
+    )
+)
+fig.write_html('./chart_htmls/ward_vax_65.html')
+
+fig = go.Figure(layout=layout)
+i=0
+for ward in WARD_LIST:
+    fig.add_trace(go.Scatter(
+        x = ward_vax.index,
+        y = ward_vax[ward],
+        name = ward,
+        mode='markers+lines',
+        line=dict(
+            color=PASTELS[i],
+        ),
+        hovertemplate='%{y:.1%}<extra>'+ward+'</extra>',
+#         legendgroup=str(i)
+    ))
+#     fig.add_trace(go.Scatter(
+#         x = ward_vax_65_partial.index,
+#         y = ward_vax_65_partial[ward],
+#         mode='markers+lines',
+#         line=dict(
+#             color=PASTELS[i],
+#             dash='dash'
+#         ),
+#         name=ward,
+#         hovertemplate='%{y:.1%}<extra>'+ward+' (Partial)</extra>',
+#         legendgroup=str(i),
+#         showlegend=False,
+
+#     ))
+    i+=1
+    
+fig.add_trace(go.Scatter(
+    x = vax['Cumulative Full Doses: Residents'].index,
+    y = vax['Cumulative Full Doses: Residents']/ward_demos.loc['All Wards','Population (2019 ACS)'],
+    mode='lines',
+    line=dict(
+        color='black',
+        width=3
+    ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Fully)</extra>',
+    legendgroup = str(9),
+    name='District-Wide'
+))
+
+fig.add_trace(go.Scatter(
+    x = vax['Cumulative Partial Doses: Residents'].dropna().index,
+    y = vax['Cumulative Partial Doses: Residents'].dropna()/ward_demos.loc['All Wards','Population (2019 ACS)'],
+    mode='lines',
+    line=dict(
+        color='black',
+        width=3,
+        dash='dot'
+    ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
+    legendgroup = str(9),
+    showlegend=False
+))
+fig.update_layout(
+    yaxis=dict(
+        tickformat = '.1%',
+    ),
+    legend=dict(
+        x=1,
+        y=.5,
+        yanchor='middle'
+    ),
+    title=dict(
+        text='% Fully Vaccinated<br>by Ward'
+    )
+)
+fig.write_html('./chart_htmls/ward_vax.html')
+
 
 fig = go.Figure(layout=layout)
 fig.add_trace(go.Scatter(

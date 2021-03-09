@@ -182,6 +182,22 @@ $( document ).ready(function() {
         var graph_note = '';
         $('#graph-note').html(graph_note);
     });
+    $('#neighborhood-data-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/nhood_vax.html');
+        $('#display-iframe').attr('height', '700');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
+    $('#neighborhood-data-vaccinations-65-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/nhood_vax_65.html');
+        $('#display-iframe').attr('height', '700');
+
+        // set graph note
+        var graph_note = '';
+        $('#graph-note').html(graph_note);
+    });
 
 
     $('#neighborhood-maps').on('click', function(){
@@ -373,11 +389,29 @@ $( document ).ready(function() {
     });
 
     // display graph on tab click
-    $('#ward-data-test-breakdown-tab').click(function(){
-        $('#display-iframe').attr('src', './chart_htmls/wards_tests_breakdown.html');
+    // $('#ward-data-test-breakdown-tab').click(function(){
+    //     $('#display-iframe').attr('src', './chart_htmls/wards_tests_breakdown.html');
+
+    //     // set graph note
+    //     var graph_note = '<p style="text-align:center"><em>The data on this chart answers the question: "Over the last 7 days, what percent of tests have gone to each Ward?"</em></p>';
+    //     $('#graph-note').html(graph_note);
+    // });
+
+    // display graph on tab click
+    $('#ward-data-vaccinations-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/ward_vax.html');
 
         // set graph note
-        var graph_note = '<p style="text-align:center"><em>The data on this chart answers the question: "Over the last 7 days, what percent of tests have gone to each Ward?"</em></p>';
+        var graph_note = '<p style="text-align:center"> <em> Note: Decreases in fully vaccinated rates are due to data corrections.</em> </p>'
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#ward-data-vaccinations-65-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/ward_vax_65.html');
+
+        // set graph note
+        var graph_note = '<p style="text-align:center"> <em> Note: Decreases in fully vaccinated rates are due to data corrections.</em> </p>'
         $('#graph-note').html(graph_note);
     });
 
