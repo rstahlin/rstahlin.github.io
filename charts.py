@@ -2570,6 +2570,7 @@ fig.add_trace(go.Scatter(
         color='black',
         width=3
     ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Fully)</extra>',
     name='District-Wide (Fully)'
 ))
 
@@ -2582,6 +2583,7 @@ fig.add_trace(go.Scatter(
         width=3,
         dash='dot'
     ),
+    hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
     name='District-Wide (Partially)'
 ))
 i = 0

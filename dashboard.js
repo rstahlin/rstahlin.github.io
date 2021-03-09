@@ -187,7 +187,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('height', '700');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<p style="text-align:center"> <em> Note: District-Wide doses are retroactively corrected for reporting delays, neighborhood data is not.</em> </p>'
         $('#graph-note').html(graph_note);
     });
     $('#neighborhood-data-vaccinations-65-tab').click(function(){
@@ -402,7 +402,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/ward_vax.html');
 
         // set graph note
-        var graph_note = '<p style="text-align:center"> <em> Note: Decreases in fully vaccinated rates are due to data corrections.</em> </p>'
+        var graph_note = '<p style="text-align:center"> <em> Note: District-Wide doses are retroactively corrected for reporting delays, Ward data is not.<br>Decreases in fully vaccinated rates are due to data corrections.</em> </p>'
         $('#graph-note').html(graph_note);
     });
 
