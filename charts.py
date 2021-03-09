@@ -119,6 +119,14 @@ fig.add_annotation(
             showarrow=True,
             arrowhead=1,
 )
+fig.add_annotation(
+            x = '2021-03-08',
+            y = 331,
+            xanchor = 'right',
+            text="Includes 196 Cases<br>from February",
+            showarrow=True,
+            arrowhead=1,
+)
 fig.update_layout(
     title=dict(
         text='New Cases'
