@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Noah Marcus, Ryan Stahlin">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Neighborhood Maps: D.C. COVID-19</title>
+
+    <meta charset="utf-8">
+    <title>Neighborhood Maps: D.C. COVID-19</title>
+    <link rel="icon" type="image/png" href="./chart_htmls/icon.png"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X9025LNJ0T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-X9025LNJ0T');
+    </script>
+
+    <!-- Twitter universal website tag code -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+    },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+    a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+    // Insert Twitter Pixel ID and Standard Event data below
+    twq('init','o5ijw');
+    twq('track','PageView');
+  </script>
+  <!-- End Twitter universal website tag code -->
+
+    <!-- Twitter Card preview meta -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@stalebread14"/>
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
+    <meta name="twitter:title" content="Neighborhood Maps: D.C. COVID-19"/>
+
+    <!-- OG preview meta -->
+    <meta property='og:title' content='Neighborhood Maps: D.C. COVID-19'/>
+    <meta property="og:type" content='website'/>
+    <meta property="og:url" content="https://dccovid.com/maps.html"/>
+    <meta property='og:image' content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
+    <meta property='og:image:width' content="750"/>
+    <meta property='og:image:height' content="750"/>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <meta name="theme-color" content="#563d7c">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="index.html">D.C. COVID</a>
+      <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" id="home" href="index.html"> Home </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="basic-data" href="basic.html"> Basic Data </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="neighborhood-data" href="neighborhoods.html"> Neighborhoods </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" id="neighborhood-maps" href="maps.html"> Maps </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="age-data" href="ages.html"> Ages </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="ward-data" href="wards.html"> Wards </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="hospitalization-data" href="hospitalizations.html"> Hospitalization </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="race-and-ethnicity-data" href="race-and-ethnicity.html"> Race and Ethnicity </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="school-data" href="schools.html"> DC Public Schools </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="vaccination-data" href="vaccinations.html"> Vaccinations </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="facility-data" href="facilities.html"> Nursing Facilities and Assisted Living </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="about" href="about.html"> About </a>
+              </li>
+          </ul>
+        </div>
+    </nav>
+  
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="dashboard-header">Neighborhood Maps</h1>
+      </div>
+
+      <!-- neighborhood maps -->
+      <div id="neighborhood-maps-pane" class="data-pane">
+        <!--  data tabs -->
+        <ul class="nav nav-tabs nav-fill">
+          <li class="nav-item">
+            <a class="nav-link active" id="neighborhood-maps-weekly-positives-tab" data-toggle="tab" href="#neighborhood-maps-weekly-positives" role="tab"> Weekly Positives </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="neighborhood-maps-positives-10k-tab" data-toggle="tab" href="#neighborhood-maps-positives-10k" role="tab">Positives per 10,000 Residents</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="neighborhood-maps-positivity-tab" data-toggle="tab" href="#neighborhood-maps-positivity" role="tab">Weekly Positivity</a>
+          </li>
+        </ul>
+        <!-- end  data tabs -->
+
+      </div>
+      <!-- end neighborhood maps -->
+
+      <!-- tab note -->
+      <div id="tab-note"></p></div>
+
+      <!-- display iframe -->
+      <div class="d-flex justify-content-center"  >
+        <iframe style="border: none;" id="display-iframe" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_map_cases.html" height="575" width="100%" ></iframe>
+      </div>
+      <!-- end display iframe -->
+
+      <!-- graph note -->
+      <div id="graph-note"></div>
+
+    </main>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="dashboard.js"> </script>
+</html>

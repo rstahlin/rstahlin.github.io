@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Noah Marcus, Ryan Stahlin">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>D.C. COVID-19 Dashboard</title>
+    <title>Basic Data: D.C. COVID-19</title>
 
     <meta charset="utf-8">
     <title>D.C. COVID-19 Dashboard</title>
@@ -71,10 +71,10 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" id="home" href="index.html"> Home </a>
+              <a class="nav-link" id="home" href="index.html"> Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="basic-data" href="basic.html"> Basic Data </a>
+              <a class="nav-link active" id="basic-data" href="basic.html"> Basic Data </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="neighborhood-data" href="neighborhoods.html"> Neighborhoods </a>
@@ -109,45 +109,50 @@
         </ul>
       </div>
     </nav>
-
+  
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2" id="dashboard-header">Charting Coronavirus in D.C.</h1>
-        </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="dashboard-header">Basic Data</h1>
+      </div>
 
-        <!-- home pane -->
-        <div id="home-pane" class="data-pane">
-          <!-- insert home stuff here -->
-          <!-- home -->
-          <div class="jumbotron">
-            <!-- <h1 class="display-4">District of Columbia Coronavirus Data</h1> -->
-            <p class="lead text-center">Interact with the data D.C. collects on Covid-19. Pan, zoom, and create your own charts to better understand the trends behind the pandemic</p>
-            <hr class="my-4">
-            <p style="text-align:center">
-              Want to learn more about the city's response? Visit <a href="https://coronavirus.dc.gov/"> D.C.'s official website. </a><br>
-              <br>
-              <h3 style='text-align:center;'><b>There were no new tests released on 3/9, without a clear explanation on why from DC yet.</b></h3>
-            </p>
-            <p style="text-align:center">Last updated <span id="demo"></span>.
-              <script>
-                document.getElementById("demo").innerHTML = document.lastModified;
-              </script>
-            </p>
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="700" width="700"></iframe>
-            </div>
-          </div>
-          <!-- end home -->
-        </div>
-        <!-- end home pane -->
+      <div id="basic-data-pane" class="data-pane">
+        <!-- basic data tabs -->
+        <ul class="nav nav-tabs nav-fill">
+          <li class="nav-item">
+            <a class="nav-link active" id="basic-cases-tab" data-toggle="tab" href="#basic-cases" role="tab">Cases</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="basic-tests-tab" data-toggle="tab" href="#basic-tests" role="tab">Tests</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="basic-deaths-tab" data-toggle="tab" href="#basic-deaths" role="tab">Deaths</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="basic-positivity-tab" data-toggle="tab" href="#basic-positivity" role="tab">Positivity</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="basic-cumulative-tab" data-toggle="tab" href="#basic-cumulative" role="tab">Cumulative</a>
+          </li>
+        </ul>
+        <!-- end basic data tabs -->
+      </div>
+
+      <!-- tab note -->
+      <div id="tab-note"> </div>
+
+      <!-- display iframe -->
+      <div class="d-flex justify-content-center"  >
+        <iframe style="border: none;" id="display-iframe" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/cases.html" height="525" width="100%" ></iframe>
+      </div>
+      <!-- end display iframe -->
+
+      <!-- graph note -->
+      <div id="graph-note"></div>
 
     </main>
   </div>
 </div>
-
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="dashboard.js"> </script>

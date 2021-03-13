@@ -6,10 +6,10 @@
     <meta name="description" content="">
     <meta name="author" content="Noah Marcus, Ryan Stahlin">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>D.C. COVID-19 Dashboard</title>
+    <title>About: D.C. COVID-19</title>
 
     <meta charset="utf-8">
-    <title>D.C. COVID-19 Dashboard</title>
+    <title>About: D.C. COVID-19</title>
     <link rel="icon" type="image/png" href="./chart_htmls/icon.png"/>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -36,12 +36,12 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:creator" content="@stalebread14"/>
     <meta name="twitter:image" content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
-    <meta name="twitter:title" content="D.C. COVID-19 Dashboard"/>
+    <meta name="twitter:title" content="About: D.C. COVID-19"/>
 
     <!-- OG preview meta -->
-    <meta property='og:title' content='D.C. COVID-19 Dashboard'/>
+    <meta property='og:title' content='About: D.C. COVID-19'/>
     <meta property="og:type" content='website'/>
-    <meta property="og:url" content="https://dccovid.com"/>
+    <meta property="og:url" content="https://dccovid.com/about.html"/>
     <meta property='og:image' content="https://raw.githubusercontent.com/rstahlin/rstahlin.github.io/main/chart_htmls/nhood_diamond_pc.png"/>
     <meta property='og:image:width' content="750"/>
     <meta property='og:image:height' content="750"/>
@@ -71,7 +71,7 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" id="home" href="index.html"> Home </a>
+              <a class="nav-link" id="home" href="index.html"> Home </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" id="basic-data" href="basic.html"> Basic Data </a>
@@ -104,50 +104,49 @@
               <a class="nav-link" id="facility-data" href="facilities.html"> Nursing Facilities and Assisted Living </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="about" href="about.html"> About </a>
+              <a class="nav-link active" id="about" href="about.html"> About </a>
             </li>
         </ul>
       </div>
     </nav>
-
+  
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2" id="dashboard-header">Charting Coronavirus in D.C.</h1>
-        </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" id="dashboard-header">About</h1>
+      </div>
 
-        <!-- home pane -->
-        <div id="home-pane" class="data-pane">
-          <!-- insert home stuff here -->
-          <!-- home -->
-          <div class="jumbotron">
-            <!-- <h1 class="display-4">District of Columbia Coronavirus Data</h1> -->
-            <p class="lead text-center">Interact with the data D.C. collects on Covid-19. Pan, zoom, and create your own charts to better understand the trends behind the pandemic</p>
-            <hr class="my-4">
-            <p style="text-align:center">
-              Want to learn more about the city's response? Visit <a href="https://coronavirus.dc.gov/"> D.C.'s official website. </a><br>
-              <br>
-              <h3 style='text-align:center;'><b>There were no new tests released on 3/9, without a clear explanation on why from DC yet.</b></h3>
+      
+      <!-- about pane -->
+      <div id="about-pane" class="data-pane">
+        <!-- insert about stuff here -->
+          <h3>The Mission</h3>
+            <p style="text-align:left">
+              DC releases a truly incredible amount of data every day on Covid-19. The problem? It's in a pretty indecipherable format, showing cumulative totals rather than daily changes and located in multiple places.
+              The mission of this project is to display current and historical data with interactive visualizations that help ordinary Washingtonians digest trends, risk, and inequities during the pandemic.
             </p>
-            <p style="text-align:center">Last updated <span id="demo"></span>.
-              <script>
-                document.getElementById("demo").innerHTML = document.lastModified;
-              </script>
+          <h3>The Data</h3>
+            <p style="text-align:left">
+              This unofficial website uses data from the D.C.'s <a href="https://dcgov.app.box.com/v/DCHealthStatisticsData">official</a> <a href="https://coronavirus.dc.gov/data">data</a> <a href="https://dcpsreopenstrong.com/updates/">sources</a> to show a more detailed account of the pandemic.
+              Neighborhood and Ward population data comes from combinations of the latest census tract level data from 2019.
+              <br><br>
+              The site is updated every day slightly after 10:00am, depending on when D.C. releases its daily data and personal availability.
+              <br><br>
+              Throughout the many months D.C. Health has been releasing data, there have been several (~ a dozen) copy/paste errors and obvious typos in the data. These have been painstakingly corrected as much as possible, but where a reasonable fix wasn't possible, the corrupted data was replaced with a simple average between the days before and after the error. This means you will not get the same results/charts if you were to recreate the on your own, which I don't recommend anyway, because it's hard to do!
+              <br><br>
+              Code and full data can be found on <a href="https://github.com/rstahlin/rstahlin.github.io">Github.<a>
             </p>
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="./chart_htmls/nhood_diamond_pc.html" height="700" width="700"></iframe>
-            </div>
-          </div>
-          <!-- end home -->
-        </div>
-        <!-- end home pane -->
+          <h3>The Team</h3>
+            <p style="text-align:left">
+              The website and data are developed and maintained by Ryan Stahlin of NW D.C. and Noah Marcus. <a href="mailto:ryan.stahlin@gmail.com">Email us</a> for comments, suggestions for new visualizations, questions about the data, or media inquiries.
+            </p>
+      </div>
+      <!-- end about pane -->
+
 
     </main>
   </div>
 </div>
-
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="dashboard.js"> </script>
