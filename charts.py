@@ -1835,16 +1835,16 @@ fig.add_trace(go.Bar(
         'Total: %{text:.0f}',
     text = data['Deaths']
 ))
-fig.add_trace(go.Bar(
-    x=vax['Date'],
-    y=(vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0))/dc_pop*100,
-    name='Partially Vaccinated',
-    marker_color='rgb(184, 230, 186)',
-    hovertemplate =
-        '% Partially vaccinated: %{y:.2f}%'+'<br>'+
-        'Total: %{text:.0f}',
-    text = vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0)
-))
+# fig.add_trace(go.Bar(
+#     x=vax['Date'],
+#     y=(vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0))/dc_pop*100,
+#     name='Partially Vaccinated',
+#     marker_color='rgb(184, 230, 186)',
+#     hovertemplate =
+#         '% Partially vaccinated: %{y:.2f}%'+'<br>'+
+#         'Total: %{text:.0f}',
+#     text = vax['Cumulative Partial Doses: Residents']-vax['Cumulative Full Doses: Residents'].fillna(0)
+# ))
 fig.add_trace(go.Bar(
     x=vax['Date'],
     y=vax['Cumulative Full Doses: Residents']/dc_pop*100,
