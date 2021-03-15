@@ -667,12 +667,21 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/vaccinations_breakdown.html');
 
         // set graph note
-        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">How to interpret this data: What % of <em>new</em> doses over the last 7 days went to residents vs. non-residents?<br><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
+        $('#graph-note').html(graph_note);
+    });
+
+    // display graph on tab click
+    $('#vaccination-data-vaccination-breakdown-cumulative-tab').click(function(){
+        $('#display-iframe').attr('src', './chart_htmls/vaccinations_breakdown_cumulative.html');
+
+        // set graph note
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center">How to interpret this data: What % of <em>all</em> doses have gone to residents vs. non-residents?<br><em>A large proportion of essential workers in D.C. reside in Virginia or Maryland.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
      // display graph on tab click
-     $('#vaccination-data-vaccination-map-tab').click(function(){
+    $('#vaccination-data-vaccination-map-tab').click(function(){
         $('#display-iframe').attr('src', './chart_htmls/vaccination_map_cumulative.html');
 
         // set graph note

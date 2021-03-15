@@ -130,7 +130,10 @@
             <a class="nav-link" id="vaccination-data-vaccination-supply-tab" data-toggle="tab" href="#vaccination-supply" role="tab"> First Dose Supply </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="vaccination-data-vaccination-breakdown-tab" data-toggle="tab" href="#vaccination-breakdown" role="tab"> Breakdown by Residency </a>
+            <a class="nav-link" id="vaccination-data-vaccination-breakdown-tab" data-toggle="tab" href="#vaccination-breakdown" role="tab"> Breakdown by Residency (7-Day) </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="vaccination-data-vaccination-breakdown-cumulative-tab" data-toggle="tab" href="#vaccination-breakdown-cumulative" role="tab"> Breakdown by Residency (Cumulative) </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="vaccination-data-vaccination-map-tab" data-toggle="tab" href="#vaccination-map-cumulative" role="tab"> Cumulative Full Doses Map </a>
@@ -151,10 +154,13 @@
       <div id="tab-note">
           <div class="d-flex flex-column align-items-center justify-content-center">
             <p style="text-align:center">
-                The most recent days' daily vaccinations are likely an underestimate.
+                The most recent days' daily vaccinations are an underestimate.
             </p>
           </div>
       </div>
+
+      <!-- graph note -->
+      <div id="graph-note"></div>
 
       <!-- display iframe -->
       <div class="d-flex justify-content-center"  >

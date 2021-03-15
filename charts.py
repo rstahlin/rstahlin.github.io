@@ -2270,6 +2270,84 @@ fig.update_layout(
 fig.update_traces(xaxis="x2")
 fig.write_html('./chart_htmls/vaccinations_breakdown.html')
 
+colors_cum = ['lightgreen','green','skyblue','blue']
+
+vax_cum = vax.loc[:,'Cumulative Partial Doses: Residents':'Cumulative Full Doses: Non-residents']
+vax_cum_breakdown = vax_cum.divide(vax_cum.sum(axis=1),axis=0)
+vax_first_cum = vax.loc[:,['Cumulative Partial Doses: Residents','Cumulative Partial Doses: Non-Residents']]
+vax_first_cum_breakdown = vax_first_cum.divide(vax_first_cum.sum(axis=1),axis=0)
+
+fig = make_subplots(rows=2,cols=1,shared_xaxes=True,subplot_titles=['All Doses','Partial Doses'],vertical_spacing=0.07,)
+i = 0
+for vax_cat in vax_cum_breakdown.columns:
+    fig.add_trace(go.Scatter(
+        x=vax_cum_breakdown.index,
+        y=vax_cum_breakdown[vax_cat],
+        line=dict(
+            color=colors_cum[i],
+            # width=0
+        ),
+        stackgroup='one',
+        legendgroup='group'+str(i+1),
+        mode='lines',
+        name=vax_cat
+    ),row=1,col=1)
+    i+=1
+
+i = 0
+for vax_cat in vax_first_cum_breakdown.columns:
+    fig.add_trace(go.Scatter(
+        x=vax_first_cum_breakdown.index,
+        y=vax_first_cum_breakdown[vax_cat],
+        line=dict(
+            color=colors_cum[i],
+            # width=0
+        ),
+        stackgroup='one',
+        legendgroup='group'+str(i+1),
+        showlegend = False,
+        mode='lines',
+        name=vax_cat
+    ),row=2,col=1)
+    i+=2
+
+fig.update_yaxes(
+    tickformat='.1%',
+)
+fig.update_xaxes(
+    showspikes=True,
+    spikedash = 'solid',
+    spikemode  = 'across',
+    spikesnap = 'cursor',
+    spikecolor = 'black',
+    spikethickness = 1,
+    ticks='outside',
+    range=['2020-12-18',vax.index[-1]]
+)
+fig.update_yaxes(
+    tickformat='.1%',
+    showgrid=True,
+    gridcolor='grey',
+)
+fig.update_layout(
+    spikedistance =  -1,
+    legend=dict(
+        x=0.5,
+        y=-.1,
+        xanchor='center',
+        bgcolor='rgba(0,0,0,0)',
+        orientation='h'
+    ),
+    plot_bgcolor='rgba(0,0,0,0)',
+    hovermode='x',
+    title = dict(
+        x=0.5,
+        text="Breakdown of Cumulative<br>Administered Doses"
+    ),
+)
+fig.update_traces(xaxis="x2")
+fig.write_html('./chart_htmls/vaccinations_breakdown_cumulative.html')
+
 hood_vax = vax.loc[:,'16th St Heights':'Capitol Hill'].dropna()
 hood_vax_pc = hood_vax.divide(hood_demos['Population (2019 ACS)'])
 hood_vax_65 = vax.loc[:,'16th St Heights 65+':'Capitol Hill 65+'].dropna()
