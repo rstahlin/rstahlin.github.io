@@ -2742,22 +2742,22 @@ for ward in WARD_LIST:
             color=PASTELS[i],
         ),
         hovertemplate='%{y:.1%}<extra>'+ward+' (Full)</extra>',
-        legendgroup=str(i)
+        # legendgroup=str(i)
     ))
-    fig.add_trace(go.Scatter(
-        x = ward_vax_65_partial.index,
-        y = ward_vax_65_partial[ward],
-        mode='markers+lines',
-        line=dict(
-            color=PASTELS[i],
-            dash='dash'
-        ),
-        name=ward,
-        hovertemplate='%{y:.1%}<extra>'+ward+' (Partial)</extra>',
-        legendgroup=str(i),
-        showlegend=False,
+    # fig.add_trace(go.Scatter(
+    #     x = ward_vax_65_partial.index,
+    #     y = ward_vax_65_partial[ward],
+    #     mode='markers+lines',
+    #     line=dict(
+    #         color=PASTELS[i],
+    #         dash='dash'
+    #     ),
+    #     name=ward,
+    #     hovertemplate='%{y:.1%}<extra>'+ward+' (Partial)</extra>',
+    #     legendgroup=str(i),
+    #     showlegend=False,
 
-    ))
+    # ))
     i+=1
     
 fig.add_trace(go.Scatter(
@@ -2769,7 +2769,7 @@ fig.add_trace(go.Scatter(
         width=3
     ),
     hovertemplate='%{y:.1%}<extra>District-Wide (Fully)</extra>',
-    legendgroup = str(9),
+    # legendgroup = str(9),
     name='District-Wide'
 ))
 
@@ -2783,8 +2783,9 @@ fig.add_trace(go.Scatter(
         dash='dot'
     ),
     hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
-    legendgroup = str(9),
-    showlegend=False
+    name='District-Wide (Partially Vaccinated)'
+    # legendgroup = str(9),
+    # showlegend=False
 ))
 fig.update_layout(
     yaxis=dict(
