@@ -2783,7 +2783,7 @@ fig.add_trace(go.Scatter(
         dash='dot'
     ),
     hovertemplate='%{y:.1%}<extra>District-Wide (Partially)</extra>',
-    name='District-Wide (Partially Vaccinated)'
+    name='District-Wide (Partially)'
     # legendgroup = str(9),
     # showlegend=False
 ))
