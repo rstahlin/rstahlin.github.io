@@ -604,7 +604,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/schools_cases.html');
 
         // set graph note
-        var graph_note = '';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p style="text-align:center"><em>DCPS case data is not released on weekends and holidays, so those days are hidden on the chart.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 
@@ -613,7 +613,7 @@ $( document ).ready(function() {
         $('#display-iframe').attr('src', './chart_htmls/schools_map.html');
 
         // set graph note
-        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.</em></p></div>';
+        var graph_note = '<div class="d-flex flex-column align-items-center justify-content-center"><p><em> Individual School data comes from <a href="https://dcpsreopenstrong.com/category/articles/">DCPS ReOpen Strong</a> and may not reflect the most recent changes.<br>Total number of students comes from OpenData and may not be up to date.</em></p></div>';
         $('#graph-note').html(graph_note);
     });
 

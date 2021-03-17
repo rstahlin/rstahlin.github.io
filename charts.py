@@ -1645,7 +1645,19 @@ fig.update_layout(
         bgcolor = 'rgba(0,0,0,0)'
     )
 )
-fig.update_xaxes(range=['2020-11-18',data.index[-1]])
+fig.update_xaxes(
+    range=['2020-11-18',data.index[-1]],
+    rangebreaks=[
+        dict(bounds=["sat", "mon"]), #hide weekends
+        dict(values=["2020-12-24",
+            "2020-12-25",
+            "2020-12-30",
+            "2020-12-31",
+            "2021-01-01",
+            "2021-01-18",
+            "2021-02-15"])  # hide holidays
+    ],
+)
 
 fig.write_html("./chart_htmls/schools_cases.html")
 
